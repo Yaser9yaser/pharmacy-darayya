@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صيدليات داريا الذكي</title>
+    
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/883/883356.png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/883/883356.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #2D9CDB; --mint-green: #27AE60; --bg-body: #F0F2F5;
+            --bg-card: #FFFFFF; --text-main: #2C3E50; --text-light: #7F8C8D;
+            --border-color: #E0E0E0; --gold: #FFD700; --red-alert: #e74c3c;
+        }
+        .dark-mode {
+            --bg-body: #121212; --bg-card: #1E1E1E; --text-main: #ECF0F1;
+            --text-light: #BDC3C7; --border-color: #333333;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-body); color: var(--text-main); transition: 0.3s; line-height: 1.6; }
+        
+        .emergency-bar { background: var(--red-alert); color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 14px; display: flex; justify-content: center; gap: 10px; }
+        .emergency-bar a { color: white; text-decoration: none; background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; border: 1px solid white; }
+
+        .container { max-width: 500px; margin: 10px auto; background: var(--bg-card); border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
+        
+        .header { background: linear-gradient(135deg, var(--primary-blue), #1a7fb8); color: white; padding: 25px 15px; text-align: center; border-bottom: 4px solid var(--mint-green); }
+        .dark-toggle { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px; border-radius: 50%; cursor: pointer; }
+        .date-tag { background: var(--mint-green); color: white; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-top: 10px; font-weight: bold; font-size: 14px; }
+
+        .pharmacy-item { border-right: 5px solid var(--primary-blue); margin: 15px; padding: 15px; background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 10px; }
+        .name { font-size: 19px; font-weight: 900; color: var(--primary-blue); margin-bottom: 5px; }
+        .address { font-size: 14px; color: var(--text-light); margin-bottom: 10px; }
+        
+        .action-buttons { display: flex; gap: 8px; margin-top: 10px; }
+        .btn { flex: 1; padding: 10px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; font-size: 14px; color: white; cursor: pointer; border: none; }
+        .btn-call { background: var(--mint-green); }
+        .btn-map { background: var(--primary-blue); }
+        
+        .btn-main { background: var(--primary-blue); width: calc(100% - 30px); margin: 15px; display: block; text-align: center; padding: 12px; border-radius: 10px; color: white; text-decoration: none; font-weight: bold; }
+        .btn-share { background: #25D366; width: calc(100% - 30px); margin: 0 15px 15px; }
+
+        .search-section { display: none; padding: 15px; background: var(--bg-body); margin: 15px; border-radius: 10px; }
+        .search-section.active { display: block; }
+        input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); font-family: 'Cairo'; margin-bottom: 10px; background: var(--bg-card); color: var(--text-main); }
+
+        .footer { background: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid var(--border-color); font-size: 13px; }
+        .dark-mode .footer { background: #1a1a1a; }
+    </style>
+</head>
+<body>
+
+    <div class="emergency-bar">
+        <span>🚨 طوارئ الدفاع المدني (داريا):</span>
+        <a href="tel:+963965970048">📞 اتصال</a>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <button class="dark-toggle" id="themeBtn" onclick="toggleDarkMode()">🌙</button>
+            <h1>💊 صيدليات داريا</h1>
+            <div class="date-tag" id="displayDate">جاري التحميل...</div>
+        </div>
+
+        <div id="todayDuty">
+            <h2 style="text-align:center; margin-top:15px; color:var(--mint-green)">🗓️ مناوبة اليوم</h2>
+            <div id="todayList"></div>
+            <button class="btn btn-share" onclick="shareToday()">📱 شارك مناوبة اليوم</button>
+        </div>
+
+        <button class="btn-main" onclick="toggleSearch()">🔍 محرك البحث الذكي والجدول</button>
+
+        <div class="search-section" id="searchArea">
+            <input type="text" id="nameInput" oninput="searchByName()" placeholder="ابحث باسم الصيدلية (مثلاً: روضة)...">
+            <select id="dateSelect" onchange="searchByDate()"></select>
+            <div id="searchResults"></div>
+        </div>
+
+        <div class="footer">
+            <p>🕊️ إهداء لأرواح شهداء داريا</p>
+            <p style="font-weight:bold; color:var(--primary-blue); margin-top:5px;">Yaser Jamal Al-Deen</p>
+            <div style="margin-top:10px; display:flex; gap:10px; justify-content:center;">
+                <a href="https://wa.me/963994383846" style="color:var(--mint-green); text-decoration:none;">📞 إبلاغ عن خطأ</a>
+                <a href="javascript:shareSite()" style="color:var(--primary-blue); text-decoration:none;">🌐 شارك الموقع</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const now = new Date();
+        const CURRENT_YEAR = 2026; 
+        const CURRENT_MONTH = 4;
+
+        const PHARMACIES_DB = {
+            "علي الأحمر": { address: "قبل جامع العباس من جهة شارع الثورة", phone: "", map: "https://www.google.com/maps?q=33.458221,36.235406" },
+            "غسان عزيزية": { address: "قرب ماركت البيان", phone: "", map: "https://www.google.com/maps?q=33.461602,36.234544" },
+            "فراس": { address: "شارع الثورة مقابل محمصة داريا", phone: "", map: "" },
+            "الرضوان": { address: "قرب الباب القبلي لجامع طه", phone: "", map: "" },
+            "روضة عبود": { address: "شارع الوحدة - الدخلة الواصلة لجامع الرحمن - مقابل طاحونة حنا تماماً", phone: "", map: "" },
+            "فايز كحلوس": { address: "مقابل المخفر", phone: "", map: "" },
+            "هنادي محمد": { address: "مقابل محلات الوزير", phone: "", map: "" },
+            "وعد أبو بكر": { address: "آخر شارع الثورة مقابل الكنيسة", phone: "", map: "" },
+            "محمود خولاني": { address: "ساحة الأوقاف - امتداد شارع الثانوية الشرعية", phone: "", map: "" },
+            "خلود العزب": { address: "شارع المعضمية بناء العزب", phone: "", map: "" },
+            "محمد السعدي": { address: "موقف النكاشات", phone: "", map: "" },
+            "باري أبو زيدان": { address: "مقابل المستوصف تماماً", phone: "", map: "" },
+            "هند زرقة": { address: "شارع الوحدة قرب جامع المصطفى", phone: "" , map: "" },
+            "محمود المنيع": { address: "شارع المعضمية بجانب المركز الثقافي", phone: "" , map: "" },
+            "محمد تيسير معاني": { address: "شارع الثورة تقاطع فريد اللحام", phone: "" , map: "" },
+            "عدنان نجبية": { address: "الشاميات بناء المغربي", phone: "" , map: "" },
+            "الأيوبي": { address: "شارع الثورة مقابل الطابو", phone: "" , map: "" },
+            "سيف الدين حافظ": { address: "شارع الشهداء خلف مشفى الرضوان", phone: "" , map: "" },
+            "خالد أبو حلمي": { address: "شارع الشهداء (الكورنيش سابقاً) مقابل مغسل الخولاني", phone: "" , map: "" },
+            "دعاء": { address: "أول طريق المعضمية", phone: "" , map: "" },
+            "داريا النموذجية": { address: "مقابل الثانوية الشرعية تماماً", phone: "" , map: "" },
+            "هلا الحوراني": { address: "العنوان متاح في الجدول الورقي", phone: "" , map: "" },
+            "إسراء سيلة": { address: "العنوان متاح في الجدول الورقي", phone: "" , map: "" },
+            "سهام كساح": { address: "بداية شارع الشهداء", phone: "" , map: "" },
+            "الشربجي": { address: "ساحة شريدي", phone: "" , map: "" }
+        };
+
+        const SCHEDULE = {
+            1: ["روضة عبود", "فايز كحلوس"], 2: ["علي الأحمر", "هنادي محمد"], 4: ["فراس", "الرضوان"],
+            6: ["وعد أبو بكر", "خلود العزب"], 7: ["محمود خولاني", "محمود المنيع"], 8: ["محمد السعدي", "باري أبو زيدان"],
+            9: ["محمد تيسير معاني", "سيف الدين حافظ"], 11: ["الأيوبي", "هند زرقة"], 13: ["غسان عزيزية", "خالد أبو حلمي"],
+            14: ["عدنان نجبية", "روضة عبود"], 15: ["فايز كحلوس", "علي الأحمر"], 16: ["هنادي محمد", "وعد أبو بكر"],
+            18: ["محمود خولاني", "خلود العزب"], 20: ["فراس", "الرضوان"], 21: ["محمد السعدي", "باري أبو زيدان"],
+            22: ["هند زرقة", "محمود المنيع"], 23: ["محمد تيسير معاني", "عدنان نجبية"], 25: ["الأيوبي", "سيف الدين حافظ"],
+            27: ["غسان عزيزية", "خالد أبو حلمي"], 28: ["روضة عبود", "فايز كحلوس"], 29: ["علي الأحمر", "هنادي محمد"], 30: ["فراس", "الرضوان"]
+        };
+
+        const FRIDAY_TEAM = ["فراس", "دعاء", "داريا النموذجية", "محمد السعدي", "هلا الحوراني", "إسراء سيلة", "باري أبو زيدان", "سهام كساح", "الشربجي", "محمود المنيع"];
+
+        function normalize(t) { return t.replace(/[أإآا]/g, 'ا').replace(/[ةه]/g, 'ه').trim(); }
+
+        function getDuty(d, m, y) {
+            const dt = new Date(y, m - 1, d);
+            if (dt.getDay() === 5) return FRIDAY_TEAM;
+            if (dt.getDay() === 0) return Object.keys(PHARMACIES_DB).filter(n => !FRIDAY_TEAM.includes(n));
+            return SCHEDULE[d] || [];
+        }
+
+        function renderPharmacy(name) {
+            const info = PHARMACIES_DB[name] || { address: "العنوان متاح في الجدول الورقي", phone: "", map: "" };
+            return `
+                <div class="pharmacy-item">
+                    <div class="name">💊 ${name}</div>
+                    <div class="address">📍 ${info.address}</div>
+                    <div class="action-buttons">
+                        ${info.phone ? `<a href="tel:${info.phone}" class="btn btn-call">📞 اتصال</a>` : ''}
+                        ${info.map ? `<a href="${info.map}" target="_blank" class="btn btn-map">📍 خريطة</a>` : ''}
+                    </div>
+                </div>`;
+        }
+
+        function init() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').textContent = '☀️';
+            }
+
+            const displayDay = (now.getHours() < 2) ? now.getDate() - 1 : now.getDate();
+            const duty = getDuty(displayDay, CURRENT_MONTH, CURRENT_YEAR);
+            document.getElementById('displayDate').textContent = `${displayDay}/${CURRENT_MONTH}/${CURRENT_YEAR}`;
+            document.getElementById('todayList').innerHTML = duty.map(renderPharmacy).join('');
+            
+            const select = document.getElementById('dateSelect');
+            for(let i=1; i<=30; i++) {
+                const opt = document.createElement('option');
+                opt.value = i; opt.textContent = `يوم ${i}/${CURRENT_MONTH}`;
+                if(i === displayDay) opt.selected = true;
+                select.appendChild(opt);
+            }
+        }
+
+        function toggleSearch() { document.getElementById('searchArea').classList.toggle('active'); }
+        
+        function searchByName() {
+            const q = normalize(document.getElementById('nameInput').value);
+            const res = Object.keys(PHARMACIES_DB).filter(n => normalize(n).includes(q));
+            document.getElementById('searchResults').innerHTML = res.map(renderPharmacy).join('');
+        }
+
+        function searchByDate() {
+            const d = parseInt(document.getElementById('dateSelect').value);
+            document.getElementById('searchResults').innerHTML = getDuty(d, CURRENT_MONTH, CURRENT_YEAR).map(renderPharmacy).join('');
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme); 
+            document.getElementById('themeBtn').textContent = (theme === 'dark') ? '☀️' : '🌙';
+        }
+
+        async function shareToday() {
+            const d = (now.getHours() < 2) ? now.getDate() - 1 : now.getDate();
+            const duty = getDuty(d, CURRENT_MONTH, CURRENT_YEAR);
+            const text = `💊 صيدليات داريا المناوبة لليوم ${d}/${CURRENT_MONTH}:\n` + duty.join('\n');
+            
+            if (navigator.share) {
+                try { await navigator.share({ title: 'مناوبات داريا', text: text, url: window.location.href }); } 
+                catch (err) { window.open(`https://wa.me/?text=${encodeURIComponent(text)}`); }
+            } else {
+                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+            }
+        }
+
+        function shareSite() {
+            const text = "تطبيق صيدليات داريا الذكي:";
+            const url = 'https://pharmacy-daraia.vercel.app';
+            if (navigator.share) {
+                navigator.share({ title: 'صيدليات داريا', text: text, url: url });
+            } else {
+                window.open(`https://wa.me/?text=${encodeURIComponent(text + " " + url)}`);
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
