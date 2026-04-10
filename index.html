@@ -7,6 +7,7 @@
 <meta name="description" content="ابحث بسهولة عن الصيدليات المناوبة في مدينة داريا">
 <meta property="og:title" content="صيدليات داريا | نظام المناوبة الذكي">
 <meta property="og:description" content="نظام ذكي للبحث عن الصيدليات المناوبة في داريا">
+<meta property="og:url" content="https://pharmacy-darayya.vercel.app">
 <meta property="og:type" content="website">
 <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/883/883356.png">
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/883/883356.png">
@@ -19,195 +20,176 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* ══════════════════════════════════════════════════
-   DESIGN TOKENS
-══════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════════ */
 :root {
-  --primary:#0ea5e9;  --primary2:#0284c7;
-  --accent:#8b5cf6;   --accent2:#7c3aed;
-  --green:#10b981;    --green2:#059669;
-  --gold:#f59e0b;     --gold2:#fbbf24;
-  --red:#ef4444;      --wa:#25D366; --wa2:#128c7e;
-
-  /* ── Light Mode: Medical White & Soft Blue ── */
+  --primary:#0ea5e9; --primary2:#0284c7;
+  --accent:#8b5cf6;  --accent2:#7c3aed;
+  --green:#10b981;   --green2:#059669;
+  --gold:#f59e0b;    --wa:#25D366; --wa2:#128c7e;
   --bg:#f4f8ff;
   --card:rgba(255,255,255,0.97);
   --glass:rgba(255,255,255,0.9);
-  --txt:#0f172a;  --muted:#64748b;
-  --border:rgba(14,165,233,.13);
+  --ph-card-bg:rgba(255,255,255,0.92);
+  --txt:#0f172a; --muted:#64748b;
+  --border:rgba(14,165,233,0.13);
   --sh:0 4px 24px rgba(14,165,233,.09),0 1px 4px rgba(0,0,0,.04);
   --radius:22px;
   --emr-h:48px;
+  --t:0.15s; /* ⚡ snappy global transition */
 }
 .dark {
-  /* ── Dark Mode: Premium Glassmorphism ── */
   --bg:#0a0f1e;
-  --card:rgba(15,23,42,.88);
-  --glass:rgba(15,23,42,.62);
+  --card:rgba(15,23,42,.92);
+  --glass:rgba(15,23,42,.78);
+  --ph-card-bg:rgba(15,23,42,0.92);
   --txt:#e2e8f0; --muted:#94a3b8;
   --border:rgba(14,165,233,.18);
-  --sh:0 8px 40px rgba(0,0,0,.48);
+  --sh:0 8px 40px rgba(0,0,0,.5);
 }
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    BASE
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   font-family:'Cairo',sans-serif;
   background:var(--bg);color:var(--txt);
   min-height:100vh;
-  transition:background .45s,color .35s;
+  transition:background var(--t),color var(--t);
   line-height:1.7;overflow-x:hidden;
   padding-top:var(--emr-h);
 }
 
-/* ── Background ambience ── */
+/* ── Ambient background ── */
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
-    radial-gradient(ellipse at 15% 8%,  rgba(14,165,233,.10) 0%,transparent 52%),
-    radial-gradient(ellipse at 85% 85%, rgba(139,92,246,.08) 0%,transparent 52%),
-    radial-gradient(ellipse at 50% 50%, rgba(16,185,129,.05) 0%,transparent 58%);
-  transition:background .45s;
+    radial-gradient(ellipse at 15% 8%,rgba(14,165,233,.10) 0%,transparent 52%),
+    radial-gradient(ellipse at 85% 85%,rgba(139,92,246,.08) 0%,transparent 52%);
 }
 .dark body::before,
-body.dark::before{
+.dark::before{
   background:
-    radial-gradient(ellipse at 15% 8%,  rgba(14,165,233,.14) 0%,transparent 50%),
-    radial-gradient(ellipse at 85% 85%, rgba(139,92,246,.11) 0%,transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(10,15,30,1)     0%,transparent 80%);
+    radial-gradient(ellipse at 15% 8%,rgba(14,165,233,.14) 0%,transparent 50%),
+    radial-gradient(ellipse at 85% 85%,rgba(139,92,246,.11) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 50%,rgba(10,15,30,1) 0%,transparent 80%);
 }
 
-/* ── Floating orbs (dark only) ── */
+/* ── Floating orbs ── */
 .orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.orb{
-  position:absolute;border-radius:50%;
-  filter:blur(68px);opacity:0;
-  animation:drift 14s ease-in-out infinite;
-  transition:opacity .5s;
-}
-body.dark .orb{opacity:.14}
-.orb1{width:260px;height:260px;background:var(--primary);top:-80px;right:-70px;animation-delay:0s}
+.orb{position:absolute;border-radius:50%;filter:blur(68px);opacity:0;animation:drift 14s ease-in-out infinite;transition:opacity var(--t)}
+.dark .orb{opacity:.14}
+.orb1{width:260px;height:260px;background:var(--primary);top:-80px;right:-70px}
 .orb2{width:210px;height:210px;background:var(--accent);bottom:120px;left:-80px;animation-delay:-5s}
 .orb3{width:160px;height:160px;background:var(--green);bottom:-50px;right:27%;animation-delay:-9s}
 @keyframes drift{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-22px) scale(1.06)}}
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    STICKY EMERGENCY BAR
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 .emr{
   position:fixed;top:0;left:0;right:0;z-index:1000;
   height:var(--emr-h);
   background:linear-gradient(90deg,#dc2626,#b91c1c 50%,#991b1b);
-  color:#fff;
-  padding:0 14px;
-  display:flex;align-items:center;justify-content:center;
-  gap:10px;
+  color:#fff;padding:0 14px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
   font-size:13px;font-weight:700;
   box-shadow:0 3px 18px rgba(220,38,38,.5);
 }
 .pulse{animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.emr-txt{white-space:nowrap}
 .emr-btns{display:flex;gap:7px;flex-shrink:0}
 .emr-btn{
   color:#fff;text-decoration:none;
   padding:5px 13px;border-radius:20px;
   font-size:12.5px;font-weight:700;
-  display:flex;align-items:center;gap:5px;
-  white-space:nowrap;min-height:34px;
-  transition:transform .2s,box-shadow .2s;
+  display:flex;align-items:center;gap:5px;min-height:34px;
+  transition:transform var(--t),box-shadow var(--t);
 }
 .emr-btn:hover{transform:scale(1.07);box-shadow:0 4px 12px rgba(0,0,0,.25)}
 .emr-btn.c{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4)}
 .emr-btn.w{background:var(--wa)}
 
-/* ══════════════════════════════════════════════════
-   LAYOUT
-══════════════════════════════════════════════════ */
-.wrap{position:relative;z-index:1;max-width:520px;margin:14px auto;padding:0 12px 28px}
+/* ══════════════════════════════════════════════
+   LAYOUT  — will-change for smooth mobile scroll
+══════════════════════════════════════════════ */
+.wrap{
+  position:relative;z-index:1;
+  max-width:520px;margin:14px auto;
+  padding:0 12px 28px;
+  will-change:transform;
+}
 
 /* ── Glass card ── */
 .card{
   background:var(--card);
-  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
   border:1px solid var(--border);
   border-radius:var(--radius);
   box-shadow:var(--sh);
   overflow:hidden;margin-bottom:14px;
-  transition:background .4s,box-shadow .4s;
+  transition:background var(--t),box-shadow var(--t);
 }
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    HEADER
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 .hdr{
   background:linear-gradient(145deg,#0ea5e9 0%,#0284c7 40%,#7c3aed 100%);
-  padding:26px 20px 34px;
-  text-align:center;
+  padding:26px 20px 34px;text-align:center;
   position:relative;overflow:hidden;
 }
 .hdr::before{
-  content:'';position:absolute;
-  top:-60%;left:-30%;width:160%;height:160%;
+  content:'';position:absolute;top:-60%;left:-30%;width:160%;height:160%;
   background:radial-gradient(circle at 40% 40%,rgba(255,255,255,.13) 0%,transparent 55%);
   animation:spin 12s linear infinite;
 }
 .hdr::after{
-  content:'';position:absolute;
-  bottom:-1px;left:0;right:0;height:36px;
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;
   background:var(--bg);
   clip-path:ellipse(55% 100% at 50% 100%);
-  transition:background .45s;
+  transition:background var(--t);
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .hdr-inner{position:relative;z-index:1}
-
 .hdr-pill{
   display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.3);
-  color:rgba(255,255,255,.9);
-  padding:3px 14px;border-radius:20px;
+  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);
+  color:rgba(255,255,255,.9);padding:3px 14px;border-radius:20px;
   font-size:12px;font-weight:600;margin-bottom:10px;
 }
-
-/* ── SVG Medical Shield Icon ── */
 .hdr-icon{
   display:flex;align-items:center;justify-content:center;
   margin:4px auto 8px;
   filter:drop-shadow(0 3px 14px rgba(0,0,0,.3));
 }
-.hdr-icon svg{width:52px;height:52px}
-
 .hdr h1{
   font-size:26px;font-weight:900;color:#fff;
   text-shadow:0 2px 14px rgba(0,0,0,.22);
   margin-bottom:4px;padding:0 46px;letter-spacing:-.3px;
 }
 .hdr .sub{font-size:13px;color:rgba(255,255,255,.78);margin-bottom:14px}
-
-/* ── Date badge ── */
 .date-badge{
   display:inline-flex;align-items:center;gap:7px;
-  background:rgba(0,0,0,.22);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.2);
-  color:#fff;
+  background:rgba(0,0,0,.22);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.2);color:#fff;
   padding:7px 20px;border-radius:25px;
   font-size:13px;font-weight:700;
   box-shadow:0 4px 16px rgba(0,0,0,.18);
 }
-/* Gold gradient day name */
 .day-name{
   background:linear-gradient(135deg,#fde68a,#f59e0b,#fbbf24);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   background-clip:text;font-weight:900;font-size:14px;
 }
-
-/* Theme button */
+/* ── 2AM continuity hint ── */
+.late-hint{
+  font-size:11px;color:rgba(255,255,255,.65);
+  margin-top:6px;display:none;
+  font-style:italic;letter-spacing:.2px;
+}
 .theme-btn{
   position:absolute;top:14px;left:14px;
   background:rgba(255,255,255,.18);
@@ -215,21 +197,20 @@ body.dark .orb{opacity:.14}
   color:#fff;width:42px;height:42px;border-radius:50%;
   cursor:pointer;font-size:15px;
   display:flex;align-items:center;justify-content:center;
-  transition:all .3s;backdrop-filter:blur(8px);
+  transition:background var(--t),transform var(--t);
+  backdrop-filter:blur(8px);
 }
 .theme-btn:hover{background:rgba(255,255,255,.32);transform:rotate(25deg) scale(1.08)}
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    SECTION TITLE  +  LIVE BADGE
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 .sec-title{
   text-align:center;font-size:15px;font-weight:800;
   padding:18px 15px 8px;
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .sec-title .ic{color:var(--primary)}
-
-/* Live badge with pulsing green dot */
 .live-badge{
   display:inline-flex;align-items:center;gap:5px;
   background:linear-gradient(135deg,var(--green),var(--green2));
@@ -244,40 +225,31 @@ body.dark .orb{opacity:.14}
   50%{opacity:.6;box-shadow:0 0 0 4px rgba(255,255,255,0)}
 }
 
-/* ══════════════════════════════════════════════════
-   PHARMACY CARD
-══════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   PHARMACY CARD  — NO backdrop-filter (perf fix)
+══════════════════════════════════════════════ */
 .ph-card{
   margin:7px 12px;padding:15px 16px;
-  background:var(--glass);
-  backdrop-filter:blur(14px);
+  background:var(--ph-card-bg);   /* solid, no backdrop-filter */
   border:1px solid var(--border);
   border-radius:16px;
   border-right:4px solid var(--primary);
   position:relative;overflow:hidden;
   opacity:0;transform:translateY(16px);
-  animation:slideUp .5s cubic-bezier(.25,.46,.45,.94) forwards;
-  transition:box-shadow .25s,transform .25s;
+  animation:slideUp .4s cubic-bezier(.25,.46,.45,.94) forwards;
+  transition:box-shadow var(--t),transform var(--t);
 }
 @keyframes slideUp{to{opacity:1;transform:translateY(0)}}
-.ph-card::before{
-  content:'';position:absolute;top:0;right:0;
-  width:80px;height:80px;
-  background:radial-gradient(circle,rgba(14,165,233,.07) 0%,transparent 70%);
-  pointer-events:none;
-}
 .ph-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(14,165,233,.18)}
-
 .ph-name{font-size:17px;font-weight:900;color:var(--primary);margin-bottom:5px;display:flex;align-items:center;gap:7px}
 .ph-addr{font-size:13px;color:var(--muted);display:flex;align-items:flex-start;gap:6px;line-height:1.55}
 .ph-addr i{margin-top:3px;color:var(--accent);flex-shrink:0}
-
 .ph-actions{display:flex;gap:8px;margin-top:11px;padding-top:11px;border-top:1px solid var(--border)}
 .ph-btn{
   flex:1;padding:9px 10px;border-radius:11px;
   text-decoration:none;font-weight:700;font-size:13px;color:#fff;
   display:flex;align-items:center;justify-content:center;gap:6px;
-  transition:transform .2s,opacity .2s;
+  transition:transform var(--t),opacity var(--t);
   font-family:'Cairo',sans-serif;min-height:42px;
 }
 .ph-btn:hover{transform:scale(1.04);opacity:.9}
@@ -302,30 +274,28 @@ body.dark .orb{opacity:.14}
   font-size:13px;font-weight:700;color:var(--primary);
 }
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    ACTION BUTTONS
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 .action-grp{padding:6px 12px 16px;display:flex;flex-direction:column;gap:10px}
 .main-btn{
   width:100%;padding:15px;border-radius:14px;border:none;cursor:pointer;
   font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:#fff;
   display:flex;align-items:center;justify-content:center;gap:9px;
   min-height:52px;position:relative;overflow:hidden;
-  transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
+  transition:transform var(--t),box-shadow var(--t);
 }
-.main-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.09))}
 .main-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.25)}
 .main-btn:active{transform:scale(.97)}
 .btn-shr {background:linear-gradient(135deg,var(--wa2),var(--wa))}
 .btn-srch{background:linear-gradient(135deg,var(--primary),var(--accent))}
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    SEARCH
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 .srch-box{display:none;padding:16px;border-top:1px solid var(--border)}
-.srch-box.on{display:block;animation:slideIn .3s ease}
-@keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-
+.srch-box.on{display:block;animation:slideIn .2s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 .srch-lbl{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:5px}
 .srch-in,.srch-sel{
   width:100%;padding:13px 15px;border-radius:12px;
@@ -333,23 +303,23 @@ body.dark .orb{opacity:.14}
   background:var(--card);color:var(--txt);
   font-family:'Cairo',sans-serif;font-size:14px;
   margin-bottom:14px;outline:none;
-  transition:border-color .2s,box-shadow .2s;
+  transition:border-color var(--t),box-shadow var(--t);
   min-height:48px;
 }
 .srch-in:focus,.srch-sel:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(14,165,233,.12)}
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    EMPTY STATE
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 .empty{text-align:center;padding:32px 20px;color:var(--muted)}
 .empty i{font-size:44px;opacity:.22;display:block;margin-bottom:12px}
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    FOOTER
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 .footer{
   text-align:center;padding:22px 18px;
-  background:var(--card);backdrop-filter:blur(22px);
+  background:var(--card);
   border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--sh);
 }
 .footer-martyr{
@@ -372,7 +342,7 @@ body.dark .orb{opacity:.14}
   padding:10px 18px;border-radius:20px;text-decoration:none;
   font-size:13px;font-weight:700;color:#fff;
   display:inline-flex;align-items:center;gap:6px;
-  transition:transform .2s,box-shadow .2s;
+  transition:transform var(--t),box-shadow var(--t);
   font-family:'Cairo',sans-serif;cursor:pointer;border:none;min-height:42px;
 }
 .f-btn:hover{transform:scale(1.06);box-shadow:0 6px 18px rgba(0,0,0,.2)}
@@ -382,36 +352,42 @@ body.dark .orb{opacity:.14}
 /* ── Divider ── */
 .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 16px}
 
-/* ══════════════════════════════════════════════════
-   BACK TO TOP BUTTON
-══════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   BACK TO TOP  — fixed position, z-index:10000
+══════════════════════════════════════════════ */
 .back-top{
-  position:fixed;bottom:24px;right:16px;z-index:800;
+  position:fixed;
+  bottom:100px;
+  right:20px;
+  z-index:10000;
   width:44px;height:44px;border-radius:50%;border:none;
   background:linear-gradient(135deg,var(--primary),var(--accent));
   color:#fff;font-size:16px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 18px rgba(14,165,233,.38);
-  opacity:0;transform:translateY(12px);
-  transition:opacity .3s,transform .3s;
+  box-shadow:0 4px 18px rgba(14,165,233,.4);
+  opacity:0;transform:translateY(10px);
+  transition:opacity var(--t),transform var(--t);
   pointer-events:none;
 }
-.back-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.back-top.visible{
+  opacity:1;transform:translateY(0);
+  pointer-events:auto;
+}
 .back-top:hover{transform:translateY(-2px) scale(1.08)}
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    iOS INSTALL TOAST
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 .ios-toast{
   position:fixed;bottom:-130px;left:50%;transform:translateX(-50%);
-  z-index:999;
+  z-index:9999;
   background:rgba(15,23,42,.95);color:#fff;
   padding:15px 20px;border-radius:18px;
   font-size:13px;font-weight:600;line-height:1.7;text-align:center;
   width:calc(100% - 32px);max-width:400px;
   box-shadow:0 8px 32px rgba(0,0,0,.45);
   border:1px solid rgba(255,255,255,.12);
-  transition:bottom .55s cubic-bezier(.34,1.56,.64,1);
+  transition:bottom .4s cubic-bezier(.34,1.56,.64,1);
 }
 .ios-toast.show{bottom:22px}
 .ios-toast .ios-icon{font-size:22px;display:block;margin-bottom:5px}
@@ -421,15 +397,14 @@ body.dark .orb{opacity:.14}
   border-radius:12px;cursor:pointer;font-size:12px;
 }
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    RESPONSIVE
-══════════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 @media(max-width:380px){
   .hdr h1{font-size:22px}
   .emr-txt{font-size:12px}
 }
 @media(max-width:320px){
-  .emr-txt span.pulse{display:none}
   .emr-btn{padding:4px 9px;font-size:12px}
 }
 </style>
@@ -442,16 +417,16 @@ body.dark .orb{opacity:.14}
   <div class="orb orb3"></div>
 </div>
 
-<!-- ══ Sticky Emergency Bar ══ -->
+<!-- Sticky Emergency Bar -->
 <div class="emr">
-  <span class="emr-txt"><span class="pulse">🚨</span> طوارئ الدفاع المدني (داريا)</span>
+  <span><span class="pulse">🚨</span> طوارئ الدفاع المدني (داريا)</span>
   <div class="emr-btns">
     <a href="tel:+963965970048" class="emr-btn c"><i class="fa fa-phone"></i> اتصال</a>
     <a href="https://wa.me/963965970048" target="_blank" class="emr-btn w"><i class="fab fa-whatsapp"></i> واتساب</a>
   </div>
 </div>
 
-<!-- ══ iOS Install Hint ══ -->
+<!-- iOS Install Hint -->
 <div class="ios-toast" id="iosToast">
   <span class="ios-icon">⬆️</span>
   لإضافة التطبيق لشاشتك الرئيسية:<br>
@@ -459,7 +434,7 @@ body.dark .orb{opacity:.14}
   <br><span class="ios-close" onclick="closeIosHint()">فهمت ✓</span>
 </div>
 
-<!-- ══ Back to Top ══ -->
+<!-- Back to Top -->
 <button class="back-top" id="backTop" onclick="scrollToTop()" title="للأعلى">
   <i class="fa fa-chevron-up"></i>
 </button>
@@ -470,18 +445,16 @@ body.dark .orb{opacity:.14}
       <button class="theme-btn" id="themeBtn" onclick="toggleTheme()"><i class="fa fa-moon"></i></button>
       <div class="hdr-inner">
         <div class="hdr-pill"><i class="fa fa-map-marker-alt"></i> مدينة داريا</div>
-
-        <!-- SVG Medical Shield Icon -->
+        <!-- SVG Medical Shield -->
         <div class="hdr-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                stroke="rgba(255,255,255,0.95)" stroke-width="1.4"
-               stroke-linecap="round" stroke-linejoin="round">
+               stroke-linecap="round" stroke-linejoin="round" width="52" height="52">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <line x1="12" y1="9" x2="12" y2="15"/>
             <line x1="9"  y1="12" x2="15" y2="12"/>
           </svg>
         </div>
-
         <h1>صيدليات داريا</h1>
         <p class="sub">نظام المناوبة الذكي</p>
         <div class="date-badge">
@@ -489,10 +462,11 @@ body.dark .orb{opacity:.14}
           <span id="dayName" class="day-name"></span>
           <span id="dateStr">جاري التحميل...</span>
         </div>
+        <!-- 2AM continuity label -->
+        <div class="late-hint" id="lateHint">( متابعة لمناوبة ليلة أمس )</div>
       </div>
     </div>
 
-    <!-- Section Title with live dot -->
     <div class="sec-title">
       <i class="fa fa-clock ic"></i>
       <span>مناوبة اليوم</span>
@@ -529,8 +503,8 @@ body.dark .orb{opacity:.14}
   </div>
 </div>
 
-<!-- عداد زوار غير مرئي -->
-<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=pharmacy-daraia.vercel.app" style="display:none" alt="">
+<!-- Hidden visitor counter -->
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=pharmacy-darayya.vercel.app" style="display:none" alt="">
 
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
@@ -605,7 +579,7 @@ const DB = {
 // ── ثوابت ──────────────────────────────────────
 const DAYS   = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const MONTHS = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
-const SITE   = "https://pharmacy-daraia.vercel.app";
+const SITE   = "https://pharmacy-darayya.vercel.app";
 const EMOJIS = ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"];
 
 // ══════════════════════════════════════════════════
@@ -623,8 +597,12 @@ function norm(s){
     .trim().toLowerCase();
 }
 
+// Effective date — with 2AM night-shift rule
 function effectiveDate(){
-  const n=new Date(); if(n.getHours()<2) n.setDate(n.getDate()-1); return n;
+  const n=new Date();
+  const isLateNight = n.getHours() < 2;
+  if(isLateNight) n.setDate(n.getDate()-1);
+  return {date: n, isLateNight};
 }
 
 function getDuty(d,m,y){
@@ -634,14 +612,14 @@ function getDuty(d,m,y){
   return (SCHEDULE[d]||[]).slice();
 }
 
-// Build pharmacy card — Call/Map buttons shown ONLY if data exists
+// Card builder — Call/Map only if data exists
 function card(name, days=null, delay=0){
-  const info = DB[name]||{addr:"راجع الجدول الورقي",ph:"",map:""};
-  const btns = (info.ph||info.map) ? `<div class="ph-actions">
-    ${info.ph ? `<a href="tel:${info.ph}" class="ph-btn call"><i class="fa fa-phone"></i> اتصال</a>` : ''}
-    ${info.map? `<a href="${info.map}" target="_blank" class="ph-btn map"><i class="fa fa-map-marker-alt"></i> خريطة</a>` : ''}
-  </div>` : '';
-  const sched = days&&days.length ? `<div class="sched-tags">
+  const info=DB[name]||{addr:"راجع الجدول الورقي",ph:"",map:""};
+  const btns=(info.ph||info.map)?`<div class="ph-actions">
+    ${info.ph?`<a href="tel:${info.ph}" class="ph-btn call"><i class="fa fa-phone"></i> اتصال</a>`:''}
+    ${info.map?`<a href="${info.map}" target="_blank" class="ph-btn map"><i class="fa fa-map-marker-alt"></i> خريطة</a>`:''}
+  </div>`:'';
+  const sched=days&&days.length?`<div class="sched-tags">
     <div class="sched-label"><i class="fa fa-calendar-check"></i> مناوبات الشهر (${days.length}):</div>
     <div class="sched-wrap">${days.sort((a,b)=>a-b).map(d=>`<span class="sched-tag">يوم ${d}</span>`).join('')}</div>
   </div>`:'';
@@ -658,9 +636,16 @@ function empty(msg){return`<div class="empty"><i class="fa fa-search"></i><p>${m
 //  INIT
 // ══════════════════════════════════════════════════
 function init(){
-  const eff=effectiveDate(), d=eff.getDate(), m=eff.getMonth(), y=eff.getFullYear();
+  const {date:eff, isLateNight} = effectiveDate();
+  const d=eff.getDate(), m=eff.getMonth(), y=eff.getFullYear();
+
   document.getElementById('dayName').textContent = DAYS[eff.getDay()]+' ';
   document.getElementById('dateStr').textContent  = `${d} ${MONTHS[m]} ${y}`;
+
+  // Show 2AM continuity hint
+  if(isLateNight){
+    document.getElementById('lateHint').style.display = 'block';
+  }
 
   const list=document.getElementById('todayList');
   if(m+1!==MONTH||y!==YEAR){
@@ -673,7 +658,7 @@ function init(){
     } else {
       const sun=eff.getDay()===0
         ?`<div class="sun-badge"><i class="fa fa-store"></i> يوم الأحد المفتوح — تعمل ${duty.length} صيدلية</div>`:'';
-      list.innerHTML=sun+duty.map((n,i)=>card(n,null,i*60)).join('');
+      list.innerHTML=sun+duty.map((n,i)=>card(n,null,i*55)).join('');
     }
   }
 
@@ -696,13 +681,12 @@ function init(){
 }
 
 // ══════════════════════════════════════════════════
-//  SEARCH  (conflict resolution)
+//  SEARCH  — conflict resolution
 // ══════════════════════════════════════════════════
 function toggleSearch(){document.getElementById('srchBox').classList.toggle('on');}
 
 function searchByName(){
-  // Reset date dropdown when user types
-  document.getElementById('dateSelect').value='';
+  document.getElementById('dateSelect').value=''; // reset dropdown
   const q=norm(document.getElementById('nameInput').value);
   const res=document.getElementById('srchResults');
   if(!q){res.innerHTML='';return;}
@@ -711,36 +695,34 @@ function searchByName(){
   Object.keys(DB).forEach(n=>{if(norm(n).includes(q)||norm(DB[n].addr).includes(q)) found[n]=[];});
   for(let d=1;d<=total;d++) getDuty(d,MONTH,YEAR).forEach(n=>{if(found[n]&&!found[n].includes(d)) found[n].push(d);});
   if(!Object.keys(found).length){res.innerHTML=empty(`لا نتائج لـ "${document.getElementById('nameInput').value}"`);return;}
-  res.innerHTML=Object.keys(found).map((n,i)=>card(n,found[n],i*60)).join('');
+  res.innerHTML=Object.keys(found).map((n,i)=>card(n,found[n],i*55)).join('');
 }
 
 function searchByDate(){
-  // Clear text search when date selected
-  document.getElementById('nameInput').value='';
+  document.getElementById('nameInput').value=''; // clear text
   const d=parseInt(document.getElementById('dateSelect').value);
   const res=document.getElementById('srchResults');
   if(!d){res.innerHTML='';return;}
   const duty=getDuty(d,MONTH,YEAR);
   const dt=new Date(YEAR,MONTH-1,d);
   const sun=dt.getDay()===0?`<div class="sun-badge"><i class="fa fa-store"></i> الأحد المفتوح — ${duty.length} صيدلية</div>`:'';
-  res.innerHTML=duty.length?sun+duty.map((n,i)=>card(n,null,i*60)).join(''):empty('لا توجد بيانات لهذا اليوم.');
+  res.innerHTML=duty.length?sun+duty.map((n,i)=>card(n,null,i*55)).join(''):empty('لا توجد بيانات لهذا اليوم.');
 }
 
 // ══════════════════════════════════════════════════
-//  THEME (Light Medical White ↔ Dark Glassmorphism)
+//  THEME  — instant toggle on <html>, no time check
 // ══════════════════════════════════════════════════
 function applyTheme(){
   const saved=localStorage.getItem('theme');
   const h=new Date().getHours();
   const dark=saved?saved==='dark':(h>=19||h<6);
-  setDark(dark);
+  document.documentElement.classList.toggle('dark',dark);
+  document.querySelector('#themeBtn i').className=dark?'fa fa-sun':'fa fa-moon';
 }
-function setDark(on){
-  document.body.classList.toggle('dark',on);
-  document.querySelector('#themeBtn i').className=on?'fa fa-sun':'fa fa-moon';
-}
+
 function toggleTheme(){
-  const on=document.body.classList.toggle('dark');
+  // Instant — single tap, no system-time checks
+  const on=document.documentElement.classList.toggle('dark');
   document.querySelector('#themeBtn i').className=on?'fa fa-sun':'fa fa-moon';
   localStorage.setItem('theme',on?'dark':'light');
 }
@@ -749,9 +731,12 @@ function toggleTheme(){
 //  BACK TO TOP
 // ══════════════════════════════════════════════════
 window.addEventListener('scroll',()=>{
-  document.getElementById('backTop').classList.toggle('visible',window.scrollY>220);
-});
-function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
+  document.getElementById('backTop').classList.toggle('visible',window.scrollY>200);
+},{passive:true});
+
+function scrollToTop(){
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
 // ══════════════════════════════════════════════════
 //  iOS HINT
@@ -769,18 +754,17 @@ function checkIOSHint(){
 function closeIosHint(){document.getElementById('iosToast').classList.remove('show');}
 
 // ══════════════════════════════════════════════════
-//  SHARING  (clean — no markdown asterisks)
+//  SHARING  — clean, no markdown asterisks
 // ══════════════════════════════════════════════════
 async function shareToday(){
-  const eff=effectiveDate(), d=eff.getDate();
+  const {date:eff}=effectiveDate(), d=eff.getDate();
   const duty=getDuty(d,MONTH,YEAR);
   let t=`💊 الصيدليات المناوبة في داريا\n`;
   t+=`🗓️ ${DAYS[eff.getDay()]} ${d} ${MONTHS[MONTH-1]} ${YEAR}\n`;
   t+=`${'━'.repeat(26)}\n\n`;
   duty.forEach((n,i)=>{
     const info=DB[n]||{};
-    const em=EMOJIS[i]||`${i+1}.`;
-    t+=`${em} ${n}\n`;
+    t+=`${EMOJIS[i]||`${i+1}.`} ${n}\n`;
     if(info.addr) t+=`   📍 ${info.addr}\n`;
     t+='\n';
   });
@@ -794,7 +778,8 @@ async function shareSite(){
 }
 
 async function doShare(title,text){
-  if(navigator.share){try{await navigator.share({title,text});}catch(e){wb(text);}}else{wb(text);}
+  if(navigator.share){try{await navigator.share({title,text});}catch(e){wb(text);}}
+  else{wb(text);}
 }
 function wb(t){window.open(`https://wa.me/?text=${encodeURIComponent(t)}`,'_blank');}
 
@@ -803,9 +788,7 @@ function wb(t){window.open(`https://wa.me/?text=${encodeURIComponent(t)}`,'_blan
 // ══════════════════════════════════════════════════
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/sw.js')
-      .then(()=>console.log('✅ SW registered'))
-      .catch(()=>{});
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
   });
 }
 
