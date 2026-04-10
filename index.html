@@ -2,366 +2,514 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>صيدليات داريا | نظام المناوبة الذكي</title>
 <meta name="description" content="ابحث بسهولة عن الصيدليات المناوبة في مدينة داريا">
 <meta property="og:title" content="صيدليات داريا | نظام المناوبة الذكي">
 <meta property="og:description" content="نظام ذكي للبحث عن الصيدليات المناوبة في داريا">
-<meta property="og:type" content="website">
 <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/883/883356.png">
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/883/883356.png">
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0ea5e9">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="صيدليات داريا">
-<meta name="mobile-web-app-capable" content="yes">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root {
-  --primary:#0ea5e9; --primary2:#0284c7;
-  --accent:#8b5cf6;  --accent2:#7c3aed;
-  --green:#10b981;   --green2:#059669;
-  --gold:#f59e0b;    --gold2:#fbbf24;
-  --red:#ef4444;     --wa:#25D366; --wa2:#128c7e;
-  --bg:#f0f7ff;
-  --card:rgba(255,255,255,.78);
-  --glass:rgba(255,255,255,.52);
-  --txt:#0f172a; --muted:#64748b;
-  --border:rgba(14,165,233,.15);
-  --sh:0 8px 40px rgba(14,165,233,.13);
-  --radius:22px;
-  --emr-h:48px;
+  --primary: #0ea5e9;
+  --primary2: #0284c7;
+  --accent: #8b5cf6;
+  --accent2: #7c3aed;
+  --green: #10b981;
+  --green2: #059669;
+  --gold: #f59e0b;
+  --red: #ef4444;
+  --wa: #25D366;
+  --bg: #f0f7ff;
+  --card: rgba(255,255,255,0.75);
+  --glass: rgba(255,255,255,0.5);
+  --txt: #0f172a;
+  --muted: #64748b;
+  --border: rgba(14,165,233,0.15);
+  --sh: 0 8px 40px rgba(14,165,233,0.13);
+  --radius: 22px;
 }
 .dark {
-  --bg:#0a0f1e;
-  --card:rgba(15,23,42,.88);
-  --glass:rgba(15,23,42,.62);
-  --txt:#e2e8f0; --muted:#94a3b8;
-  --border:rgba(14,165,233,.18);
-  --sh:0 8px 40px rgba(0,0,0,.48);
+  --bg: #0a0f1e;
+  --card: rgba(15,23,42,0.85);
+  --glass: rgba(15,23,42,0.6);
+  --txt: #e2e8f0;
+  --muted: #94a3b8;
+  --border: rgba(14,165,233,0.18);
+  --sh: 0 8px 40px rgba(0,0,0,0.45);
 }
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
 
-body{
-  font-family:'Cairo',sans-serif;
-  background:var(--bg);
-  color:var(--txt);
-  min-height:100vh;
-  transition:background .5s,color .4s;
-  line-height:1.7;
-  overflow-x:hidden;
-  padding-top:var(--emr-h);
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  min-height: 100vh;
+  transition: background .5s, color .4s;
+  line-height: 1.7;
+  overflow-x: hidden;
 }
 
-/* ── BACKGROUND ─────────────────────────────────── */
-body::before{
-  content:'';
-  position:fixed;inset:0;
+/* ── BACKGROUND ─────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
   background:
-    radial-gradient(ellipse at 20% 10%,rgba(14,165,233,.12) 0%,transparent 55%),
-    radial-gradient(ellipse at 80% 80%,rgba(139,92,246,.10) 0%,transparent 55%),
-    radial-gradient(ellipse at 50% 50%,rgba(16,185,129,.06) 0%,transparent 60%);
-  pointer-events:none;z-index:0;
+    radial-gradient(ellipse at 20% 10%, rgba(14,165,233,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(139,92,246,0.1) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(16,185,129,0.06) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
 }
-body.dark::before{
+body.dark::before {
   background:
-    radial-gradient(ellipse at 20% 10%,rgba(14,165,233,.15) 0%,transparent 50%),
-    radial-gradient(ellipse at 80% 80%,rgba(139,92,246,.12) 0%,transparent 50%),
-    radial-gradient(ellipse at 50% 50%,rgba(10,15,30,1) 0%,transparent 80%);
+    radial-gradient(ellipse at 20% 10%, rgba(14,165,233,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(139,92,246,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(10,15,30,1) 0%, transparent 80%);
 }
 
-/* ── FLOATING ORBS ──────────────────────────────── */
-.orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.orb{position:absolute;border-radius:50%;filter:blur(65px);opacity:.3;animation:drift 14s ease-in-out infinite}
-.orb1{width:260px;height:260px;background:var(--primary);top:-80px;right:-70px;animation-delay:0s}
-.orb2{width:210px;height:210px;background:var(--accent);bottom:120px;left:-80px;animation-delay:-5s}
-.orb3{width:160px;height:160px;background:var(--green);bottom:-50px;right:28%;animation-delay:-9s}
-body.dark .orb{opacity:.14}
-@keyframes drift{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-22px) scale(1.06)}}
-
-/* ── STICKY EMERGENCY BAR ───────────────────────── */
-.emr{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  height:var(--emr-h);
-  background:linear-gradient(90deg,#dc2626,#b91c1c 50%,#991b1b);
-  color:#fff;
-  padding:0 14px;
-  display:flex;align-items:center;justify-content:center;
-  gap:10px;
-  font-size:13px;font-weight:700;
-  box-shadow:0 3px 18px rgba(220,38,38,.5);
+/* ── FLOATING ORBS ──────────────────────────── */
+.orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
-.pulse{animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.emr-txt{white-space:nowrap;font-size:13px}
-.emr-btns{display:flex;gap:7px;flex-shrink:0}
-.emr-btn{
-  color:#fff;text-decoration:none;
-  padding:5px 12px;border-radius:20px;
-  font-size:12.5px;font-weight:700;
-  display:flex;align-items:center;gap:5px;
-  white-space:nowrap;min-height:34px;
-  transition:transform .2s,box-shadow .2s;
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.35;
+  animation: drift 12s ease-in-out infinite;
 }
-.emr-btn:hover{transform:scale(1.07);box-shadow:0 4px 12px rgba(0,0,0,.25)}
-.emr-btn.c{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4)}
-.emr-btn.w{background:var(--wa)}
+.orb1 { width: 250px; height: 250px; background: var(--primary); top: -80px; right: -60px; animation-delay: 0s; }
+.orb2 { width: 200px; height: 200px; background: var(--accent); bottom: 100px; left: -70px; animation-delay: -4s; }
+.orb3 { width: 150px; height: 150px; background: var(--green); bottom: -40px; right: 30%; animation-delay: -7s; }
+body.dark .orb { opacity: 0.18; }
 
-/* ── LAYOUT ─────────────────────────────────────── */
-.wrap{position:relative;z-index:1;max-width:520px;margin:14px auto;padding:0 12px 28px}
-
-/* ── GLASS CARD ─────────────────────────────────── */
-.card{
-  background:var(--card);
-  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--sh);
-  overflow:hidden;margin-bottom:14px;
-  transition:background .4s;
+@keyframes drift {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
 }
 
-/* ── HEADER ─────────────────────────────────────── */
-.hdr{
-  background:linear-gradient(145deg,#0ea5e9 0%,#0284c7 40%,#7c3aed 100%);
-  padding:28px 20px 32px;
-  text-align:center;
-  position:relative;overflow:hidden;
+/* ── EMERGENCY BAR ──────────────────────────── */
+.emr {
+  position: relative;
+  z-index: 100;
+  background: linear-gradient(90deg, #dc2626, #b91c1c, #991b1b);
+  color: #fff;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 3px 16px rgba(220,38,38,0.45);
 }
-.hdr::before{
-  content:'';position:absolute;top:-60%;left:-30%;width:160%;height:160%;
-  background:radial-gradient(circle at 40% 40%,rgba(255,255,255,.13) 0%,transparent 55%);
-  animation:spin 12s linear infinite;
+.pulse { animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.35} }
+.emr-btns { display: flex; gap: 8px; }
+.emr-btn {
+  color: #fff;
+  text-decoration: none;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform .2s, box-shadow .2s;
 }
-.hdr::after{
-  content:'';position:absolute;bottom:-1px;left:0;right:0;height:34px;
-  background:var(--bg);
-  clip-path:ellipse(55% 100% at 50% 100%);
-  transition:background .5s;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.hdr-inner{position:relative;z-index:1}
-.hdr-pill{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.3);
-  color:rgba(255,255,255,.9);
-  padding:3px 14px;border-radius:20px;
-  font-size:12px;font-weight:600;margin-bottom:10px;
-}
-.hdr-icon{font-size:46px;margin:4px 0 7px;filter:drop-shadow(0 3px 12px rgba(0,0,0,.28));display:block}
-.hdr h1{
-  font-size:26px;font-weight:900;color:#fff;
-  text-shadow:0 2px 14px rgba(0,0,0,.22);
-  margin-bottom:5px;padding:0 46px;letter-spacing:-.3px;
-}
-.hdr .sub{font-size:13px;color:rgba(255,255,255,.78);margin-bottom:14px}
+.emr-btn:hover { transform: scale(1.07); box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+.emr-btn.c { background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.4); }
+.emr-btn.w { background: var(--wa); }
 
-/* Date badge */
-.date-badge{
-  display:inline-flex;align-items:center;gap:7px;
-  background:rgba(0,0,0,.22);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.22);
-  color:#fff;
-  padding:7px 20px;border-radius:25px;
-  font-size:13px;font-weight:700;
-  box-shadow:0 4px 16px rgba(0,0,0,.18);
-}
-/* ✨ اسم اليوم بتدرج ذهبي */
-.day-name{
-  background:linear-gradient(135deg,#fde68a,#f59e0b,#fbbf24,#f59e0b);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  font-weight:900;font-size:14px;
+/* ── LAYOUT ─────────────────────────────────── */
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 14px auto;
+  padding: 0 12px 28px;
 }
 
-.theme-btn{
-  position:absolute;top:14px;left:14px;
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.32);
-  color:#fff;width:42px;height:42px;border-radius:50%;
-  cursor:pointer;font-size:15px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .3s;backdrop-filter:blur(8px);
-}
-.theme-btn:hover{background:rgba(255,255,255,.32);transform:rotate(25deg) scale(1.08)}
-
-/* ── SECTION TITLE ──────────────────────────────── */
-.sec-title{
-  text-align:center;font-size:15px;font-weight:800;
-  padding:18px 15px 8px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.sec-title .badge{
-  background:linear-gradient(135deg,var(--green),var(--green2));
-  color:#fff;padding:3px 12px;border-radius:20px;font-size:12px;
-}
-.sec-title .ic{color:var(--primary)}
-.count-badge{
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  color:#fff;padding:2px 10px;border-radius:20px;
-  font-size:12px;font-weight:700;
+/* ── MAIN CARD ──────────────────────────────── */
+.card {
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--sh);
+  overflow: hidden;
+  margin-bottom: 14px;
+  transition: background .4s;
 }
 
-/* ── PHARMACY CARD ──────────────────────────────── */
-.ph-card{
-  margin:7px 12px;padding:15px 16px;
-  background:var(--glass);
-  backdrop-filter:blur(14px);
-  border:1px solid var(--border);
-  border-radius:16px;
-  border-right:4px solid var(--primary);
-  position:relative;overflow:hidden;
-  opacity:0;
-  transform:translateY(16px);
-  animation:slideUp .5s cubic-bezier(.25,.46,.45,.94) forwards;
+/* ── HEADER ─────────────────────────────────── */
+.hdr {
+  background: linear-gradient(145deg, #0ea5e9 0%, #0284c7 40%, #7c3aed 100%);
+  padding: 30px 20px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
-@keyframes slideUp{to{opacity:1;transform:translateY(0)}}
-.ph-card::before{
-  content:'';position:absolute;top:0;right:0;
-  width:80px;height:80px;
-  background:radial-gradient(circle,rgba(14,165,233,.07) 0%,transparent 70%);
-  pointer-events:none;
+.hdr::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.14) 0%, transparent 55%);
+  animation: spin 10s linear infinite;
 }
-.ph-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(14,165,233,.18)}
-.ph-name{font-size:17px;font-weight:900;color:var(--primary);margin-bottom:5px;display:flex;align-items:center;gap:7px}
-.ph-addr{font-size:13px;color:var(--muted);display:flex;align-items:flex-start;gap:6px;line-height:1.55}
-.ph-addr i{margin-top:3px;color:var(--accent);flex-shrink:0}
-.ph-actions{display:flex;gap:8px;margin-top:11px;padding-top:11px;border-top:1px solid var(--border)}
-.ph-btn{
-  flex:1;padding:9px 10px;border-radius:11px;
-  text-align:center;text-decoration:none;
-  font-weight:700;font-size:13px;color:#fff;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  transition:transform .2s,opacity .2s;
-  font-family:'Cairo',sans-serif;min-height:42px;
+.hdr::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
+  transition: background .5s;
 }
-.ph-btn:hover{transform:scale(1.04);opacity:.9}
-.ph-btn.call{background:linear-gradient(135deg,var(--green),var(--green2))}
-.ph-btn.map {background:linear-gradient(135deg,var(--primary),var(--accent))}
+body.dark .hdr::after { background: var(--bg); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hdr-inner { position: relative; z-index: 1; }
+.hdr-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.32);
+  color: rgba(255,255,255,.92);
+  padding: 3px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: .3px;
+}
+.hdr-icon {
+  font-size: 44px;
+  margin: 4px 0 6px;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,.25));
+  display: block;
+}
+.hdr h1 {
+  font-size: 26px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,.22);
+  margin-bottom: 4px;
+  padding: 0 44px;
+  letter-spacing: -.3px;
+}
+.hdr .sub {
+  font-size: 13px;
+  color: rgba(255,255,255,.8);
+  margin-bottom: 14px;
+}
+.date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.35);
+  color: #fff;
+  padding: 7px 20px;
+  border-radius: 25px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
+.theme-btn {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.35);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .3s;
+  backdrop-filter: blur(8px);
+}
+.theme-btn:hover { background: rgba(255,255,255,.32); transform: rotate(25deg) scale(1.08); }
 
-/* ── SCHEDULE TAGS ──────────────────────────────── */
-.sched-tags{margin-top:9px;padding-top:9px;border-top:1px dashed var(--border)}
-.sched-label{font-size:12px;color:var(--green);font-weight:700;margin-bottom:5px}
-.sched-wrap{display:flex;flex-wrap:wrap;gap:4px}
-.sched-tag{
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  color:#fff;padding:2px 10px;border-radius:10px;font-size:12px;
+/* ── SECTION TITLE ──────────────────────────── */
+.sec-title {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 18px 15px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.sec-title .badge {
+  background: linear-gradient(135deg, var(--green), var(--green2));
+  color: #fff;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+.sec-title .ic { color: var(--primary); }
+
+/* ── PHARMACY CARD ──────────────────────────── */
+.ph-card {
+  margin: 7px 12px;
+  padding: 15px 16px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  border-right: 4px solid var(--primary);
+  box-shadow: 0 2px 10px rgba(14,165,233,.08);
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+  position: relative;
+  overflow: hidden;
+}
+.ph-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(14,165,233,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ph-card:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 10px 28px rgba(14,165,233,.2); }
+.ph-name {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.ph-addr {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.55;
+}
+.ph-addr i { margin-top: 3px; color: var(--accent); flex-shrink: 0; }
+.ph-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 11px;
+  padding-top: 11px;
+  border-top: 1px solid var(--border);
+}
+.ph-btn {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: transform .2s, opacity .2s;
+  font-family: 'Cairo', sans-serif;
+}
+.ph-btn:hover { transform: scale(1.04); opacity: .9; }
+.ph-btn.call { background: linear-gradient(135deg, var(--green), var(--green2)); }
+.ph-btn.map  { background: linear-gradient(135deg, var(--primary), var(--accent)); }
+
+/* ── SCHEDULE TAGS ──────────────────────────── */
+.sched-tags { margin-top: 9px; padding-top: 9px; border-top: 1px dashed var(--border); }
+.sched-label { font-size: 12px; color: var(--green); font-weight: 700; margin-bottom: 5px; }
+.sched-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
+.sched-tag {
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 12px;
 }
 
-/* ── SUNDAY BADGE ───────────────────────────────── */
-.sun-badge{
-  margin:8px 12px;padding:12px 16px;
-  background:linear-gradient(135deg,rgba(14,165,233,.09),rgba(139,92,246,.09));
-  border:1px solid rgba(14,165,233,.22);
-  border-radius:14px;text-align:center;
-  font-size:13px;font-weight:700;color:var(--primary);
+/* ── SUNDAY BADGE ───────────────────────────── */
+.sun-badge {
+  margin: 8px 12px;
+  padding: 11px 16px;
+  background: linear-gradient(135deg, rgba(14,165,233,.08), rgba(139,92,246,.08));
+  border: 1px solid rgba(14,165,233,.22);
+  border-radius: 14px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
 }
 
-/* ── ACTION BUTTONS ─────────────────────────────── */
-.action-grp{padding:6px 12px 16px;display:flex;flex-direction:column;gap:10px}
-.main-btn{
-  width:100%;padding:15px;border-radius:14px;border:none;cursor:pointer;
-  font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:#fff;
-  display:flex;align-items:center;justify-content:center;gap:9px;
-  transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
-  position:relative;overflow:hidden;min-height:52px;
+/* ── ACTION BUTTONS ─────────────────────────── */
+.action-grp { padding: 6px 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+.main-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+  position: relative;
+  overflow: hidden;
 }
-.main-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.09))}
-.main-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.25)}
-.main-btn:active{transform:scale(.97)}
-.btn-shr {background:linear-gradient(135deg,var(--wa2),var(--wa))}
-.btn-srch{background:linear-gradient(135deg,var(--primary),var(--accent))}
+.main-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background .2s;
+}
+.main-btn:hover::after { background: rgba(255,255,255,.08); }
+.main-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.22); }
+.main-btn:active { transform: scale(.97); }
+.btn-shr { background: linear-gradient(135deg, #128c7e, var(--wa)); }
+.btn-srch { background: linear-gradient(135deg, var(--primary), var(--accent)); }
 
-/* ── SEARCH ─────────────────────────────────────── */
-.srch-box{display:none;padding:16px;border-top:1px solid var(--border)}
-.srch-box.on{display:block;animation:slideIn .3s ease}
-@keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-.srch-lbl{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:5px}
-.srch-in,.srch-sel{
-  width:100%;padding:13px 15px;border-radius:12px;
-  border:1.5px solid var(--border);
-  background:var(--card);color:var(--txt);
-  font-family:'Cairo',sans-serif;font-size:14px;
-  margin-bottom:14px;outline:none;
-  transition:border-color .2s,box-shadow .2s;
-  min-height:48px;
+/* ── SEARCH ─────────────────────────────────── */
+.srch-box { display: none; padding: 16px; border-top: 1px solid var(--border); animation: slideIn .3s ease; }
+.srch-box.on { display: block; }
+@keyframes slideIn { from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)} }
+.srch-lbl {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
-.srch-in:focus,.srch-sel:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(14,165,233,.12)}
-
-/* ── EMPTY STATE ────────────────────────────────── */
-.empty{text-align:center;padding:32px 20px;color:var(--muted)}
-.empty i{font-size:44px;opacity:.22;display:block;margin-bottom:12px}
-
-/* ── FOOTER ─────────────────────────────────────── */
-.footer{
-  text-align:center;padding:22px 18px;
-  background:var(--card);backdrop-filter:blur(22px);
-  border:1px solid var(--border);
-  border-radius:var(--radius);box-shadow:var(--sh);
+.srch-in, .srch-sel {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--txt);
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  margin-bottom: 14px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
 }
-.footer-martyr{
-  width:46px;height:46px;
-  background:linear-gradient(135deg,rgba(14,165,233,.14),rgba(139,92,246,.14));
-  border:1px solid var(--border);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;margin:0 auto 8px;
-}
-.footer-dedication{font-size:14px;font-weight:800;color:var(--txt);margin-bottom:4px}
-.footer-desc{font-size:12px;color:var(--muted);margin-bottom:12px}
-.footer-name{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:14px;font-weight:900;color:var(--gold);
-  background:rgba(245,158,11,.1);
-  border:1px solid rgba(245,158,11,.25);
-  padding:5px 18px;border-radius:20px;margin-bottom:15px;
-}
-.footer-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.f-btn{
-  padding:10px 18px;border-radius:20px;text-decoration:none;
-  font-size:13px;font-weight:700;color:#fff;
-  display:inline-flex;align-items:center;gap:6px;
-  transition:transform .2s,box-shadow .2s;
-  font-family:'Cairo',sans-serif;cursor:pointer;border:none;min-height:42px;
-}
-.f-btn:hover{transform:scale(1.06);box-shadow:0 6px 18px rgba(0,0,0,.2)}
-.f-btn.rpt{background:linear-gradient(135deg,var(--green),var(--green2))}
-.f-btn.shr{background:linear-gradient(135deg,var(--primary),var(--accent))}
-
-/* ── DIVIDER ────────────────────────────────────── */
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 16px}
-
-/* ── iOS INSTALL TOAST ──────────────────────────── */
-.ios-toast{
-  position:fixed;
-  bottom:-120px;left:50%;transform:translateX(-50%);
-  z-index:999;
-  background:rgba(15,23,42,.94);
-  color:#fff;
-  padding:14px 20px;border-radius:18px;
-  font-size:13px;font-weight:600;line-height:1.7;
-  text-align:center;
-  width:calc(100% - 32px);max-width:400px;
-  box-shadow:0 8px 32px rgba(0,0,0,.45);
-  border:1px solid rgba(255,255,255,.12);
-  transition:bottom .55s cubic-bezier(.34,1.56,.64,1);
-}
-.ios-toast.show{bottom:22px}
-.ios-toast .ios-icon{font-size:22px;display:block;margin-bottom:5px}
-.ios-close{
-  display:inline-block;margin-top:10px;
-  padding:5px 18px;background:rgba(255,255,255,.16);
-  border-radius:12px;cursor:pointer;font-size:12px;
+.srch-in:focus, .srch-sel:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(14,165,233,.12);
 }
 
-@media(max-width:380px){.hdr h1{font-size:22px}.emr-txt{font-size:12px}}
-@media(max-width:320px){.emr-txt span:first-child{display:none}.emr-btn{padding:4px 9px}}
+/* ── EMPTY STATE ────────────────────────────── */
+.empty { text-align: center; padding: 30px 20px; color: var(--muted); }
+.empty i { font-size: 42px; opacity: .25; display: block; margin-bottom: 12px; }
+
+/* ── FOOTER ─────────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: 22px 18px;
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--sh);
+}
+.footer-martyr {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, rgba(14,165,233,.15), rgba(139,92,246,.15));
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 8px;
+}
+.footer-dedicaion {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--txt);
+  margin-bottom: 4px;
+}
+.footer-desc { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+.footer-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--gold);
+  background: rgba(245,158,11,.1);
+  border: 1px solid rgba(245,158,11,.25);
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+.footer-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.f-btn {
+  padding: 9px 18px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform .2s, box-shadow .2s;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  border: none;
+}
+.f-btn:hover { transform: scale(1.06); box-shadow: 0 6px 18px rgba(0,0,0,.2); }
+.f-btn.rpt { background: linear-gradient(135deg, var(--green), var(--green2)); }
+.f-btn.shr { background: linear-gradient(135deg, var(--primary), var(--accent)); }
+
+/* ── DIVIDER ────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0 16px;
+}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
+.fade-in { animation: fadeUp .4s cubic-bezier(.34,1.2,.64,1); }
+
+@media(max-width:380px){.hdr h1{font-size:21px}.emr{font-size:12px}}
 </style>
 </head>
 <body>
@@ -372,21 +520,12 @@ body.dark .orb{opacity:.14}
   <div class="orb orb3"></div>
 </div>
 
-<!-- ══ شريط الطوارئ الثابت ══ -->
 <div class="emr">
-  <span class="emr-txt"><span class="pulse">🚨</span> طوارئ الدفاع المدني (داريا)</span>
+  <span><span class="pulse">🚨</span> طوارئ الدفاع المدني (داريا)</span>
   <div class="emr-btns">
     <a href="tel:+963965970048" class="emr-btn c"><i class="fa fa-phone"></i> اتصال</a>
     <a href="https://wa.me/963965970048" target="_blank" class="emr-btn w"><i class="fab fa-whatsapp"></i> واتساب</a>
   </div>
-</div>
-
-<!-- ══ تلميح iOS ══ -->
-<div class="ios-toast" id="iosToast">
-  <span class="ios-icon">⬆️</span>
-  لإضافة التطبيق لشاشتك الرئيسية:<br>
-  اضغط <strong>مشاركة</strong> ← <strong>«إضافة إلى الشاشة الرئيسية»</strong>
-  <br><span class="ios-close" onclick="closeIosHint()">فهمت ✓</span>
 </div>
 
 <div class="wrap">
@@ -398,15 +537,11 @@ body.dark .orb{opacity:.14}
         <span class="hdr-icon">💊</span>
         <h1>صيدليات داريا</h1>
         <p class="sub">نظام المناوبة الذكي</p>
-        <div class="date-badge">
-          <i class="fa fa-calendar-day"></i>
-          <span id="dayName" class="day-name"></span>
-          <span id="dateStr">جاري التحميل...</span>
-        </div>
+        <div class="date-badge"><i class="fa fa-calendar-day"></i><span id="displayDate">جاري التحميل...</span></div>
       </div>
     </div>
 
-    <div class="sec-title" id="secTitle">
+    <div class="sec-title">
       <i class="fa fa-clock ic"></i>
       <span>مناوبة اليوم</span>
       <span class="badge">مباشر</span>
@@ -415,11 +550,11 @@ body.dark .orb{opacity:.14}
 
     <div class="action-grp">
       <button class="main-btn btn-shr" onclick="shareToday()"><i class="fab fa-whatsapp"></i> شارك مناوبة اليوم</button>
-      <button class="main-btn btn-srch" onclick="toggleSearch()"><i class="fa fa-search"></i> محرك البحث والجدول الشهري</button>
+      <button class="main-btn btn-srch" onclick="toggleSearch()"><i class="fa fa-search"></i> محرك البحث الذكي والجدول</button>
     </div>
 
     <div class="srch-box" id="srchBox">
-      <div class="divider" style="margin:0 0 16px"></div>
+      <div class="divider" style="margin: 0 0 16px 0;"></div>
       <div class="srch-lbl"><i class="fa fa-search"></i> ابحث باسم الصيدلية أو العنوان:</div>
       <input type="text" class="srch-in" id="nameInput" oninput="searchByName()" placeholder="مثلاً: روضة، علي، ثورة، كورنيش...">
       <div class="srch-lbl"><i class="fa fa-calendar"></i> أو اختر يوماً من جدول الشهر:</div>
@@ -430,9 +565,9 @@ body.dark .orb{opacity:.14}
 
   <div class="footer">
     <div class="footer-martyr">🕊️</div>
-    <div class="footer-dedication">إهداءً لأرواح شهداء مدينة داريا</div>
+    <div class="footer-dedicaion">إهداءً لأرواح شهداء مدينة داريا</div>
     <div class="footer-desc">عمل تطوعي لخدمة أهلنا وتسهيل وصولهم للدواء</div>
-    <div class="footer-name"><i class="fa fa-star" style="font-size:11px"></i> Yaser Jamal Al-Deen</div>
+    <div class="footer-name"><i class="fa fa-star" style="color:var(--gold);font-size:12px;"></i> Yaser Jamal Al-Deen</div>
     <div class="footer-btns">
       <a href="https://wa.me/963994383846" class="f-btn rpt"><i class="fab fa-whatsapp"></i> إبلاغ عن خطأ</a>
       <button class="f-btn shr" onclick="shareSite()"><i class="fa fa-share-alt"></i> شارك الموقع</button>
@@ -440,7 +575,6 @@ body.dark .orb{opacity:.14}
   </div>
 </div>
 
-<!-- عداد زوار غير مرئي -->
 <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=pharmacy-daraia.vercel.app" style="display:none" alt="">
 
 <script>
@@ -483,48 +617,41 @@ const FRIDAY = ["فراس","دعاء","داريا النموذجية","محمد 
 
 // ── قاعدة بيانات الصيدليات ───────────────────────
 const DB = {
-  "علي الأحمر":         {addr:"قبل جامع العباس من جهة شارع الثورة",               ph:"",map:""},
-  "غسان عزيزية":        {addr:"قرب ماركت البيان",                                  ph:"",map:""},
-  "فراس":               {addr:"شارع الثورة - مقابل المحمصة",                       ph:"",map:""},
-  "الرضوان":            {addr:"قرب جامع طه",                                        ph:"",map:""},
+  "علي الأحمر":         {addr:"قبل جامع العباس من جهة شارع الثورة",      ph:"",map:"https://www.google.com/maps?q=33.458221,36.235406"},
+  "غسان عزيزية":        {addr:"قرب ماركت البيان",                         ph:"",map:"https://www.google.com/maps?q=33.461602,36.234544"},
+  "فراس":               {addr:"شارع الثورة - مقابل المحمصة",              ph:"",map:""},
+  "الرضوان":            {addr:"قرب جامع طه",                               ph:"",map:""},
   "روضة عبود":          {addr:"شارع الوحدة - مقابل طاحونة حنا (جانب جامع الرحمن)", ph:"",map:""},
-  "فايز كحلوس":         {addr:"مقابل المخفر",                                      ph:"",map:""},
-  "هنادي محمد":         {addr:"مقابل محلات الوزير",                                ph:"",map:""},
-  "وعد أبو بكر":        {addr:"آخر شارع الثورة مقابل الكنيسة",                     ph:"",map:""},
-  "محمود خولاني":       {addr:"ساحة الأوقاف - امتداد شارع الثانوية الشرعية",       ph:"",map:""},
-  "خلود العزب":         {addr:"شارع المعضمية - بناء العزب",                        ph:"",map:""},
-  "محمد السعدي":        {addr:"موقف النكاشات",                                     ph:"",map:""},
-  "باري أبو زيدان":     {addr:"مقابل المستوصف تماماً",                             ph:"",map:""},
-  "هند زرقة":           {addr:"شارع الوحدة قرب جامع المصطفى",                     ph:"",map:""},
-  "محمود المنيع":       {addr:"شارع المعضمية - بجانب المركز الثقافي",             ph:"",map:""},
-  "محمد تيسير معاني":   {addr:"شارع الثورة - تقاطع فريد اللحام",                  ph:"",map:""},
-  "عدنان نجبية":        {addr:"الشاميات - بناء المغربي",                           ph:"",map:""},
-  "الأيوبي":            {addr:"شارع الثورة مقابل الطابو",                          ph:"",map:""},
-  "سيف الدين حافظ":     {addr:"شارع الشهداء خلف مشفى الرضوان",                    ph:"",map:""},
-  "خالد أبو حلمي":      {addr:"شارع الشهداء - مقابل مغسل الخولاني",               ph:"",map:""},
-  "دعاء":               {addr:"أول طريق المعضمية",                                 ph:"",map:""},
-  "داريا النموذجية":    {addr:"مقابل الثانوية الشرعية تماماً",                     ph:"",map:""},
-  "هلا الحوراني":       {addr:"العنوان متاح في الجدول الورقي",                     ph:"",map:""},
-  "إسراء سيلة":         {addr:"العنوان متاح في الجدول الورقي",                     ph:"",map:""},
-  "سهام كساح":          {addr:"الكورنيش - مقابل الكاريدور",                        ph:"",map:""},
-  "الشربجي":            {addr:"ساحة شريدي",                                        ph:"",map:""}
+  "فايز كحلوس":         {addr:"مقابل المخفر",                             ph:"",map:""},
+  "هنادي محمد":         {addr:"مقابل محلات الوزير",                       ph:"",map:""},
+  "وعد أبو بكر":        {addr:"آخر شارع الثورة مقابل الكنيسة",            ph:"",map:""},
+  "محمود خولاني":       {addr:"ساحة الأوقاف - امتداد شارع الثانوية الشرعية",ph:"",map:""},
+  "خلود العزب":         {addr:"شارع المعضمية - بناء العزب",               ph:"",map:""},
+  "محمد السعدي":        {addr:"موقف النكاشات",                            ph:"",map:""},
+  "باري أبو زيدان":     {addr:"مقابل المستوصف تماماً",                    ph:"",map:""},
+  "هند زرقة":           {addr:"شارع الوحدة قرب جامع المصطفى",            ph:"",map:""},
+  "محمود المنيع":       {addr:"شارع المعضمية - بجانب المركز الثقافي",    ph:"",map:""},
+  "محمد تيسير معاني":   {addr:"شارع الثورة - تقاطع فريد اللحام",         ph:"",map:""},
+  "عدنان نجبية":        {addr:"الشاميات - بناء المغربي",                  ph:"",map:""},
+  "الأيوبي":            {addr:"شارع الثورة مقابل الطابو",                 ph:"",map:""},
+  "سيف الدين حافظ":     {addr:"شارع الشهداء خلف مشفى الرضوان",           ph:"",map:""},
+  "خالد أبو حلمي":      {addr:"شارع الشهداء - مقابل مغسل الخولاني",      ph:"",map:""},
+  "دعاء":               {addr:"أول طريق المعضمية",                        ph:"",map:""},
+  "داريا النموذجية":    {addr:"مقابل الثانوية الشرعية تماماً",            ph:"",map:""},
+  "هلا الحوراني":       {addr:"العنوان متاح في الجدول الورقي",            ph:"",map:""},
+  "إسراء سيلة":         {addr:"العنوان متاح في الجدول الورقي",            ph:"",map:""},
+  "سهام كساح":          {addr:"الكورنيش - مقابل الكاريدور",               ph:"",map:""},
+  "الشربجي":            {addr:"ساحة شريدي",                               ph:"",map:""}
 };
 
 // ── ثوابت ────────────────────────────────────────
 const DAYS   = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const MONTHS = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
 const SITE   = "https://pharmacy-daraia.vercel.app";
-const EMOJIS = ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"];
 
-// ── البحث الفائق الذكاء (Super Fuzzy) ───────────
+// ── مساعدات ──────────────────────────────────────
 function norm(s){
-  return s
-    .replace(/[أإآاٱ]/g,'ا')
-    .replace(/[ةه]/g,'ه')
-    .replace(/[يىئ]/g,'ي')
-    .replace(/[ؤ]/g,'و')
-    .replace(/\s+/g,' ')
-    .trim().toLowerCase();
+  return s.replace(/[أإآا]/g,'ا').replace(/[ةه]/g,'ه').replace(/[يى]/g,'ي').trim().toLowerCase();
 }
 
 function effectiveDate(){
@@ -538,8 +665,7 @@ function getDuty(d,m,y){
   return (SCHEDULE[d]||[]).slice();
 }
 
-// ── بناء بطاقة صيدلية ────────────────────────────
-function card(name,days=null,delay=0){
+function card(name, days=null){
   const info=DB[name]||{addr:"راجع الجدول الورقي",ph:"",map:""};
   const btns=(info.ph||info.map)?`<div class="ph-actions">
     ${info.ph?`<a href="tel:${info.ph}" class="ph-btn call"><i class="fa fa-phone"></i> اتصال</a>`:''}
@@ -549,7 +675,7 @@ function card(name,days=null,delay=0){
     <div class="sched-label"><i class="fa fa-calendar-check"></i> مناوبات الشهر (${days.length}):</div>
     <div class="sched-wrap">${days.sort((a,b)=>a-b).map(d=>`<span class="sched-tag">يوم ${d}</span>`).join('')}</div>
   </div>`:'';
-  return `<div class="ph-card" style="animation-delay:${delay}ms">
+  return `<div class="ph-card fade-in">
     <div class="ph-name"><i class="fa fa-pills"></i> ${name}</div>
     <div class="ph-addr"><i class="fa fa-map-pin"></i> ${info.addr}</div>
     ${sched}${btns}
@@ -561,33 +687,21 @@ function empty(msg){return`<div class="empty"><i class="fa fa-search"></i><p>${m
 // ── التهيئة ───────────────────────────────────────
 function init(){
   const eff=effectiveDate(), d=eff.getDate(), m=eff.getMonth(), y=eff.getFullYear();
-  document.getElementById('dayName').textContent = DAYS[eff.getDay()]+' ';
-  document.getElementById('dateStr').textContent  = `${d} ${MONTHS[m]} ${y}`;
+  document.getElementById('displayDate').textContent=`${DAYS[eff.getDay()]} ${d} ${MONTHS[m]} ${y}`;
 
   const list=document.getElementById('todayList');
   if(m+1!==MONTH||y!==YEAR){
-    list.innerHTML=`<div class="empty"><i class="fa fa-info-circle"></i>
-      <p>هذا النظام محدث لشهر ${MONTHS[MONTH-1]} ${YEAR} فقط.</p></div>`;
+    list.innerHTML=`<div class="empty"><i class="fa fa-info-circle"></i><p>هذا النظام محدث لشهر ${MONTHS[MONTH-1]} ${YEAR} فقط.</p></div>`;
   } else {
     const duty=getDuty(d,MONTH,YEAR);
-    if(!duty.length){
-      list.innerHTML=empty('لا توجد بيانات مناوبة لهذا اليوم.');
-    } else {
-      const sun=eff.getDay()===0
-        ?`<div class="sun-badge"><i class="fa fa-store"></i> يوم الأحد المفتوح — تعمل ${duty.length} صيدلية</div>`:'';
-      // عداد الصيدليات في العنوان
-      const st=document.getElementById('secTitle');
-      if(!st.querySelector('.count-badge')){
-        const cb=document.createElement('span');
-        cb.className='count-badge';
-        cb.textContent=duty.length;
-        st.appendChild(cb);
-      }
-      list.innerHTML=sun+duty.map((n,i)=>card(n,null,i*60)).join('');
+    if(!duty.length){list.innerHTML=empty('لا توجد بيانات مناوبة لهذا اليوم.');}
+    else{
+      const sun=eff.getDay()===0?`<div class="sun-badge"><i class="fa fa-store"></i> يوم الأحد المفتوح — تعمل ${duty.length} صيدلية</div>`:'';
+      list.innerHTML=sun+duty.map(n=>card(n)).join('');
     }
   }
 
-  // القائمة المنسدلة للأيام
+  // القائمة المنسدلة
   const sel=document.getElementById('dateSelect');
   const total=new Date(YEAR,MONTH,0).getDate();
   sel.innerHTML='<option value="">— اختر يوماً —</option>';
@@ -601,7 +715,6 @@ function init(){
   }
 
   applyTheme();
-  checkIOSHint();
   localStorage.setItem('ph_visits',(parseInt(localStorage.getItem('ph_visits')||0)+1)+'');
 }
 
@@ -617,7 +730,7 @@ function searchByName(){
   Object.keys(DB).forEach(n=>{if(norm(n).includes(q)||norm(DB[n].addr).includes(q)) found[n]=[];});
   for(let d=1;d<=total;d++) getDuty(d,MONTH,YEAR).forEach(n=>{if(found[n]&&!found[n].includes(d)) found[n].push(d);});
   if(!Object.keys(found).length){res.innerHTML=empty(`لا نتائج لـ "${document.getElementById('nameInput').value}"`);return;}
-  res.innerHTML=Object.keys(found).map((n,i)=>card(n,found[n],i*60)).join('');
+  res.innerHTML=Object.keys(found).map(n=>card(n,found[n])).join('');
 }
 
 function searchByDate(){
@@ -627,10 +740,10 @@ function searchByDate(){
   const duty=getDuty(d,MONTH,YEAR);
   const dt=new Date(YEAR,MONTH-1,d);
   const sun=dt.getDay()===0?`<div class="sun-badge"><i class="fa fa-store"></i> الأحد المفتوح — ${duty.length} صيدلية</div>`:'';
-  res.innerHTML=duty.length?sun+duty.map((n,i)=>card(n,null,i*60)).join(''):empty('لا توجد بيانات لهذا اليوم.');
+  res.innerHTML=duty.length?sun+duty.map(n=>card(n)).join(''):empty('لا توجد بيانات لهذا اليوم.');
 }
 
-// ── الوضع الليلي (تلقائي بعد 7 م) ───────────────
+// ── الوضع الليلي ─────────────────────────────────
 function applyTheme(){
   const saved=localStorage.getItem('theme');
   const h=new Date().getHours();
@@ -647,51 +760,24 @@ function toggleTheme(){
   localStorage.setItem('theme',on?'dark':'light');
 }
 
-// ── تلميح iOS ────────────────────────────────────
-function checkIOSHint(){
-  const isIOS =/iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isSaf =/safari/i.test(navigator.userAgent)&&!/chrome|crios|fxios/i.test(navigator.userAgent);
-  const alone =window.navigator.standalone;
-  const shown =localStorage.getItem('ios_hint');
-  if(isIOS&&isSaf&&!alone&&!shown){
-    setTimeout(()=>document.getElementById('iosToast').classList.add('show'),3000);
-    localStorage.setItem('ios_hint','1');
-  }
-}
-function closeIosHint(){document.getElementById('iosToast').classList.remove('show');}
-
-// ── المشاركة بأرقام إيموجي ───────────────────────
+// ── المشاركة ─────────────────────────────────────
 async function shareToday(){
   const eff=effectiveDate(), d=eff.getDate();
   const duty=getDuty(d,MONTH,YEAR);
-  let t=`💊 *الصيدليات المناوبة في داريا*\n🗓️ ${DAYS[eff.getDay()]} ${d} ${MONTHS[MONTH-1]} ${YEAR}\n${'━'.repeat(26)}\n\n`;
-  duty.forEach((n,i)=>{
-    const info=DB[n]||{};
-    const em=EMOJIS[i]||`${i+1}.`;
-    t+=`${em} *${n}*\n${info.addr?`   📍 ${info.addr}\n`:''}\n`;
-  });
-  t+=`${'━'.repeat(26)}\n🌐 ${SITE}`;
+  let t=`💊 *الصيدليات المناوبة في داريا*\n🗓️ ${DAYS[eff.getDay()]} ${d} ${MONTHS[MONTH-1]} ${YEAR}\n${'─'.repeat(28)}\n\n`;
+  duty.forEach((n,i)=>{const info=DB[n]||{};t+=`${i+1}. 💊 *${n}*\n${info.addr?`   📍 ${info.addr}\n`:''}\n`;});
+  t+=`${'─'.repeat(28)}\n🌐 ${SITE}`;
   await doShare('الصيدليات المناوبة - داريا',t.trim());
 }
 async function shareSite(){
-  await doShare('صيدليات داريا',
-    `📱 *تطبيق صيدليات داريا الذكي*\nابحث بسهولة عن الصيدلية المناوبة في مدينة داريا\n\n🔗 ${SITE}`);
+  await doShare('صيدليات داريا',`📱 تطبيق صيدليات داريا الذكي\nابحث بسهولة عن الصيدلية المناوبة:\n\n🔗 ${SITE}`);
 }
 async function doShare(title,text){
   if(navigator.share){try{await navigator.share({title,text});}catch(e){wb(text);}}else{wb(text);}
 }
 function wb(t){window.open(`https://wa.me/?text=${encodeURIComponent(t)}`,'_blank');}
 
-// ── PWA Service Worker ────────────────────────────
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/sw.js')
-      .then(()=>console.log('✅ SW registered — offline ready'))
-      .catch(()=>{});
-  });
-}
-
 init();
 </script>
 </body>
-</html>
+</html> 
