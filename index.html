@@ -246,13 +246,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   </div>
 
   <div class="footer">
-    <div class="footer-dev"><i class="fa fa-code"></i> Yaser Jamal Al-Deen</div>
+    <div class="footer-dev">🌙 Yaser Jamal Al-Deen</div>
     <div class="footer-btns">
       <a href="https://wa.me/963994383846" class="f-btn report" rel="noopener"><i class="fab fa-whatsapp"></i> إبلاغ عن خطأ</a>
       <button class="f-btn share" onclick="shareSite()"><i class="fa fa-share-alt"></i> شارك الموقع</button>
       <button class="f-btn about" onclick="toggleAbout()"><i class="fa fa-info-circle"></i> عن التطبيق</button>
     </div>
-    <div class="footer-copy">© Yaser Jamal Al-Deen</div>
+
   </div>
 </div>
 
@@ -265,8 +265,35 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
  * جميع الحقوق محفوظة. يُمنع نسخ أو إعادة نشر هذا النظام دون إذن صريح.
  */
 
-/* ══════════════════════════════════════════════
-   ⚙️ روابط Google Sheets
+/* إحداثيات الصيدليات — ثابتة بالكود لضمان الدقة */
+const COORDS = {
+  "علي الأحمر":        {lat:33.454984, lng:36.241215},
+  "فراس":              {lat:33.458694, lng:36.239107},
+  "الرضوان":           {lat:33.462313, lng:36.238473},
+  "محمد السعدي":       {lat:33.465078, lng:36.237927},
+  "باري أبو زيدان":    {lat:33.457199, lng:36.232810},
+  "محمود المنيع":      {lat:33.458620, lng:36.233400},
+  "روضة عبود":         {lat:33.455431, lng:36.234388},
+  "فايز كحلوس":        {lat:33.456641, lng:36.236841},
+  "وعد أبو بكر":       {lat:33.454226, lng:36.242200},
+  "خلود العزب":        {lat:33.461621, lng:36.233640},
+  "محمود الخولاني":    {lat:33.460144, lng:36.237242},
+  "محمد تيسير معاني":  {lat:33.454460, lng:36.239454},
+  "سيف الدين الحافظ":  {lat:33.462941, lng:36.241493},
+  "الأيوبي":           {lat:33.456428, lng:36.241386},
+  "غسان عزيزية":       {lat:33.458022, lng:36.243552},
+  "هنادي محمد":        {lat:33.456740, lng:36.240373},
+  "خالد أبو حلمي":     {lat:33.461836, lng:36.242303},
+  "هند زرقة":          {lat:33.454743, lng:36.236094},
+  "عدنان نجيبة":       {lat:33.464100, lng:36.232493},
+  "داريا النموذجية":   {lat:33.461141, lng:36.237492},
+  "الشربجي":           {lat:33.457850, lng:36.238541},
+  "سهام كساح":         {lat:33.458265, lng:36.236894},
+  "هلا الحوراني":      {lat:33.458428, lng:36.234473},
+  "إسراء سيلة":        {lat:33.456573, lng:36.232371},
+  "دعاء":              {lat:33.461863, lng:36.233809},
+  "يسرى النكاش":       {lat:33.464477, lng:36.227486}
+};
    لتحديث الشهر الجديد: فقط حدّث ورقة schedule
    ولا تلمس أي شيء آخر بالكود!
 ══════════════════════════════════════════════ */
@@ -385,18 +412,14 @@ function getDuty(d) {
 ══════════════════════════════════════════════ */
 function card(name, delay=0) {
   const p = DB.find(x => x.name === name);
-  if (!p) return `<div class="ph-card" style="animation-delay:${delay}ms">
-    <div class="ph-name"><span class="ph-dot"></span> ${name}</div>
-    <div class="ph-addr"><i class="fa fa-map-pin"></i> غير محدد</div>
-  </div>`;
-  const gMaps = `https://www.google.com/maps?q=${p.lat},${p.lng}`;
+  const coords = COORDS[name];
+  const hasMap = coords && !isNaN(coords.lat);
+  const gMaps = hasMap ? `https://www.google.com/maps?q=${coords.lat},${coords.lng}` : null;
   return `<div class="ph-card" style="animation-delay:${delay}ms">
-  <div class="ph-name"><span class="ph-dot"></span> ${p.name}</div>
-  <div class="ph-addr"><i class="fa fa-map-pin"></i> ${p.address}</div>
+  <div class="ph-name"><span class="ph-dot"></span> ${name}</div>
+  <div class="ph-addr"><i class="fa fa-map-pin"></i> ${p ? p.address : 'داريا'}</div>
   <div class="ph-actions">
-    <a href="${gMaps}" target="_blank" class="ph-btn map" rel="noopener noreferrer">
-      <i class="fa fa-map-marker-alt"></i> افتح في الخريطة
-    </a>
+    ${hasMap ? `<a href="${gMaps}" target="_blank" class="ph-btn map" rel="noopener noreferrer"><i class="fa fa-map-marker-alt"></i> افتح في الخريطة</a>` : ''}
   </div>
 </div>`;
 }
@@ -552,15 +575,18 @@ function applyTheme(){
 ══════════════════════════════════════════════ */
 function buildShareText(date) {
   const {type,names} = getDuty(date);
-  let txt = `🌙 *صيدليات داريا المناوبة*\n🗓️ ${DAYS[date.getDay()]} ${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}\n`;
+  let txt = `🌙 *صيدليات داريا المناوبة*\n`;
+  txt += `🗓️ ${DAYS[date.getDay()]} ${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}\n`;
   if(type==='friday') txt+=`🕌 يوم الجمعة — ${names.length} صيدليات\n`;
-  if(type==='sunday') txt+=`🌟 يوم الأحد المفتوح — ${names.length} صيدلية\n`;
+  if(type==='sunday') txt+=`🌟 يوم الأحد — ${names.length} صيدلية\n`;
   txt += `${'─'.repeat(26)}\n\n`;
   names.forEach((name,i)=>{
     const p=DB.find(x=>x.name===name);
     txt+=`${i+1}. • *${name}*\n📍 ${p?p.address:'غير محدد'}\n\n`;
   });
-  txt+=`${'─'.repeat(26)}\n🌐 ${SITE}`;
+  txt+=`${'─'.repeat(26)}\n`;
+  txt+=`💊 لتعم الفائدة — شارك مع أهل داريا 🤍\n`;
+  txt+=`🌐 ${SITE}`;
   return txt;
 }
 
@@ -576,8 +602,17 @@ async function copyToday(){
   const txt=buildShareText(now);
   try{await navigator.clipboard.writeText(txt);}
   catch(e){const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+  // تغيير أيقونة الزر مؤقتاً
+  const btn = document.querySelector('.btn-copy');
+  btn.innerHTML = '<i class="fa fa-check"></i>';
+  btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
   const t=document.getElementById('copyToast');
-  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);
+  t.classList.add('show');
+  setTimeout(()=>{
+    t.classList.remove('show');
+    btn.innerHTML = '<i class="fa fa-copy"></i>';
+    btn.style.background = '';
+  }, 2500);
 }
 
 function shareSite(){
