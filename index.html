@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="صيدليات داريا">
 <meta name="mobile-web-app-capable" content="yes">
 <meta property="og:title" content="صيدليات داريا | نظام المناوبة الذكي">
-<meta property="og:description" content="اعرف الصيدلية المناوبة اليوم في داريا بسهولة وسرعة">
+<meta property="og:description" content="اعرف الصيدلية المناوبة اليوم في داريا — سريع، دقيق، يعمل بدون إنترنت 💊">
 <meta property="og:url" content="https://pharmacy-darayya.vercel.app">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://pharmacy-darayya.vercel.app/icon.svg">
@@ -481,15 +481,18 @@ function renderToday(eff) {
 function buildSelect(eff) {
   const sel = document.getElementById('dateSelect');
   sel.innerHTML = '<option value="">— اختر يوماً —</option>';
-  // أضف الأيام الموجودة بالجدول + 30 يوم قادم
   const keys = Object.keys(SCHED).sort((a,b)=>{
     const [d1,m1]=a.split('/').map(Number);
     const [d2,m2]=b.split('/').map(Number);
     return (m1*100+d1)-(m2*100+d2);
   });
   keys.forEach(k => {
+    // تجاهل الصفوف الغير صالحة
+    if(!k.includes('/')) return;
     const [d,m] = k.split('/').map(Number);
+    if(isNaN(d)||isNaN(m)||d<1||d>31||m<1||m>12) return;
     const dt = new Date(2026, m-1, d);
+    if(isNaN(dt.getTime())) return;
     const o = document.createElement('option');
     o.value = dt.getTime();
     o.textContent = `${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}`;
