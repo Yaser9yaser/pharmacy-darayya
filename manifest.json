@@ -1,0 +1,22 @@
+{
+  "name": "صيدليات داريا المناوبة",
+  "short_name": "صيدليات داريا",
+  "description": "نظام المناوبة الذكي لصيدليات مدينة داريا",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f7ff",
+  "theme_color": "#0ea5e9",
+  "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical", "utilities"],
+  "prefer_related_applications": false
+}
