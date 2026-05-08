@@ -4,796 +4,602 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>صيدليات داريا | نظام المناوبة الذكي</title>
-<meta name="description" content="ابحث بسهولة عن الصيدليات المناوبة في مدينة داريا">
-<meta property="og:title" content="صيدليات داريا | نظام المناوبة الذكي">
-<meta property="og:description" content="نظام ذكي للبحث عن الصيدليات المناوبة في داريا">
-<meta property="og:url" content="https://pharmacy-darayya.vercel.app">
-<meta property="og:type" content="website">
-<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/883/883356.png">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/883/883356.png">
-<link rel="manifest" href="/manifest.json">
+<meta name="description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — يعمل على جميع الأجهزة بدون إنترنت">
+<meta name="keywords" content="صيدليات داريا, مناوبة, صيدلية مناوبة داريا, داريا">
 <meta name="theme-color" content="#0ea5e9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="صيدليات داريا">
 <meta name="mobile-web-app-capable" content="yes">
+<meta property="og:title" content="صيدليات داريا | نظام المناوبة الذكي">
+<meta property="og:description" content="اعرف الصيدلية المناوبة اليوم في داريا بسهولة وسرعة">
+<meta property="og:url" content="https://pharmacy-darayya.vercel.app">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://pharmacy-darayya.vercel.app/icon.svg">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"صيدليات داريا المناوبة","description":"نظام ذكي لعرض جدول مناوبة الصيدليات في مدينة داريا","url":"https://pharmacy-darayya.vercel.app","applicationCategory":"HealthApplication","operatingSystem":"Any","inLanguage":"ar","author":{"@type":"Person","name":"Yaser Jamal Al-Deen"}}
+</script>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" href="/icon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* ══════════════════════════════════════════════
-   TOKENS
-══════════════════════════════════════════════ */
-:root {
-  --primary:#0ea5e9; --primary2:#0284c7;
-  --accent:#8b5cf6;  --accent2:#7c3aed;
-  --green:#10b981;   --green2:#059669;
-  --gold:#f59e0b;    --wa:#25D366; --wa2:#128c7e;
-  --bg:#f4f8ff;
-  --card:rgba(255,255,255,0.97);
-  --glass:rgba(255,255,255,0.9);
-  --ph-card-bg:rgba(255,255,255,0.92);
-  --txt:#0f172a; --muted:#64748b;
-  --border:rgba(14,165,233,0.13);
-  --sh:0 4px 24px rgba(14,165,233,.09),0 1px 4px rgba(0,0,0,.04);
-  --radius:22px;
-  --emr-h:48px;
-  --t:0.15s; /* ⚡ snappy global transition */
-}
-.dark {
-  --bg:#0a0f1e;
-  --card:rgba(15,23,42,.92);
-  --glass:rgba(15,23,42,.78);
-  --ph-card-bg:rgba(15,23,42,0.92);
-  --txt:#e2e8f0; --muted:#94a3b8;
-  --border:rgba(14,165,233,.18);
-  --sh:0 8px 40px rgba(0,0,0,.5);
-}
-
-/* ══════════════════════════════════════════════
-   BASE
-══════════════════════════════════════════════ */
+:root{--p1:#0ea5e9;--p2:#0284c7;--a1:#8b5cf6;--a2:#7c3aed;--g1:#10b981;--g2:#059669;--gold:#f59e0b;--wa:#25D366;--wa2:#128c7e;--red:#dc2626;--red2:#991b1b;--bg:#f0f7ff;--card:#ffffff;--txt:#0c1a2e;--txt2:#334155;--muted:#64748b;--border:rgba(14,165,233,0.15);--sh:0 2px 20px rgba(14,165,233,.10),0 1px 4px rgba(0,0,0,.04);--sh2:0 8px 32px rgba(14,165,233,.18);--radius:20px;--emr-h:52px;--t:0.2s}
+.dark{--bg:#070d1a;--card:rgba(13,22,41,0.97);--txt:#e8f0fe;--txt2:#cbd5e1;--muted:#94a3b8;--border:rgba(14,165,233,.2);--sh:0 4px 30px rgba(0,0,0,.5);--sh2:0 8px 40px rgba(0,0,0,.7)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  font-family:'Cairo',sans-serif;
-  background:var(--bg);color:var(--txt);
-  min-height:100vh;
-  transition:background var(--t),color var(--t);
-  line-height:1.7;overflow-x:hidden;
-  padding-top:var(--emr-h);
-}
-
-/* ── Ambient background ── */
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(ellipse at 15% 8%,rgba(14,165,233,.10) 0%,transparent 52%),
-    radial-gradient(ellipse at 85% 85%,rgba(139,92,246,.08) 0%,transparent 52%);
-}
-.dark body::before,
-.dark::before{
-  background:
-    radial-gradient(ellipse at 15% 8%,rgba(14,165,233,.14) 0%,transparent 50%),
-    radial-gradient(ellipse at 85% 85%,rgba(139,92,246,.11) 0%,transparent 50%),
-    radial-gradient(ellipse at 50% 50%,rgba(10,15,30,1) 0%,transparent 80%);
-}
-
-/* ── Floating orbs ── */
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;padding-top:var(--emr-h);line-height:1.7;overflow-x:hidden;transition:background var(--t),color var(--t)}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 40% at 10% 5%,rgba(14,165,233,.12) 0%,transparent 60%),radial-gradient(ellipse 50% 35% at 90% 90%,rgba(139,92,246,.10) 0%,transparent 60%)}
+.dark body::before{background:radial-gradient(ellipse 60% 40% at 10% 5%,rgba(14,165,233,.18) 0%,transparent 55%),radial-gradient(ellipse 50% 35% at 90% 90%,rgba(139,92,246,.14) 0%,transparent 55%)}
 .orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.orb{position:absolute;border-radius:50%;filter:blur(68px);opacity:0;animation:drift 14s ease-in-out infinite;transition:opacity var(--t)}
-.dark .orb{opacity:.14}
-.orb1{width:260px;height:260px;background:var(--primary);top:-80px;right:-70px}
-.orb2{width:210px;height:210px;background:var(--accent);bottom:120px;left:-80px;animation-delay:-5s}
-.orb3{width:160px;height:160px;background:var(--green);bottom:-50px;right:27%;animation-delay:-9s}
-@keyframes drift{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-22px) scale(1.06)}}
-
-/* ══════════════════════════════════════════════
-   STICKY EMERGENCY BAR
-══════════════════════════════════════════════ */
-.emr{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  height:var(--emr-h);
-  background:linear-gradient(90deg,#dc2626,#b91c1c 50%,#991b1b);
-  color:#fff;padding:0 12px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  font-size:11px;font-weight:700;
-  box-shadow:0 3px 18px rgba(220,38,38,.5);
-}
-.pulse{animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.emr-btns{display:flex;gap:7px;flex-shrink:0}
-.emr-btn{
-  color:#fff;text-decoration:none;
-  padding:5px 13px;border-radius:20px;
-  font-size:12.5px;font-weight:700;
-  display:flex;align-items:center;gap:5px;min-height:34px;
-  transition:transform var(--t),box-shadow var(--t);
-}
-.emr-btn:hover{transform:scale(1.07);box-shadow:0 4px 12px rgba(0,0,0,.25)}
-.emr-btn.c{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4)}
-.emr-btn.w{background:var(--wa)}
-
-/* ══════════════════════════════════════════════
-   LAYOUT  — will-change for smooth mobile scroll
-══════════════════════════════════════════════ */
-.wrap{
-  position:relative;z-index:1;
-  max-width:520px;margin:14px auto;
-  padding:0 12px 28px;
-  will-change:transform;
-}
-
-/* ── Glass card ── */
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--sh);
-  overflow:hidden;margin-bottom:14px;
-  transition:background var(--t),box-shadow var(--t);
-}
-
-/* ══════════════════════════════════════════════
-   HEADER
-══════════════════════════════════════════════ */
-.hdr{
-  background:linear-gradient(145deg,#0ea5e9 0%,#0284c7 40%,#7c3aed 100%);
-  padding:26px 20px 34px;text-align:center;
-  position:relative;overflow:hidden;
-}
-.hdr::before{
-  content:'';position:absolute;top:-60%;left:-30%;width:160%;height:160%;
-  background:radial-gradient(circle at 40% 40%,rgba(255,255,255,.13) 0%,transparent 55%);
-  animation:spin 12s linear infinite;
-}
-.hdr::after{
-  content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;
-  background:var(--bg);
-  clip-path:ellipse(55% 100% at 50% 100%);
-  transition:background var(--t);
-}
-@keyframes spin{to{transform:rotate(360deg)}}
+.orb{position:absolute;border-radius:50%;filter:blur(72px);opacity:.06;animation:drift 16s ease-in-out infinite}
+.dark .orb{opacity:.13}
+.orb1{width:300px;height:300px;background:var(--p1);top:-100px;right:-80px}
+.orb2{width:240px;height:240px;background:var(--a1);bottom:100px;left:-90px;animation-delay:-6s}
+.orb3{width:180px;height:180px;background:var(--g1);bottom:-60px;right:30%;animation-delay:-11s}
+@keyframes drift{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.08)}}
+.emr{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--emr-h);background:linear-gradient(90deg,var(--red),#b91c1c 50%,var(--red2));color:#fff;padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;box-shadow:0 3px 20px rgba(220,38,38,.5)}
+.emr-label{display:flex;align-items:center;gap:7px;flex:1;min-width:0;overflow:hidden}
+.emr-label span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pulse{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.emr-btns{display:flex;gap:6px;flex-shrink:0}
+.emr-btn{color:#fff;text-decoration:none;padding:5px 11px;border-radius:18px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px;min-height:32px;white-space:nowrap;transition:transform var(--t)}
+.emr-btn:active{transform:scale(.94)}
+.emr-btn.call{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4)}
+.emr-btn.wa{background:var(--wa)}
+.wrap{position:relative;z-index:1;max-width:500px;margin:12px auto;padding:0 12px 32px}
+.hdr-card{background:linear-gradient(145deg,#0ea5e9 0%,#0369a1 35%,#7c3aed 100%);border-radius:var(--radius);padding:28px 20px 40px;text-align:center;position:relative;overflow:hidden;margin-bottom:14px;box-shadow:var(--sh2)}
+.hdr-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.15) 0%,transparent 60%);animation:shimmer 10s ease-in-out infinite}
+.hdr-card::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:32px;background:var(--bg);clip-path:ellipse(52% 100% at 50% 100%);transition:background var(--t)}
+@keyframes shimmer{0%,100%{opacity:.8}50%{opacity:1}}
 .hdr-inner{position:relative;z-index:1}
-.hdr-pill{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);
-  color:rgba(255,255,255,.9);padding:3px 14px;border-radius:20px;
-  font-size:12px;font-weight:600;margin-bottom:10px;
-}
-.hdr-icon{
-  display:flex;align-items:center;justify-content:center;
-  margin:4px auto 8px;
-  filter:drop-shadow(0 3px 14px rgba(0,0,0,.3));
-}
-.hdr h1{
-  font-size:26px;font-weight:900;color:#fff;
-  text-shadow:0 2px 14px rgba(0,0,0,.22);
-  margin-bottom:4px;padding:0 46px;letter-spacing:-.3px;
-}
-.hdr .sub{font-size:13px;color:rgba(255,255,255,.78);margin-bottom:14px}
-.date-badge{
-  display:inline-flex;align-items:center;gap:7px;
-  background:rgba(0,0,0,.22);backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.2);color:#fff;
-  padding:7px 20px;border-radius:25px;
-  font-size:13px;font-weight:700;
-  box-shadow:0 4px 16px rgba(0,0,0,.18);
-}
-.day-name{
-  background:linear-gradient(135deg,#fde68a,#f59e0b,#fbbf24);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;font-weight:900;font-size:14px;
-}
-/* ── 2AM continuity hint ── */
-.late-hint{
-  font-size:11px;color:rgba(255,255,255,.65);
-  margin-top:6px;display:none;
-  font-style:italic;letter-spacing:.2px;
-}
-.theme-btn{
-  position:absolute;top:14px;left:14px;
-  z-index:10; /* فوق الأنيميشن الدوار */
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.32);
-  color:#fff;width:42px;height:42px;border-radius:50%;
-  cursor:pointer;font-size:15px;
-  display:flex;align-items:center;justify-content:center;
-}
-.theme-btn:hover{background:rgba(255,255,255,.32)}
-
-/* ══════════════════════════════════════════════
-   SECTION TITLE  +  LIVE BADGE
-══════════════════════════════════════════════ */
-.sec-title{
-  text-align:center;font-size:15px;font-weight:800;
-  padding:18px 15px 8px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.sec-title .ic{color:var(--primary)}
-.live-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  background:linear-gradient(135deg,var(--green),var(--green2));
-  color:#fff;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700;
-}
-.live-dot{
-  width:7px;height:7px;background:#fff;border-radius:50%;flex-shrink:0;
-  animation:livePulse 2s ease-in-out infinite;
-}
-@keyframes livePulse{
-  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,255,255,.5)}
-  50%{opacity:.6;box-shadow:0 0 0 4px rgba(255,255,255,0)}
-}
-
-/* ══════════════════════════════════════════════
-   PHARMACY CARD  — NO backdrop-filter (perf fix)
-══════════════════════════════════════════════ */
-.ph-card{
-  margin:7px 12px;padding:15px 16px;
-  background:var(--ph-card-bg);   /* solid, no backdrop-filter */
-  border:1px solid var(--border);
-  border-radius:16px;
-  border-right:4px solid var(--primary);
-  position:relative;overflow:hidden;
-  opacity:0;transform:translateY(16px);
-  animation:slideUp .4s cubic-bezier(.25,.46,.45,.94) forwards;
-  transition:box-shadow var(--t),transform var(--t);
-}
+.hdr-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:rgba(255,255,255,.95);padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:12px}
+.hdr-icon{margin:4px auto 10px;filter:drop-shadow(0 4px 16px rgba(0,0,0,.3));display:flex;align-items:center;justify-content:center}
+.hdr-card h1{font-size:24px;font-weight:900;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.2);margin-bottom:3px}
+.hdr-sub{font-size:13px;color:rgba(255,255,255,.85);margin-bottom:12px}
+.date-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.2);color:#fff;padding:7px 18px;border-radius:24px;font-size:13px;font-weight:700}
+.day-txt{background:linear-gradient(135deg,#fde68a,#fbbf24,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:900;font-size:14px}
+.late-note{font-size:11px;color:rgba(255,255,255,.65);margin-top:7px;display:none;font-style:italic}
+.theme-toggle{position:absolute;top:14px;left:14px;z-index:10;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:transform var(--t)}
+.theme-toggle:active{transform:scale(.9)}
+.sec-title{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 14px 8px;font-size:14px;font-weight:800;color:var(--txt2)}
+.live-chip{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.live-dot{width:6px;height:6px;background:#fff;border-radius:50%;animation:livePulse 2s infinite}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.ph-card{margin:7px 12px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:16px;border-right:4px solid var(--p1);box-shadow:var(--sh);opacity:0;transform:translateY(18px);animation:slideUp .45s forwards}
 @keyframes slideUp{to{opacity:1;transform:translateY(0)}}
-.ph-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(14,165,233,.18)}
-.ph-name{font-size:17px;font-weight:900;color:var(--primary);margin-bottom:5px;display:flex;align-items:center;gap:7px}
-.ph-addr{font-size:13px;color:var(--muted);display:flex;align-items:flex-start;gap:6px;line-height:1.55}
-.ph-addr i{margin-top:3px;color:var(--accent);flex-shrink:0}
-.ph-actions{display:flex;gap:8px;margin-top:11px;padding-top:11px;border-top:1px solid var(--border)}
-.ph-btn{
-  flex:1;padding:9px 10px;border-radius:11px;
-  text-decoration:none;font-weight:700;font-size:13px;color:#fff;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  transition:transform var(--t),opacity var(--t);
-  font-family:'Cairo',sans-serif;min-height:42px;
-}
-.ph-btn:hover{transform:scale(1.04);opacity:.9}
-.ph-btn.call{background:linear-gradient(135deg,var(--green),var(--green2))}
-.ph-btn.map {background:linear-gradient(135deg,var(--primary),var(--accent))}
-
-/* ── Schedule tags ── */
-.sched-tags{margin-top:9px;padding-top:9px;border-top:1px dashed var(--border)}
-.sched-label{font-size:12px;color:var(--green);font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:4px}
-.sched-wrap{display:flex;flex-wrap:wrap;gap:5px}
-.sched-tag{
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  color:#fff;padding:3px 10px;border-radius:10px;font-size:12px;font-weight:600;
-}
-
-/* ── Sunday badge ── */
-.sun-badge{
-  margin:8px 12px;padding:12px 16px;
-  background:linear-gradient(135deg,rgba(14,165,233,.09),rgba(139,92,246,.09));
-  border:1px solid rgba(14,165,233,.22);
-  border-radius:14px;text-align:center;
-  font-size:13px;font-weight:700;color:var(--primary);
-}
-
-/* ══════════════════════════════════════════════
-   ACTION BUTTONS
-══════════════════════════════════════════════ */
-.action-grp{padding:6px 12px 16px;display:flex;flex-direction:column;gap:10px}
-.main-btn{
-  width:100%;padding:15px;border-radius:14px;border:none;cursor:pointer;
-  font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:#fff;
-  display:flex;align-items:center;justify-content:center;gap:9px;
-  min-height:52px;position:relative;overflow:hidden;
-  transition:transform var(--t),box-shadow var(--t);
-}
-.main-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.25)}
-.main-btn:active{transform:scale(.97)}
-.btn-shr {background:linear-gradient(135deg,var(--wa2),var(--wa))}
-.btn-srch{background:linear-gradient(135deg,var(--primary),var(--accent))}
-
-/* ══════════════════════════════════════════════
-   SEARCH
-══════════════════════════════════════════════ */
+/* دائرة • بدل الصليب */
+.ph-name{font-size:17px;font-weight:900;color:var(--p1);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ph-dot{width:10px;height:10px;border-radius:50%;background:var(--p1);flex-shrink:0}
+.ph-addr{font-size:12.5px;color:var(--muted);display:flex;align-items:flex-start;gap:6px;line-height:1.5;margin-bottom:12px}
+.ph-addr i{margin-top:3px;flex-shrink:0}
+.ph-actions{display:flex;gap:8px}
+.ph-btn{flex:1;padding:10px 8px;border-radius:12px;text-decoration:none;font-weight:700;font-size:13px;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;font-family:'Cairo',sans-serif;transition:opacity var(--t),transform var(--t)}
+.ph-btn:active{opacity:.85;transform:scale(.97)}
+.ph-btn.map{background:linear-gradient(135deg,var(--p1),var(--a1))}
+.sun-badge{margin:8px 12px;padding:12px 16px;background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(139,92,246,.08));border:1px solid rgba(14,165,233,.22);border-radius:14px;text-align:center;font-size:13px;font-weight:700;color:var(--p1)}
+.fri-badge{margin:8px 12px;padding:12px 16px;background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(234,179,8,.08));border:1px solid rgba(245,158,11,.22);border-radius:14px;text-align:center;font-size:13px;font-weight:700;color:var(--gold)}
+.skeleton{margin:7px 12px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:16px}
+.skel-line{height:14px;border-radius:8px;margin-bottom:10px;background:linear-gradient(90deg,var(--border) 25%,rgba(14,165,233,.07) 50%,var(--border) 75%);background-size:200% 100%;animation:skelAnim 1.4s ease-in-out infinite}
+.skel-line.w60{width:60%}.skel-line.w80{width:80%}.skel-line.h40{height:40px;margin-top:12px;margin-bottom:0}
+@keyframes skelAnim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.main-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--sh);overflow:hidden;margin-bottom:14px}
+.update-bar{margin:0 12px 10px;padding:10px 14px;background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(5,150,105,.1));border:1px solid rgba(16,185,129,.3);border-radius:12px;font-size:12px;font-weight:700;color:var(--g1);display:none;align-items:center;gap:8px}
+.update-bar.show{display:flex}
+.update-dot{width:8px;height:8px;background:var(--g1);border-radius:50%;flex-shrink:0;animation:livePulse 2s infinite}
+.action-grp{padding:8px 12px 14px;display:flex;flex-direction:column;gap:10px}
+.share-row{display:flex;gap:8px}
+.main-btn{width:100%;padding:14px;border-radius:14px;border:none;cursor:pointer;font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;gap:9px;min-height:50px;transition:opacity var(--t),transform var(--t)}
+.main-btn:active{opacity:.88;transform:scale(.98)}
+.btn-share{background:linear-gradient(135deg,var(--wa2),var(--wa))}
+.btn-copy{background:linear-gradient(135deg,var(--p2),var(--p1));flex:0 0 auto;width:50px;border-radius:14px;border:none;cursor:pointer;color:#fff;font-size:18px;min-height:50px;display:flex;align-items:center;justify-content:center;transition:opacity var(--t),transform var(--t)}
+.btn-copy:active{opacity:.88;transform:scale(.98)}
+.btn-search{background:linear-gradient(135deg,var(--p1),var(--a1))}
+.copy-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);z-index:3000;background:#1e293b;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:700;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap}
+.copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .srch-box{display:none;padding:16px;border-top:1px solid var(--border)}
-.srch-box.on{display:block;animation:slideIn .2s ease}
-@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-.srch-lbl{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:5px}
-.srch-in,.srch-sel{
-  width:100%;padding:13px 15px;border-radius:12px;
-  border:1.5px solid var(--border);
-  background:var(--card);color:var(--txt);
-  font-family:'Cairo',sans-serif;font-size:14px;
-  margin-bottom:14px;outline:none;
-  transition:border-color var(--t),box-shadow var(--t);
-  min-height:48px;
-}
-.srch-in:focus,.srch-sel:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(14,165,233,.12)}
-
-/* ══════════════════════════════════════════════
-   EMPTY STATE
-══════════════════════════════════════════════ */
-.empty{text-align:center;padding:32px 20px;color:var(--muted)}
-.empty i{font-size:44px;opacity:.22;display:block;margin-bottom:12px}
-
-/* ══════════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════════ */
-.footer{
-  text-align:center;padding:22px 18px;
-  background:var(--card);
-  border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--sh);
-}
-.footer-martyr{
-  width:46px;height:46px;border-radius:50%;
-  background:linear-gradient(135deg,rgba(14,165,233,.14),rgba(139,92,246,.14));
-  border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;margin:0 auto 8px;
-}
-.footer-dedication{font-size:14px;font-weight:800;color:var(--txt);margin-bottom:4px}
-.footer-desc{font-size:12px;color:var(--muted);margin-bottom:12px}
-.footer-name{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:14px;font-weight:900;color:var(--gold);
-  background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);
-  padding:5px 18px;border-radius:20px;margin-bottom:15px;
-}
-.footer-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.f-btn{
-  padding:10px 18px;border-radius:20px;text-decoration:none;
-  font-size:13px;font-weight:700;color:#fff;
-  display:inline-flex;align-items:center;gap:6px;
-  transition:transform var(--t),box-shadow var(--t);
-  font-family:'Cairo',sans-serif;cursor:pointer;border:none;min-height:42px;
-}
-.f-btn:hover{transform:scale(1.06);box-shadow:0 6px 18px rgba(0,0,0,.2)}
-.f-btn.rpt{background:linear-gradient(135deg,var(--green),var(--green2))}
-.f-btn.shr{background:linear-gradient(135deg,var(--primary),var(--accent))}
-
-/* ── Divider ── */
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 16px}
-
-/* ══════════════════════════════════════════════
-   BACK TO TOP  — fixed position, z-index:10000
-══════════════════════════════════════════════ */
-.back-top{
-  position:fixed;
-  bottom:100px;
-  right:20px;
-  z-index:10000;
-  width:44px;height:44px;border-radius:50%;border:none;
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  color:#fff;font-size:16px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 18px rgba(14,165,233,.4);
-  opacity:0;transform:translateY(10px);
-  transition:opacity var(--t),transform var(--t);
-  pointer-events:none;
-}
-.back-top.visible{
-  opacity:1;transform:translateY(0);
-  pointer-events:auto;
-}
-.back-top:hover{transform:translateY(-2px) scale(1.08)}
-
-/* ══════════════════════════════════════════════
-   iOS INSTALL TOAST
-══════════════════════════════════════════════ */
-.ios-toast{
-  position:fixed;bottom:-200px;left:50%;transform:translateX(-50%);
-  z-index:9999;
-  background:rgba(15,23,42,.95);color:#fff;
-  padding:15px 20px;border-radius:18px;
-  font-size:13px;font-weight:600;line-height:1.7;text-align:center;
-  width:calc(100% - 32px);max-width:400px;
-  box-shadow:0 8px 32px rgba(0,0,0,.45);
-  border:1px solid rgba(255,255,255,.12);
-  transition:bottom .4s cubic-bezier(.34,1.56,.64,1);
-}
-.ios-toast.show{bottom:22px}
-.ios-toast .ios-icon{font-size:22px;display:block;margin-bottom:5px}
-.ios-close{
-  display:inline-block;margin-top:10px;
-  padding:5px 18px;background:rgba(255,255,255,.16);
-  border-radius:12px;cursor:pointer;font-size:12px;
-}
-
-/* ══════════════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════════════ */
-@media(max-width:380px){
-  .hdr h1{font-size:22px}
-  .emr-txt{font-size:12px}
-}
-@media(max-width:320px){
-  .emr-btn{padding:4px 9px;font-size:12px}
-}
+.srch-box.open{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.srch-lbl{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.srch-in,.srch-sel{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg);color:var(--txt);font-family:'Cairo',sans-serif;font-size:14px;margin-bottom:12px;outline:none;transition:border-color var(--t)}
+.srch-in:focus,.srch-sel:focus{border-color:var(--p1)}
+.srch-results-title{font-size:13px;font-weight:700;color:var(--muted);padding:4px 0 8px;display:none}
+/* صفحة عن التطبيق */
+.about-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--sh);overflow:hidden;margin-bottom:14px;display:none}
+.about-card.open{display:block}
+.about-header{padding:16px;background:linear-gradient(135deg,var(--p1),var(--a1));color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
+.about-body{padding:16px;font-size:13px;line-height:1.8;color:var(--txt2)}
+.about-body h4{font-size:14px;font-weight:800;color:var(--p1);margin:12px 0 6px}
+.about-body p{margin-bottom:8px}
+.footer{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--sh);padding:20px;text-align:center}
+.footer-dev{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:900;color:var(--gold);background:rgba(245,158,11,.1);padding:5px 16px;border-radius:20px;margin-bottom:14px}
+.footer-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.f-btn{padding:9px 16px;border-radius:18px;text-decoration:none;font-size:12px;font-weight:700;color:#fff;display:inline-flex;align-items:center;gap:6px;min-height:40px;font-family:'Cairo',sans-serif;border:none;cursor:pointer;transition:opacity var(--t),transform var(--t)}
+.f-btn:active{opacity:.85;transform:scale(.96)}
+.f-btn.report{background:linear-gradient(135deg,var(--g1),var(--g2))}
+.f-btn.share{background:linear-gradient(135deg,var(--p1),var(--a1))}
+.f-btn.about{background:linear-gradient(135deg,var(--gold),#d97706)}
+.footer-copy{font-size:11px;color:var(--muted);margin-top:12px}
+.back-top{position:fixed;bottom:90px;left:16px;z-index:500;width:44px;height:44px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--p1),var(--a1));color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(14,165,233,.4);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .2s,transform .2s}
+.back-top.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.pwa-toast{position:fixed;bottom:-220px;left:50%;transform:translateX(-50%);z-index:2000;background:var(--card);color:var(--txt);padding:16px 18px;border-radius:20px;width:calc(100% - 28px);max-width:400px;box-shadow:0 8px 36px rgba(0,0,0,.28);border:1.5px solid var(--p1);display:flex;flex-direction:column;gap:12px;transition:bottom .5s cubic-bezier(.34,1.56,.64,1)}
+.pwa-toast.show{bottom:20px}
+.pwa-body{display:flex;align-items:center;gap:12px}
+.pwa-icon{width:50px;height:50px;border-radius:14px}
+.pwa-txt h4{font-size:14px;font-weight:800}
+.pwa-txt p{font-size:12px;color:var(--muted);line-height:1.4;margin-top:2px}
+.pwa-install{background:var(--p1);color:#fff;border:none;padding:11px;border-radius:12px;font-weight:700;font-family:'Cairo',sans-serif;cursor:pointer;font-size:13px}
+.pwa-close{position:absolute;top:10px;left:12px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
+.offline-bar{display:none;position:fixed;top:var(--emr-h);left:0;right:0;z-index:900;background:#f59e0b;color:#fff;text-align:center;padding:8px;font-size:12px;font-weight:700}
+.offline-bar.show{display:block}
+@media(max-width:360px){.hdr-card h1{font-size:20px}.emr-btn.wa{display:none}}
+@media(min-width:768px){.wrap{margin:20px auto}.hdr-card{padding:36px 28px 48px}}
 </style>
 </head>
 <body>
+<div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
 
-<div class="orbs">
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-</div>
-
-<!-- Sticky Emergency Bar -->
 <div class="emr">
-  <span><span class="pulse">🚨</span> طوارئ الدفاع المدني (داريا)</span>
+  <div class="emr-label"><span class="pulse">🚨</span><span>طوارئ الدفاع المدني — داريا</span></div>
   <div class="emr-btns">
-    <a href="tel:+963965970048" class="emr-btn c"><i class="fa fa-phone"></i> اتصال</a>
-    <a href="https://wa.me/963965970048" target="_blank" class="emr-btn w"><i class="fab fa-whatsapp"></i> واتساب</a>
+    <a href="tel:+963965970048" class="emr-btn call"><i class="fa fa-phone"></i> اتصال</a>
+    <a href="https://wa.me/963965970048" target="_blank" class="emr-btn wa" rel="noopener"><i class="fab fa-whatsapp"></i></a>
   </div>
 </div>
 
-<!-- iOS Install Hint -->
-<div class="ios-toast" id="iosToast">
-  <span class="ios-icon">⬆️</span>
-  لإضافة التطبيق لشاشتك الرئيسية:<br>
-  اضغط <strong>مشاركة</strong> ← <strong>«إضافة إلى الشاشة الرئيسية»</strong>
-  <br><span class="ios-close" onclick="closeIosHint()">فهمت ✓</span>
+<div class="offline-bar" id="offlineBar">⚠️ أنت غير متصل — يعرض البيانات المحفوظة</div>
+<div class="copy-toast" id="copyToast">✅ تم نسخ المعلومات</div>
+
+<div class="pwa-toast" id="pwaToast">
+  <button class="pwa-close" onclick="closePwa()">×</button>
+  <div class="pwa-body">
+    <svg class="pwa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="50" fill="#0ea5e9"/>
+      <path d="M62 28a24 24 0 1 0 0 44 20 20 0 1 1 0-44z" fill="white"/>
+      <circle cx="70" cy="30" r="4" fill="white"/>
+      <circle cx="76" cy="38" r="2.5" fill="white"/>
+    </svg>
+    <div class="pwa-txt">
+      <h4>ثبّت تطبيق صيدليات داريا</h4>
+      <p>وصول سريع للجدول بدون نت — يعمل كأي تطبيق جوال</p>
+    </div>
+  </div>
+  <button class="pwa-install" onclick="installPwa()"><i class="fa fa-download"></i> إضافة إلى الشاشة الرئيسية</button>
 </div>
 
-<!-- Back to Top -->
-<button class="back-top" id="backTop" onclick="scrollToTop()" title="للأعلى">
-  <i class="fa fa-chevron-up"></i>
-</button>
+<button class="back-top" id="backTop" onclick="scrollToTop()"><i class="fa fa-chevron-up"></i></button>
 
 <div class="wrap">
-  <div class="card">
-    <div class="hdr">
-      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()"><i class="fa fa-moon"></i></button>
-      <div class="hdr-inner">
-        <div class="hdr-pill"><i class="fa fa-map-marker-alt"></i> مدينة داريا</div>
-        <!-- SVG Medical Shield -->
-        <div class="hdr-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-               stroke="rgba(255,255,255,0.95)" stroke-width="1.4"
-               stroke-linecap="round" stroke-linejoin="round" width="52" height="52">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <line x1="12" y1="9" x2="12" y2="15"/>
-            <line x1="9"  y1="12" x2="15" y2="12"/>
-          </svg>
-        </div>
-        <h1>صيدليات داريا</h1>
-        <p class="sub">نظام المناوبة الذكي</p>
-        <div class="date-badge">
-          <i class="fa fa-calendar-day"></i>
-          <span id="dayName" class="day-name"></span>
-          <span id="dateStr">جاري التحميل...</span>
-        </div>
-        <!-- 2AM continuity label -->
-        <div class="late-hint" id="lateHint">( متابعة لمناوبة ليلة أمس )</div>
+  <div class="hdr-card">
+    <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()"><i class="fa fa-moon"></i></button>
+    <div class="hdr-inner">
+      <div class="hdr-tag"><i class="fa fa-map-marker-alt"></i> مدينة داريا</div>
+      <div class="hdr-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="70" height="70">
+          <path d="M52 18a26 26 0 1 0 0 44 22 22 0 1 1 0-44z" fill="rgba(255,255,255,0.95)"/>
+          <circle cx="60" cy="20" r="5" fill="rgba(255,255,255,0.95)"/>
+          <circle cx="67" cy="30" r="3" fill="rgba(255,255,255,0.95)"/>
+        </svg>
       </div>
+      <h1>صيدليات داريا</h1>
+      <p class="hdr-sub">نظام المناوبة الذكي</p>
+      <div class="date-pill">
+        <i class="fa fa-calendar-day"></i>
+        <span id="dayTxt" class="day-txt"></span>
+        <span id="dateTxt">جاري التحميل...</span>
+      </div>
+      <div class="late-note" id="lateNote">( متابعة لمناوبة ليلة أمس )</div>
     </div>
+  </div>
 
+  <div class="main-card">
     <div class="sec-title">
-      <i class="fa fa-clock ic"></i>
-      <span>مناوبة اليوم</span>
-      <span class="live-badge"><span class="live-dot"></span>مباشر</span>
+      <i class="fa fa-clock"></i><span>مناوبة اليوم</span>
+      <span class="live-chip"><span class="live-dot"></span> مباشر</span>
     </div>
-    <div id="todayList"></div>
-
+    <div class="update-bar" id="updateBar"><span class="update-dot"></span><span id="updateMsg"></span></div>
+    <div id="todayList">
+      <div class="skeleton"><div class="skel-line w60"></div><div class="skel-line w80"></div><div class="skel-line h40"></div></div>
+      <div class="skeleton"><div class="skel-line w60"></div><div class="skel-line w80"></div><div class="skel-line h40"></div></div>
+    </div>
     <div class="action-grp">
-      <button class="main-btn btn-shr" onclick="shareToday()"><i class="fab fa-whatsapp"></i> شارك مناوبة اليوم</button>
-      <button class="main-btn btn-srch" onclick="toggleSearch()"><i class="fa fa-search"></i> محرك البحث والجدول الشهري</button>
+      <div class="share-row">
+        <button class="main-btn btn-share" onclick="shareToday()"><i class="fab fa-whatsapp"></i> شارك مناوبة اليوم</button>
+        <button class="btn-copy" onclick="copyToday()" title="نسخ النص"><i class="fa fa-copy"></i></button>
+      </div>
+      <button class="main-btn btn-search" onclick="toggleSearch()"><i class="fa fa-search"></i> البحث والجدول الشهري</button>
     </div>
-
     <div class="srch-box" id="srchBox">
-      <div class="divider" style="margin:0 0 16px"></div>
       <div class="srch-lbl"><i class="fa fa-search"></i> ابحث باسم الصيدلية أو العنوان:</div>
-      <input type="text" class="srch-in" id="nameInput"
-             oninput="searchByName()"
-             placeholder="مثلاً: روضة، علي، ثورة، كورنيش...">
-      <div class="srch-lbl"><i class="fa fa-calendar"></i> أو اختر يوماً من جدول الشهر:</div>
+      <input type="text" class="srch-in" id="nameInput" oninput="searchByName()" placeholder="مثلاً: روضة، الأيوبي، شارع الثورة...">
+      <div class="srch-lbl"><i class="fa fa-calendar"></i> اختر يوماً من الجدول:</div>
       <select class="srch-sel" id="dateSelect" onchange="searchByDate()"></select>
+      <div class="srch-results-title" id="srchTitle"></div>
       <div id="srchResults"></div>
     </div>
   </div>
 
-  <div class="footer">
-    <div class="footer-martyr">🕊️</div>
-    <div class="footer-dedication">إهداءً لأرواح شهداء مدينة داريا</div>
-    <div class="footer-desc">عمل تطوعي لخدمة أهلنا وتسهيل وصولهم للدواء</div>
-    <div class="footer-name"><i class="fa fa-star" style="font-size:11px"></i> Yaser Jamal Al-Deen</div>
-    <div class="footer-btns">
-      <a href="https://wa.me/963994383846" class="f-btn rpt"><i class="fab fa-whatsapp"></i> إبلاغ عن خطأ</a>
-      <button class="f-btn shr" onclick="shareSite()"><i class="fa fa-share-alt"></i> شارك الموقع</button>
+  <!-- صفحة عن التطبيق -->
+  <div class="about-card" id="aboutCard">
+    <div class="about-header"><i class="fa fa-info-circle"></i> عن التطبيق</div>
+    <div class="about-body">
+      <h4>🌙 ما هو هذا التطبيق؟</h4>
+      <p>نظام ذكي لعرض جدول مناوبة صيدليات مدينة داريا — يعمل على جميع الأجهزة بدون إنترنت.</p>
+      <h4>📅 كيف يعمل النظام؟</h4>
+      <p>• أيام الأسبوع العادية: صيدليتان مناوبتان يومياً</p>
+      <p>• يوم الجمعة: 10 صيدليات تعمل طوال اليوم</p>
+      <p>• يوم الأحد: 16 صيدلية تعمل طوال اليوم</p>
+      <h4>⏰ ساعات المناوبة</h4>
+      <p>تبدأ المناوبة الساعة 10 مساءً وتنتهي الساعة 1 بعد منتصف الليل</p>
+      <h4>🔄 التحديث الشهري</h4>
+      <p>يتم تحديث الجدول شهرياً من قِبَل المكتب الإعلامي لمدينة داريا</p>
+      <h4>📞 التواصل</h4>
+      <p>للإبلاغ عن أخطاء أو اقتراحات: تواصل عبر واتساب من خلال زر "إبلاغ عن خطأ" أدناه</p>
     </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-dev"><i class="fa fa-code"></i> Yaser Jamal Al-Deen</div>
+    <div class="footer-btns">
+      <a href="https://wa.me/963994383846" class="f-btn report" rel="noopener"><i class="fab fa-whatsapp"></i> إبلاغ عن خطأ</a>
+      <button class="f-btn share" onclick="shareSite()"><i class="fa fa-share-alt"></i> شارك الموقع</button>
+      <button class="f-btn about" onclick="toggleAbout()"><i class="fa fa-info-circle"></i> عن التطبيق</button>
+    </div>
+    <div class="footer-copy">المكتب الإعلامي لمدينة داريا © 2026</div>
   </div>
 </div>
 
-<!-- Hidden visitor counter -->
-<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=pharmacy-darayya.vercel.app" style="display:none" alt="">
-
-<!-- Vercel Analytics -->
-<script defer src="/_vercel/insights/script.js"></script>
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=pharmacy-darayya.vercel.app" style="display:none" alt="" loading="lazy">
 
 <script>
-// ╔════════════════════════════════════════════════╗
-// ║  ⚙️  إعدادات الشهر — غيّرها كل شهر فقط       ║
-// ╚════════════════════════════════════════════════╝
-const YEAR  = 2026;
-const MONTH = 4; // 1=كانون ثاني .. 4=نيسان .. 5=أيار
+/*
+ * ©2026 Yaser Jamal Al-Deen — المكتب الإعلامي لمدينة داريا
+ * صيدليات داريا — نظام المناوبة الذكي v5.0
+ * جميع الحقوق محفوظة. يُمنع نسخ أو إعادة نشر هذا النظام دون إذن صريح.
+ */
 
-// ── جدول المناوبة ──────────────────────────────
-const SCHEDULE = {
-  1:  ["روضة عبود",        "فايز كحلوس"],
-  2:  ["علي الأحمر",       "هنادي محمد"],
-  4:  ["فراس",             "الرضوان"],
-  6:  ["وعد أبو بكر",      "خلود العزب"],
-  7:  ["محمود خولاني",     "محمود المنيع"],
-  8:  ["محمد السعدي",      "باري أبو زيدان"],
-  9:  ["محمد تيسير معاني","سيف الدين حافظ"],
-  11: ["الأيوبي",          "هند زرقة"],
-  13: ["غسان عزيزية",      "خالد أبو حلمي"],
-  14: ["عدنان نجبية",      "روضة عبود"],
-  15: ["فايز كحلوس",       "علي الأحمر"],
-  16: ["هنادي محمد",       "وعد أبو بكر"],
-  18: ["محمود خولاني",     "خلود العزب"],
-  20: ["فراس",             "الرضوان"],
-  21: ["محمد السعدي",      "باري أبو زيدان"],
-  22: ["هند زرقة",         "محمود المنيع"],
-  23: ["محمد تيسير معاني","عدنان نجبية"],
-  25: ["الأيوبي",          "سيف الدين حافظ"],
-  27: ["غسان عزيزية",      "خالد أبو حلمي"],
-  28: ["روضة عبود",        "فايز كحلوس"],
-  29: ["علي الأحمر",       "هنادي محمد"],
-  30: ["فراس",             "الرضوان"]
+/* ══════════════════════════════════════════════
+   ⚙️ روابط Google Sheets
+   لتحديث الشهر الجديد: فقط حدّث ورقة schedule
+   ولا تلمس أي شيء آخر بالكود!
+══════════════════════════════════════════════ */
+const SHEETS = {
+  pharmacies: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9EAjxi3jPTEdHt5wqkfumi3SshJj3bRBjAnNT2F2jU_kEYFny6zbNR1oSaL_G9tnrgKUAgDbFI6Gs/pub?gid=335110835&single=true&output=csv',
+  schedule:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9EAjxi3jPTEdHt5wqkfumi3SshJj3bRBjAnNT2F2jU_kEYFny6zbNR1oSaL_G9tnrgKUAgDbFI6Gs/pub?gid=2141998765&single=true&output=csv'
 };
 
-// ── فريق الجمعة الثابت ─────────────────────────
-const FRIDAY = ["فراس","دعاء","داريا النموذجية","محمد السعدي",
-                "هلا الحوراني","إسراء سيلة","باري أبو زيدان",
-                "سهام كساح","الشربجي","محمود المنيع"];
-
-// ── قاعدة بيانات الصيدليات ─────────────────────
-const DB = {
-  "علي الأحمر":         {addr:"شارع الثورة - قبل جامع العباس",                     ph:"",map:""},
-  "غسان عزيزية":        {addr:"شارع الثورة - قرب ماركت البيان",                    ph:"",map:""},
-  "فراس":               {addr:"شارع الثورة - مقابل المحمصة",                       ph:"",map:""},
-  "الرضوان":            {addr:"شارع الشهداء - قرب جامع طه",                        ph:"",map:""},
-  "روضة عبود":          {addr:"شارع الوحدة - مقابل طاحونة حنا",                   ph:"",map:""},
-  "فايز كحلوس":         {addr:"ساحة الحرية - مقابل المخفر",                       ph:"",map:""},
-  "هنادي محمد":         {addr:"طريق المعضمية - مقابل محلات الوزير",               ph:"",map:""},
-  "وعد أبو بكر":        {addr:"آخر شارع الثورة - مقابل الكنيسة",                  ph:"",map:""},
-  "محمود خولاني":       {addr:"ساحة الأوقاف - شارع الثانوية الشرعية",             ph:"",map:""},
-  "خلود العزب":         {addr:"طريق المعضمية - بناء العزب",                       ph:"",map:""},
-  "محمد السعدي":        {addr:"موقف النكاشات - بناء السعدي",                      ph:"",map:""},
-  "باري أبو زيدان":     {addr:"مقابل المستوصف تماماً",                            ph:"",map:""},
-  "هند زرقة":           {addr:"شارع الوحدة - قرب جامع المصطفى",                  ph:"",map:""},
-  "محمود المنيع":       {addr:"طريق المعضمية - بجانب المركز الثقافي",            ph:"",map:""},
-  "محمد تيسير معاني":   {addr:"شارع الثورة - مفرق فريد اللحام",                  ph:"",map:""},
-  "عدنان نجبية":        {addr:"الشاميات - بناء المغربي",                          ph:"",map:""},
-  "الأيوبي":            {addr:"شارع الثورة - مقابل الطابو",                       ph:"",map:""},
-  "سيف الدين حافظ":     {addr:"شارع الشهداء - خلف مشفى الرضوان",                 ph:"",map:""},
-  "خالد أبو حلمي":      {addr:"شارع الشهداء - مقابل مغسل الخولاني",              ph:"",map:""},
-  "دعاء":               {addr:"أول طريق المعضمية",                                ph:"",map:""},
-  "داريا النموذجية":    {addr:"مقابل الثانوية الشرعية",                            ph:"",map:""},
-  "هلا الحوراني":       {addr:"شارع الثورة - مقابل ماركت النور",                  ph:"",map:""},
-  "إسراء سيلة":         {addr:"طريق المعضمية - مقابل مفرق الخولاني",              ph:"",map:""},
-  "سهام كساح":          {addr:"الكورنيش - مقابل الكاريدور",                       ph:"",map:""},
-  "الشربجي":            {addr:"ساحة شريدي",                                       ph:"",map:""}
-};
-
-// ── ثوابت ──────────────────────────────────────
+const SITE = "https://pharmacy-darayya.vercel.app";
 const DAYS   = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const MONTHS = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
-const SITE   = "https://pharmacy-darayya.vercel.app";
-const EMOJIS = ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"];
 
-// ══════════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════════
+// البيانات في الذاكرة
+let DB = [];       // الصيدليات
+let SCHED = {};    // جدول الشهر { "2/5": ["p1","p2"], ... }
+let FRIDAY = [];   // قائمة الجمعة
+let SUNDAY = [];   // قائمة الأحد
 
-// Super Fuzzy Arabic Normalizer
-function norm(s){
-  return s
-    .replace(/[أإآاٱ]/g,'ا')
-    .replace(/[ةه]/g,'ه')
-    .replace(/[يىئ]/g,'ي')
-    .replace(/[ؤ]/g,'و')
-    .replace(/\s+/g,' ')
-    .trim().toLowerCase();
+/* ══════════════════════════════════════════════
+   📡 جلب البيانات من Sheets (سريع جداً مع cache)
+══════════════════════════════════════════════ */
+function parseCSV(txt) {
+  return txt.trim().split('\n').slice(1)
+    .map(r => r.split(',').map(c => c.trim().replace(/^"|"$/g,'')))
+    .filter(r => r[0]);
 }
 
-// Effective date — with 2AM night-shift rule
-function effectiveDate(){
-  const n=new Date();
-  const isLateNight = n.getHours() < 2;
-  if(isLateNight) n.setDate(n.getDate()-1);
-  return {date: n, isLateNight};
-}
+async function fetchSheets() {
+  try {
+    // جلب الورقتين بالتوازي — أسرع بكثير من الواحدة تلو الأخرى
+    const [r1, r2] = await Promise.all([
+      fetch(SHEETS.pharmacies, {cache:'no-cache'}),
+      fetch(SHEETS.schedule,   {cache:'no-cache'})
+    ]);
+    if (!r1.ok || !r2.ok) return false;
 
-function getDuty(d,m,y){
-  const dt=new Date(y,m-1,d), dow=dt.getDay();
-  if(dow===5) return FRIDAY.slice();
-  if(dow===0) return Object.keys(DB).filter(n=>!FRIDAY.includes(n));
-  return (SCHEDULE[d]||[]).slice();
-}
+    const [csv1, csv2] = await Promise.all([r1.text(), r2.text()]);
 
-// Card builder — Call/Map only if data exists
-function card(name, days=null, delay=0){
-  const info=DB[name]||{addr:"راجع الجدول الورقي",ph:"",map:""};
-  const btns=(info.ph||info.map)?`<div class="ph-actions">
-    ${info.ph?`<a href="tel:${info.ph}" class="ph-btn call"><i class="fa fa-phone"></i> اتصال</a>`:''}
-    ${info.map?`<a href="${info.map}" target="_blank" class="ph-btn map"><i class="fa fa-map-marker-alt"></i> خريطة</a>`:''}
-  </div>`:'';
-  const sched=days&&days.length?`<div class="sched-tags">
-    <div class="sched-label"><i class="fa fa-calendar-check"></i> مناوبات الشهر (${days.length}):</div>
-    <div class="sched-wrap">${days.sort((a,b)=>a-b).map(d=>`<span class="sched-tag">يوم ${d}</span>`).join('')}</div>
-  </div>`:'';
-  return `<div class="ph-card" style="animation-delay:${delay}ms">
-    <div class="ph-name"><i class="fa fa-clinic-medical"></i> ${name}</div>
-    <div class="ph-addr"><i class="fa fa-map-pin"></i> ${info.addr}</div>
-    ${sched}${btns}
-  </div>`;
-}
+    // parse pharmacies
+    const parsed = parseCSV(csv1).map(c => ({
+      name:    c[0], address: c[1],
+      lat:     parseFloat(c[2]), lng: parseFloat(c[3]),
+      groups:  c[4] ? c[4].split('|') : ['night']
+    })).filter(p => p.name && !isNaN(p.lat));
 
-function empty(msg){return`<div class="empty"><i class="fa fa-search"></i><p>${msg}</p></div>`;}
+    // parse schedule
+    const sched = {};
+    parseCSV(csv2).forEach(c => {
+      if(c[0]) sched[c[0].trim()] = [c[1]||'', c[2]||''];
+    });
 
-// ══════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════
-function init(){
-  const {date:eff, isLateNight} = effectiveDate();
-  const d=eff.getDate(), m=eff.getMonth(), y=eff.getFullYear();
+    if (parsed.length > 0) {
+      DB     = parsed;
+      SCHED  = sched;
+      FRIDAY = DB.filter(p => p.groups.includes('friday') && !p.groups.includes('night')).map(p=>p.name);
+      // أضف أيضاً من night|friday
+      DB.filter(p => p.groups.includes('friday') && p.groups.includes('night')).forEach(p => {
+        if(!FRIDAY.includes(p.name)) FRIDAY.push(p.name);
+      });
+      SUNDAY = DB.filter(p => !FRIDAY.includes(p.name)).map(p => p.name);
 
-  document.getElementById('dayName').textContent = DAYS[eff.getDay()]+' ';
-  document.getElementById('dateStr').textContent  = `${d} ${MONTHS[m]} ${y}`;
-
-  // Show 2AM continuity hint
-  if(isLateNight){
-    document.getElementById('lateHint').style.display = 'block';
-  }
-
-  const list=document.getElementById('todayList');
-  if(m+1!==MONTH||y!==YEAR){
-    list.innerHTML=`<div class="empty"><i class="fa fa-info-circle"></i>
-      <p>هذا النظام محدث لشهر ${MONTHS[MONTH-1]} ${YEAR} فقط.</p></div>`;
-  } else {
-    const duty=getDuty(d,MONTH,YEAR);
-    if(!duty.length){
-      list.innerHTML=empty('لا توجد بيانات مناوبة لهذا اليوم.');
-    } else {
-      const sun=eff.getDay()===0
-        ?`<div class="sun-badge"><i class="fa fa-store"></i> يوم الأحد المفتوح — تعمل ${duty.length} صيدلية</div>`:'';
-      list.innerHTML=sun+duty.map((n,i)=>card(n,null,i*55)).join('');
+      // حفظ بالكاش
+      localStorage.setItem('ph_db',   JSON.stringify({data:DB, ts:Date.now()}));
+      localStorage.setItem('ph_sched',JSON.stringify({data:SCHED, ts:Date.now()}));
+      showBar('✅ تم تحديث البيانات');
+      return true;
     }
+  } catch(e) {}
+  return false;
+}
+
+function loadCache() {
+  try {
+    const d1 = localStorage.getItem('ph_db');
+    const d2 = localStorage.getItem('ph_sched');
+    if (!d1||!d2) return false;
+    const {data:db, ts:t1} = JSON.parse(d1);
+    const {data:sc, ts:t2} = JSON.parse(d2);
+    if (db?.length && Date.now()-t1 < 7*86400000) {
+      DB    = db; SCHED = sc;
+      FRIDAY = DB.filter(p => p.groups.includes('friday') && !p.groups.includes('night')).map(p=>p.name);
+      DB.filter(p => p.groups.includes('friday') && p.groups.includes('night')).forEach(p => {
+        if(!FRIDAY.includes(p.name)) FRIDAY.push(p.name);
+      });
+      SUNDAY = DB.filter(p => !FRIDAY.includes(p.name)).map(p => p.name);
+      showBar(`📦 بيانات محفوظة (${new Date(t1).toLocaleDateString('ar')})`);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+/* ══════════════════════════════════════════════
+   📅 جلب المناوبة من الجدول
+══════════════════════════════════════════════ */
+function getDuty(d) {
+  const dow = d.getDay();
+  const key = `${d.getDate()}/${d.getMonth()+1}`;
+
+  // تحقق من الجدول أولاً
+  if (SCHED[key]) {
+    const [p1, p2] = SCHED[key];
+    if (p1 === 'FRIDAY') return {type:'friday', names: FRIDAY};
+    if (p1 === 'SUNDAY') return {type:'sunday', names: SUNDAY};
+    return {type:'normal', names: [p1, p2].filter(Boolean)};
   }
 
-  // Date dropdown
-  const sel=document.getElementById('dateSelect');
-  const total=new Date(YEAR,MONTH,0).getDate();
-  sel.innerHTML='<option value="">— اختر يوماً —</option>';
-  for(let i=1;i<=total;i++){
-    const dt2=new Date(YEAR,MONTH-1,i), dow=dt2.getDay();
-    const pre=dow===5?'🟢 الجمعة | ':dow===0?'🔵 الأحد | ':'';
-    const o=document.createElement('option');
-    o.value=i; o.textContent=`${pre}${DAYS[dow]} ${i} ${MONTHS[MONTH-1]}`;
-    if(i===d) o.selected=true;
-    sel.appendChild(o);
+  // fallback حسب اليوم
+  if (dow === 5) return {type:'friday', names: FRIDAY};
+  if (dow === 0) return {type:'sunday', names: SUNDAY};
+  return {type:'normal', names: []};
+}
+
+/* ══════════════════════════════════════════════
+   🃏 بناء بطاقة الصيدلية — دائرة • بدل الصليب
+══════════════════════════════════════════════ */
+function card(name, delay=0) {
+  const p = DB.find(x => x.name === name);
+  if (!p) return `<div class="ph-card" style="animation-delay:${delay}ms">
+    <div class="ph-name"><span class="ph-dot"></span> ${name}</div>
+    <div class="ph-addr"><i class="fa fa-map-pin"></i> غير محدد</div>
+  </div>`;
+  const gMaps = `https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`;
+  return `<div class="ph-card" style="animation-delay:${delay}ms">
+  <div class="ph-name"><span class="ph-dot"></span> ${p.name}</div>
+  <div class="ph-addr"><i class="fa fa-map-pin"></i> ${p.address}</div>
+  <div class="ph-actions">
+    <a href="${gMaps}" target="_blank" class="ph-btn map" rel="noopener noreferrer">
+      <i class="fa fa-map-marker-alt"></i> افتح في الخريطة
+    </a>
+  </div>
+</div>`;
+}
+
+function norm(s){return s.replace(/[أإآاٱ]/g,'ا').replace(/[ةه]/g,'ه').replace(/[يىئ]/g,'ي').replace(/ؤ/g,'و').replace(/\s+/g,' ').trim().toLowerCase()}
+
+function showBar(msg){
+  const b=document.getElementById('updateBar');
+  document.getElementById('updateMsg').textContent=msg;
+  b.classList.add('show');
+  setTimeout(()=>b.classList.remove('show'),5000);
+}
+
+/* ══════════════════════════════════════════════
+   🚀 التهيئة
+══════════════════════════════════════════════ */
+async function init() {
+  const now=new Date(), isLate=now.getHours()<2, eff=new Date(now);
+  if(isLate){eff.setDate(eff.getDate()-1);document.getElementById('lateNote').style.display='block';}
+  document.getElementById('dayTxt').textContent  = DAYS[eff.getDay()]+' ';
+  document.getElementById('dateTxt').textContent = `${eff.getDate()} ${MONTHS[eff.getMonth()]} ${eff.getFullYear()}`;
+
+  // الكاش أولاً للسرعة، ثم Sheets بالخلفية
+  const cached = loadCache();
+  if (cached) {
+    renderToday(eff);
+    buildSelect(eff);
+  }
+
+  // جلب من Sheets (في الخلفية إذا كان كاش موجود)
+  if (navigator.onLine) {
+    const updated = await fetchSheets();
+    if (updated) { renderToday(eff); buildSelect(eff); }
+  }
+
+  if (!cached && !navigator.onLine) {
+    document.getElementById('todayList').innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">⚠️ لا يوجد اتصال بالإنترنت ولا بيانات محفوظة</div>';
   }
 
   applyTheme();
-  checkIOSHint();
-  localStorage.setItem('ph_visits',(parseInt(localStorage.getItem('ph_visits')||0)+1)+'');
+  handleDeepLink(eff);
 }
 
-// ══════════════════════════════════════════════════
-//  SEARCH  — conflict resolution
-// ══════════════════════════════════════════════════
-function toggleSearch(){document.getElementById('srchBox').classList.toggle('on');}
+function renderToday(eff) {
+  const {type, names} = getDuty(eff);
+  let html = '';
+  if (type==='friday') html = `<div class="fri-badge">🕌 يوم الجمعة — تعمل ${names.length} صيدلية</div>`;
+  if (type==='sunday') html = `<div class="sun-badge">🌟 يوم الأحد المفتوح — تعمل ${names.length} صيدلية</div>`;
+  html += names.map((n,i) => card(n, i*60)).join('');
+  document.getElementById('todayList').innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--muted)">لا توجد بيانات لهذا اليوم</div>';
+}
 
-function searchByName(){
-  document.getElementById('dateSelect').value=''; // reset dropdown
+function buildSelect(eff) {
+  const sel = document.getElementById('dateSelect');
+  sel.innerHTML = '<option value="">— اختر يوماً —</option>';
+  // أضف الأيام الموجودة بالجدول + 30 يوم قادم
+  const keys = Object.keys(SCHED).sort((a,b)=>{
+    const [d1,m1]=a.split('/').map(Number);
+    const [d2,m2]=b.split('/').map(Number);
+    return (m1*100+d1)-(m2*100+d2);
+  });
+  keys.forEach(k => {
+    const [d,m] = k.split('/').map(Number);
+    const dt = new Date(2026, m-1, d);
+    const o = document.createElement('option');
+    o.value = dt.getTime();
+    o.textContent = `${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}`;
+    sel.appendChild(o);
+  });
+}
+
+/* ══════════════════════════════════════════════
+   🔗 رابط يوم محدد (Deep Link)
+   مثال: ?date=7/5
+══════════════════════════════════════════════ */
+function handleDeepLink(eff) {
+  const params = new URLSearchParams(window.location.search);
+  const dateParam = params.get('date');
+  if (!dateParam) return;
+  const [d,m] = dateParam.split('/').map(Number);
+  if (!d||!m) return;
+  const dt = new Date(2026, m-1, d);
+  // افتح البحث واعرض اليوم المطلوب
+  document.getElementById('srchBox').classList.add('open');
+  const ttl = document.getElementById('srchTitle');
+  const res = document.getElementById('srchResults');
+  const {type, names} = getDuty(dt);
+  let badge = '';
+  if(type==='friday') badge=`<div class="fri-badge">🕌 يوم الجمعة — تعمل ${names.length} صيدلية</div>`;
+  if(type==='sunday') badge=`<div class="sun-badge">🌟 يوم الأحد المفتوح — تعمل ${names.length} صيدلية</div>`;
+  ttl.style.display='block';
+  ttl.textContent=`مناوبة ${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}:`;
+  res.innerHTML = badge + names.map((n,i)=>card(n,i*50)).join('');
+}
+
+/* ══════════════════════════════════════════════
+   🔍 البحث
+══════════════════════════════════════════════ */
+function searchByName() {
   const q=norm(document.getElementById('nameInput').value);
-  const res=document.getElementById('srchResults');
-  if(!q){res.innerHTML='';return;}
-  const total=new Date(YEAR,MONTH,0).getDate();
-  const found={};
-  Object.keys(DB).forEach(n=>{if(norm(n).includes(q)||norm(DB[n].addr).includes(q)) found[n]=[];});
-  for(let d=1;d<=total;d++) getDuty(d,MONTH,YEAR).forEach(n=>{if(found[n]&&!found[n].includes(d)) found[n].push(d);});
-  if(!Object.keys(found).length){res.innerHTML=empty(`لا نتائج لـ "${document.getElementById('nameInput').value}"`);return;}
-  res.innerHTML=Object.keys(found).map((n,i)=>card(n,found[n],i*55)).join('');
+  const res=document.getElementById('srchResults'),ttl=document.getElementById('srchTitle');
+  document.getElementById('dateSelect').selectedIndex=0;
+  if(!q){res.innerHTML='';ttl.style.display='none';return;}
+  const found=DB.filter(p=>norm(p.name).includes(q)||norm(p.address).includes(q));
+  ttl.style.display='block';
+  ttl.textContent=found.length?`نتائج البحث (${found.length}):` :'لا توجد نتائج';
+  res.innerHTML=found.map((p,i)=>card(p.name,i*50)).join('');
 }
 
-function searchByDate(){
-  document.getElementById('nameInput').value=''; // clear text
-  const d=parseInt(document.getElementById('dateSelect').value);
-  const res=document.getElementById('srchResults');
-  if(!d){res.innerHTML='';return;}
-  const duty=getDuty(d,MONTH,YEAR);
-  const dt=new Date(YEAR,MONTH-1,d);
-  const sun=dt.getDay()===0?`<div class="sun-badge"><i class="fa fa-store"></i> الأحد المفتوح — ${duty.length} صيدلية</div>`:'';
-  res.innerHTML=duty.length?sun+duty.map((n,i)=>card(n,null,i*55)).join(''):empty('لا توجد بيانات لهذا اليوم.');
+function searchByDate() {
+  const ts=document.getElementById('dateSelect').value;
+  const res=document.getElementById('srchResults'),ttl=document.getElementById('srchTitle');
+  document.getElementById('nameInput').value='';
+  if(!ts){res.innerHTML='';ttl.style.display='none';return;}
+  const dt=new Date(parseInt(ts));
+  const {type,names}=getDuty(dt);
+  let badge='';
+  if(type==='friday') badge=`<div class="fri-badge">🕌 يوم الجمعة — تعمل ${names.length} صيدلية</div>`;
+  if(type==='sunday') badge=`<div class="sun-badge">🌟 يوم الأحد المفتوح — تعمل ${names.length} صيدلية</div>`;
+  ttl.style.display='block';
+  ttl.textContent=`مناوبة ${DAYS[dt.getDay()]} ${dt.getDate()} ${MONTHS[dt.getMonth()]}:`;
+  res.innerHTML=badge+names.map((n,i)=>card(n,i*50)).join('');
+
+  // تحديث الرابط لمشاركة يوم محدد
+  const newUrl = `${window.location.pathname}?date=${dt.getDate()}/${dt.getMonth()+1}`;
+  window.history.replaceState({}, '', newUrl);
 }
 
-// ══════════════════════════════════════════════════
-//  THEME  — instant toggle on <html>, no time check
-// ══════════════════════════════════════════════════
+function toggleSearch(){document.getElementById('srchBox').classList.toggle('open')}
+function toggleAbout(){document.getElementById('aboutCard').classList.toggle('open');document.getElementById('aboutCard').scrollIntoView({behavior:'smooth',block:'nearest'})}
+
+/* ══════════════════════════════════════════════
+   🌙 الثيم
+══════════════════════════════════════════════ */
+function toggleTheme(){
+  const d=document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme',d?'dark':'light');
+  document.getElementById('themeBtn').querySelector('i').className=d?'fa fa-sun':'fa fa-moon';
+}
 function applyTheme(){
-  // On load: check saved preference, else auto-dark after 7pm
-  const saved=localStorage.getItem('theme');
-  const dark=saved?saved==='dark':(new Date().getHours()>=19||new Date().getHours()<6);
+  const s=localStorage.getItem('theme'),h=new Date().getHours();
+  const dark=s?s==='dark':(h>=19||h<6);
   document.documentElement.classList.toggle('dark',dark);
   document.getElementById('themeBtn').querySelector('i').className=dark?'fa fa-sun':'fa fa-moon';
 }
 
-function toggleTheme(){
-  const on=document.documentElement.classList.toggle('dark');
-  document.getElementById('themeBtn').querySelector('i').className=on?'fa fa-sun':'fa fa-moon';
-  localStorage.setItem('theme',on?'dark':'light');
+/* ══════════════════════════════════════════════
+   📤 المشاركة
+══════════════════════════════════════════════ */
+function buildShareText(date) {
+  const {type,names} = getDuty(date);
+  let txt = `🌙 *صيدليات داريا المناوبة*\n🗓️ ${DAYS[date.getDay()]} ${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}\n`;
+  if(type==='friday') txt+=`🕌 يوم الجمعة — ${names.length} صيدليات\n`;
+  if(type==='sunday') txt+=`🌟 يوم الأحد المفتوح — ${names.length} صيدلية\n`;
+  txt += `${'─'.repeat(26)}\n\n`;
+  names.forEach((name,i)=>{
+    const p=DB.find(x=>x.name===name);
+    txt+=`${i+1}. • *${name}*\n📍 ${p?p.address:'غير محدد'}\n\n`;
+  });
+  txt+=`${'─'.repeat(26)}\n🌐 ${SITE}`;
+  return txt;
 }
 
-// ══════════════════════════════════════════════════
-//  BACK TO TOP
-// ══════════════════════════════════════════════════
-window.addEventListener('scroll',()=>{
-  document.getElementById('backTop').classList.toggle('visible',window.scrollY>200);
-},{passive:true});
-
-function scrollToTop(){
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// ══════════════════════════════════════════════════
-//  iOS HINT
-// ══════════════════════════════════════════════════
-function checkIOSHint(){
-  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isSaf=/safari/i.test(navigator.userAgent)&&!/chrome|crios|fxios/i.test(navigator.userAgent);
-  const alone=window.navigator.standalone;
-  const shown=localStorage.getItem('ios_hint');
-  if(isIOS&&isSaf&&!alone&&!shown){
-    setTimeout(()=>document.getElementById('iosToast').classList.add('show'),3000);
-    localStorage.setItem('ios_hint','1');
-  }
-}
-function closeIosHint(){document.getElementById('iosToast').classList.remove('show');}
-
-// ══════════════════════════════════════════════════
-//  SHARING  — clean, no markdown asterisks
-// ══════════════════════════════════════════════════
 async function shareToday(){
-  const {date:eff}=effectiveDate(), d=eff.getDate();
-  const duty=getDuty(d,MONTH,YEAR);
-  let t=`💊 الصيدليات المناوبة في داريا\n`;
-  t+=`🗓️ ${DAYS[eff.getDay()]} ${d} ${MONTHS[MONTH-1]} ${YEAR}\n`;
-  t+=`${'━'.repeat(26)}\n\n`;
-  duty.forEach((n,i)=>{
-    const info=DB[n]||{};
-    t+=`${EMOJIS[i]||`${i+1}.`} ${n}\n`;
-    if(info.addr) t+=`   📍 ${info.addr}\n`;
-    t+='\n';
-  });
-  t+=`${'━'.repeat(26)}\n🌐 ${SITE}`;
-  await doShare('الصيدليات المناوبة - داريا',t.trim());
+  const now=new Date(); if(now.getHours()<2)now.setDate(now.getDate()-1);
+  const txt=buildShareText(now);
+  if(navigator.share){try{await navigator.share({title:'مناوبة اليوم',text:txt});}catch(e){}}
+  else window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`);
 }
 
-async function shareSite(){
-  await doShare('صيدليات داريا',
-    `📱 تطبيق صيدليات داريا الذكي\nابحث بسهولة عن الصيدلية المناوبة في مدينة داريا\n\n🔗 ${SITE}`);
+async function copyToday(){
+  const now=new Date(); if(now.getHours()<2)now.setDate(now.getDate()-1);
+  const txt=buildShareText(now);
+  try{await navigator.clipboard.writeText(txt);}
+  catch(e){const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+  const t=document.getElementById('copyToast');
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-async function doShare(title,text){
-  if(navigator.share){try{await navigator.share({title,text});}catch(e){wb(text);}}
-  else{wb(text);}
+function shareSite(){
+  const txt=`🌙 تطبيق صيدليات داريا الذكي\nاعرف الصيدلية المناوبة في أي وقت 💊\n\n${SITE}`;
+  if(navigator.share)navigator.share({title:'صيدليات داريا',url:SITE}).catch(()=>{});
+  else window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`);
 }
-function wb(t){window.open(`https://wa.me/?text=${encodeURIComponent(t)}`,'_blank');}
 
-// ══════════════════════════════════════════════════
-//  PWA Service Worker
-// ══════════════════════════════════════════════════
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/sw.js').catch(()=>{});
-  });
-}
+window.addEventListener('scroll',()=>document.getElementById('backTop').classList.toggle('show',window.scrollY>250));
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
+
+function updateOnline(){document.getElementById('offlineBar').classList.toggle('show',!navigator.onLine)}
+window.addEventListener('online',  updateOnline);
+window.addEventListener('offline', updateOnline);
+
+let _pwa;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();_pwa=e;
+  if(!localStorage.getItem('pwa_dismissed'))
+    setTimeout(()=>document.getElementById('pwaToast').classList.add('show'),4000);
+});
+window.addEventListener('appinstalled',closePwa);
+function installPwa(){if(!_pwa)return;_pwa.prompt();_pwa.userChoice.then(r=>{if(r.outcome==='accepted')closePwa();_pwa=null;});}
+function closePwa(){document.getElementById('pwaToast').classList.remove('show');localStorage.setItem('pwa_dismissed','1');}
+
+if('serviceWorker' in navigator)
+  window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
 
 init();
+updateOnline();
 </script>
-<script>  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
