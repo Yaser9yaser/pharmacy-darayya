@@ -176,7 +176,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
   <div class="hdr-card">
     <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()"><i class="fa fa-moon"></i></button>
     <div class="hdr-inner">
-      <div class="hdr-tag"><i class="fa fa-map-marker-alt"></i> مدينة داريا</div>
       <div class="hdr-icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="70" height="70">
           <path d="M52 18a26 26 0 1 0 0 44 22 22 0 1 1 0-44z" fill="rgba(255,255,255,0.95)"/>
@@ -224,18 +223,21 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 
   <!-- صفحة عن التطبيق -->
   <div class="about-card" id="aboutCard">
-    <div class="about-header"><i class="fa fa-info-circle"></i> عن التطبيق</div>
+    <div class="about-header">
+      <i class="fa fa-info-circle"></i> عن التطبيق
+      <button onclick="toggleAbout()" style="margin-right:auto;background:rgba(255,255,255,.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">×</button>
+    </div>
     <div class="about-body">
       <h4>🌙 ما هو هذا التطبيق؟</h4>
       <p>نظام ذكي لعرض جدول مناوبة صيدليات مدينة داريا — يعمل على جميع الأجهزة بدون إنترنت.</p>
       <h4>📅 كيف يعمل النظام؟</h4>
       <p>• أيام الأسبوع العادية: صيدليتان مناوبتان يومياً</p>
-      <p>• يوم الجمعة: 10 صيدليات تعمل طوال اليوم</p>
-      <p>• يوم الأحد: 16 صيدلية تعمل طوال اليوم</p>
+      <p>• يوم الجمعة: 10 صيدليات</p>
+      <p>• يوم الأحد: 16 صيدلية</p>
       <h4>⏰ ساعات المناوبة</h4>
       <p>تبدأ المناوبة الساعة 10 مساءً وتنتهي الساعة 1 بعد منتصف الليل</p>
       <h4>🔄 التحديث الشهري</h4>
-      <p>يتم تحديث الجدول شهرياً من قِبَل االمطور</p>
+      <p>يتم تحديث الجدول شهرياً من قِبَل المطور</p>
       <h4>📞 التواصل</h4>
       <p>للإبلاغ عن أخطاء أو اقتراحات: تواصل عبر واتساب من خلال زر "إبلاغ عن خطأ" أدناه</p>
     </div>
@@ -248,7 +250,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
       <button class="f-btn share" onclick="shareSite()"><i class="fa fa-share-alt"></i> شارك الموقع</button>
       <button class="f-btn about" onclick="toggleAbout()"><i class="fa fa-info-circle"></i> عن التطبيق</button>
     </div>
-    <div class="footer-copy">© 2026</div>
+    <div class="footer-copy">© Yaser Jamal Al-Deen</div>
   </div>
 </div>
 
@@ -256,7 +258,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 
 <script>
 /*
- * ©2026 Yaser Jamal Al-Deen —
+ * ©2026 Yaser Jamal Al-Deen — المكتب الإعلامي لمدينة داريا
  * صيدليات داريا — نظام المناوبة الذكي v5.0
  * جميع الحقوق محفوظة. يُمنع نسخ أو إعادة نشر هذا النظام دون إذن صريح.
  */
@@ -573,7 +575,7 @@ async function copyToday(){
 }
 
 function shareSite(){
-  const txt=`🌙 تطبيق صيدليات داريا الذكي\nاعرف الصيدلية المناوبة في أي وقت 💊\n\n${SITE}`;
+  const txt=`🌙 تطبيق صيدليات داريا الذكي\nاعرف الصيدلية المناوبة في أي وقت 💊\nلتعم الفائدة — شارك مع أهل داريا 🤍\n\n${SITE}`;
   if(navigator.share)navigator.share({title:'صيدليات داريا',url:SITE}).catch(()=>{});
   else window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`);
 }
@@ -600,6 +602,21 @@ if('serviceWorker' in navigator)
 
 init();
 updateOnline();
+
+// منع الضغط اليميني
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// منع تحديد النص
+document.addEventListener('selectstart', e => e.preventDefault());
+
+// تحذير عند فتح DevTools
+(function(){
+  const w = new Image();
+  Object.defineProperty(w, 'id', {get: function(){
+    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Cairo,sans-serif;text-align:center;direction:rtl;padding:20px"><div><h2 style="color:#dc2626">⚠️ تحذير</h2><p style="margin-top:10px">هذا النظام محمي بموجب حقوق الملكية الفكرية<br>©Yaser Jamal Al-Deen</p></div></div>';
+  }});
+  console.log('%c', w);
+})();
 </script>
 </body>
 </html>
