@@ -313,6 +313,8 @@ let DB = [];       // الصيدليات
 let SCHED = {};    // جدول الشهر { "2/5": ["p1","p2"], ... }
 let FRIDAY = [];   // قائمة الجمعة
 let SUNDAY = [];   // قائمة الأحد
+let _eff = null;   // التاريخ الفعّال (يُستخدم بين الدوال)
+let _searchBuilt = false; // هل تم بناء قائمة الأيام مسبقاً؟
 
 /* ══════════════════════════════════════════════
    📡 جلب البيانات من Sheets (سريع جداً مع cache)
@@ -441,22 +443,22 @@ function showBar(msg){
 async function init() {
   const now=new Date(), isLate=now.getHours()<2, eff=new Date(now);
   if(isLate){eff.setDate(eff.getDate()-1);document.getElementById('lateNote').style.display='block';}
+  _eff = eff; // حفظ للاستخدام في toggleSearch
+  _searchBuilt = false;
   document.getElementById('dayTxt').textContent  = DAYS[eff.getDay()]+' ';
   document.getElementById('dateTxt').textContent = `${eff.getDate()} ${MONTHS[eff.getMonth()]} ${eff.getFullYear()}`;
 
   // الكاش أولاً — فوري بدون أي تأخير
   const cached = loadCache();
-  if (cached) {
-    renderToday(eff);
-    buildSelect(eff);
-  }
+  if (cached) renderToday(eff);
 
   // تحديث من Sheets بالخلفية — ما يوقف تحميل الصفحة
   if (navigator.onLine) {
     fetchSheets().then(updated => {
       if (updated) {
         renderToday(eff);
-        buildSelect(eff);
+        // إعادة بناء القائمة إن كان البحث مفتوحاً
+        if (_searchBuilt) buildSelect(eff);
       }
     });
   }
@@ -469,13 +471,33 @@ async function init() {
   handleDeepLink(eff);
 }
 
+const SHOW_INIT = 4; // عدد البطاقات الظاهرة ابتداءً في الجمعة/الأحد
+
 function renderToday(eff) {
   const {type, names} = getDuty(eff);
   let html = '';
   if (type==='friday') html = `<div class="fri-badge">🕌 يوم الجمعة — تعمل ${names.length} صيدلية</div>`;
   if (type==='sunday') html = `<div class="sun-badge">🌟 يوم الأحد المفتوح — تعمل ${names.length} صيدلية</div>`;
-  html += names.map((n,i) => card(n, i*60)).join('');
+
+  const isLong = (type==='friday'||type==='sunday') && names.length > SHOW_INIT;
+  if (isLong) {
+    html += names.slice(0, SHOW_INIT).map((n,i) => card(n, i*60)).join('');
+    html += `<div id="moreCards" style="display:none">${names.slice(SHOW_INIT).map((n,i)=>card(n,(SHOW_INIT+i)*60)).join('')}</div>`;
+    html += `<div style="padding:4px 12px 8px"><button id="moreBtn" onclick="toggleMoreCards(${names.length - SHOW_INIT})" class="main-btn" style="background:linear-gradient(135deg,var(--p2),var(--p1))"><i id="moreIco" class="fa fa-chevron-down"></i><span id="moreTxt">عرض بقية الصيدليات (${names.length - SHOW_INIT})</span></button></div>`;
+  } else {
+    html += names.map((n,i) => card(n, i*60)).join('');
+  }
   document.getElementById('todayList').innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--muted)">لا توجد بيانات لهذا اليوم</div>';
+}
+
+function toggleMoreCards(remaining) {
+  const more = document.getElementById('moreCards');
+  const ico  = document.getElementById('moreIco');
+  const txt  = document.getElementById('moreTxt');
+  const open = more.style.display === 'none';
+  more.style.display = open ? 'block' : 'none';
+  ico.className = open ? 'fa fa-chevron-up' : 'fa fa-chevron-down';
+  txt.textContent = open ? 'إخفاء' : `عرض بقية الصيدليات (${remaining})`;
 }
 
 function buildSelect(eff) {
@@ -491,7 +513,8 @@ function buildSelect(eff) {
     if(!k.includes('/')) return;
     const [d,m] = k.split('/').map(Number);
     if(isNaN(d)||isNaN(m)||d<1||d>31||m<1||m>12) return;
-    const dt = new Date(2026, m-1, d);
+    const yr = new Date().getFullYear();
+    const dt = new Date(yr, m-1, d);
     if(isNaN(dt.getTime())) return;
     const o = document.createElement('option');
     o.value = dt.getTime();
@@ -510,7 +533,8 @@ function handleDeepLink(eff) {
   if (!dateParam) return;
   const [d,m] = dateParam.split('/').map(Number);
   if (!d||!m) return;
-  const dt = new Date(2026, m-1, d);
+  const yr = new Date().getFullYear();
+  const dt = new Date(yr, m-1, d);
   // افتح البحث واعرض اليوم المطلوب
   document.getElementById('srchBox').classList.add('open');
   const ttl = document.getElementById('srchTitle');
@@ -557,7 +581,15 @@ function searchByDate() {
   window.history.replaceState({}, '', newUrl);
 }
 
-function toggleSearch(){document.getElementById('srchBox').classList.toggle('open')}
+function toggleSearch(){
+  const box = document.getElementById('srchBox');
+  box.classList.toggle('open');
+  // بناء قائمة الأيام عند أول فتح فقط (lazy)
+  if (box.classList.contains('open') && !_searchBuilt && _eff) {
+    buildSelect(_eff);
+    _searchBuilt = true;
+  }
+}
 function toggleAbout(){document.getElementById('aboutCard').classList.toggle('open');document.getElementById('aboutCard').scrollIntoView({behavior:'smooth',block:'nearest'})}
 
 /* ══════════════════════════════════════════════
@@ -649,20 +681,7 @@ if('serviceWorker' in navigator)
 init();
 updateOnline();
 
-// منع الضغط اليميني
-document.addEventListener('contextmenu', e => e.preventDefault());
-
-// منع تحديد النص
-document.addEventListener('selectstart', e => e.preventDefault());
-
-// تحذير عند فتح DevTools
-(function(){
-  const w = new Image();
-  Object.defineProperty(w, 'id', {get: function(){
-    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Cairo,sans-serif;text-align:center;direction:rtl;padding:20px"><div><h2 style="color:#dc2626">⚠️ تحذير</h2><p style="margin-top:10px">هذا النظام محمي بموجب حقوق الملكية الفكرية<br>©Yaser Jamal Al-Deen</p></div></div>';
-  }});
-  console.log('%c', w);
-})();
+// حقوق النشر — ©2026 Yaser Jamal Al-Deen — جميع الحقوق محفوظة
 </script>
 </body>
 </html>

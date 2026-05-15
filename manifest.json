@@ -3,6 +3,7 @@
   "short_name": "صيدليات داريا",
   "description": "نظام المناوبة الذكي لصيدليات مدينة داريا",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f0f7ff",
   "theme_color": "#0ea5e9",

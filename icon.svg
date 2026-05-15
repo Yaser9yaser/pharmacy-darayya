@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- خلفية دائرية زرقاء -->
+  <circle cx="50" cy="50" r="50" fill="#0ea5e9"/>
+  <!-- الهلال -->
+  <path d="M62 28a24 24 0 1 0 0 44 20 20 0 1 1 0-44z" fill="white"/>
+  <!-- نجمتان صغيرتان -->
+  <circle cx="70" cy="30" r="4" fill="white"/>
+  <circle cx="76" cy="39" r="2.5" fill="white"/>
+</svg>
