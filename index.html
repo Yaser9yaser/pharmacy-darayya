@@ -418,8 +418,7 @@ function card(name, delay=0) {
   const p = DB.find(x => x.name === name);
   const coords = COORDS[name];
   const hasMap = coords && !isNaN(coords.lat);
-  const MY_MAP_ID = '1-1PJ3IEDoJYoAGMH0vFOphGeGr1DHKaZk';
-  const gMaps = hasMap ? `https://www.google.com/maps/d/viewer?mid=${MY_MAP_ID}&ll=${coords.lat},${coords.lng}&z=17` : null;
+  const gMaps = hasMap ? `https://www.google.com/maps?q=${coords.lat},${coords.lng}+(${encodeURIComponent('صيدلية ' + name)})` : null;
   return `<div class="ph-card" style="animation-delay:${delay}ms">
   <div class="ph-name"><span class="ph-dot"></span> ${name}</div>
   <div class="ph-addr"><i class="fa fa-map-pin"></i> ${p ? p.address : 'داريا'}</div>
