@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>صيدليات داريا | نظام المناوبة الذكي</title>
-<meta name="description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — يعمل على جميع الأجهزة بدون إنترنت">
+<meta name="description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — خرائط مباشرة وسريع بدون إنترنت 💊">
 <meta name="keywords" content="صيدليات داريا, مناوبة, صيدلية مناوبة داريا, داريا">
 <meta name="theme-color" content="#0ea5e9">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="صيدليات داريا">
 <meta name="mobile-web-app-capable" content="yes">
 <meta property="og:title" content="💊 صيدليات داريا | نظام المناوبة الذكي">
-<meta property="og:description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — ليلي · جمعة · أحد. خرائط مباشرة وسريع بدون إنترنت 🗺️">
+<meta property="og:description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — خرائط مباشرة وسريع بدون إنترنت 💊">
 <meta property="og:url" content="https://pharmacy-darayya.vercel.app">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://pharmacy-darayya.vercel.app/og-image.png">
@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="صيدليات داريا">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="💊 صيدليات داريا | نظام المناوبة الذكي">
-<meta name="twitter:description" content="اعرف الصيدلية المناوبة في داريا — خرائط مباشرة 🗺️">
+<meta name="twitter:description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — خرائط مباشرة بدون إنترنت 💊">
 <meta name="twitter:image" content="https://pharmacy-darayya.vercel.app/og-image.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"صيدليات داريا المناوبة","description":"نظام ذكي لعرض جدول مناوبة الصيدليات في مدينة داريا","url":"https://pharmacy-darayya.vercel.app","applicationCategory":"HealthApplication","operatingSystem":"Any","inLanguage":"ar","author":{"@type":"Person","name":"Yaser Jamal Al-Deen"}}
@@ -454,11 +454,31 @@ function showBar(msg){
    🚀 التهيئة
 ══════════════════════════════════════════════ */
 async function init() {
-  const now=new Date(), isLate=now.getHours()<2, eff=new Date(now);
-  if(isLate){eff.setDate(eff.getDate()-1);document.getElementById('lateNote').style.display='block';}
-  _eff = eff; // حفظ للاستخدام في toggleSearch
+  // فحص ?date= في الرابط أولاً — لو موجود نستخدمه كالتاريخ الرئيسي
+  const params = new URLSearchParams(window.location.search);
+  const dateParam = params.get('date');
+  let eff;
+
+  if (dateParam) {
+    const [dpd, dpm] = dateParam.split('/').map(Number);
+    if (dpd && dpm) {
+      eff = new Date(new Date().getFullYear(), dpm - 1, dpd);
+    }
+  }
+
+  if (!eff) {
+    const now = new Date();
+    const isLate = now.getHours() < 2;
+    eff = new Date(now);
+    if (isLate) {
+      eff.setDate(eff.getDate() - 1);
+      document.getElementById('lateNote').style.display = 'block';
+    }
+  }
+
+  _eff = eff;
   _searchBuilt = false;
-  document.getElementById('dayTxt').textContent  = DAYS[eff.getDay()]+' ';
+  document.getElementById('dayTxt').textContent  = DAYS[eff.getDay()] + ' ';
   document.getElementById('dateTxt').textContent = `${eff.getDate()} ${MONTHS[eff.getMonth()]} ${eff.getFullYear()}`;
 
   // الكاش أولاً — فوري بدون أي تأخير
@@ -470,7 +490,6 @@ async function init() {
     fetchSheets().then(updated => {
       if (updated) {
         renderToday(eff);
-        // إعادة بناء القائمة إن كان البحث مفتوحاً
         if (_searchBuilt) buildSelect(eff);
       }
     });
@@ -481,7 +500,6 @@ async function init() {
   }
 
   applyTheme();
-  handleDeepLink(eff);
 }
 
 const SHOW_INIT = 4; // عدد البطاقات الظاهرة ابتداءً في الجمعة/الأحد
@@ -537,29 +555,9 @@ function buildSelect(eff) {
 }
 
 /* ══════════════════════════════════════════════
-   🔗 رابط يوم محدد (Deep Link)
-   مثال: ?date=7/5
+   🔗 رابط يوم محدد (Deep Link) — محذوف
+   الآن يُعالَج مباشرة في init() لتجنب تكرار عرض الصيدليات
 ══════════════════════════════════════════════ */
-function handleDeepLink(eff) {
-  const params = new URLSearchParams(window.location.search);
-  const dateParam = params.get('date');
-  if (!dateParam) return;
-  const [d,m] = dateParam.split('/').map(Number);
-  if (!d||!m) return;
-  const yr = new Date().getFullYear();
-  const dt = new Date(yr, m-1, d);
-  // افتح البحث واعرض اليوم المطلوب
-  document.getElementById('srchBox').classList.add('open');
-  const ttl = document.getElementById('srchTitle');
-  const res = document.getElementById('srchResults');
-  const {type, names} = getDuty(dt);
-  let badge = '';
-  if(type==='friday') badge=`<div class="fri-badge">🕌 يوم الجمعة — تعمل ${names.length} صيدلية</div>`;
-  if(type==='sunday') badge=`<div class="sun-badge">🌟 يوم الأحد المفتوح — تعمل ${names.length} صيدلية</div>`;
-  ttl.style.display='block';
-  ttl.textContent=`مناوبة ${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}:`;
-  res.innerHTML = badge + names.map((n,i)=>card(n,i*50)).join('');
-}
 
 /* ══════════════════════════════════════════════
    🔍 البحث
@@ -588,10 +586,7 @@ function searchByDate() {
   ttl.style.display='block';
   ttl.textContent=`مناوبة ${DAYS[dt.getDay()]} ${dt.getDate()} ${MONTHS[dt.getMonth()]}:`;
   res.innerHTML=badge+names.map((n,i)=>card(n,i*50)).join('');
-
-  // تحديث الرابط لمشاركة يوم محدد
-  const newUrl = `${window.location.pathname}?date=${dt.getDate()}/${dt.getMonth()+1}`;
-  window.history.replaceState({}, '', newUrl);
+  // لا نعدّل الرابط — منع إعادة تحميل يوم خاطئ
 }
 
 function toggleSearch(){
@@ -641,15 +636,15 @@ function buildShareText(date) {
 }
 
 async function shareToday(){
-  const now=new Date(); if(now.getHours()<2)now.setDate(now.getDate()-1);
-  const txt=buildShareText(now);
+  const date = _eff || new Date();
+  const txt=buildShareText(date);
   if(navigator.share){try{await navigator.share({title:'مناوبة اليوم',text:txt});}catch(e){}}
   else window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`);
 }
 
 async function copyToday(){
-  const now=new Date(); if(now.getHours()<2)now.setDate(now.getDate()-1);
-  const txt=buildShareText(now);
+  const date = _eff || new Date();
+  const txt=buildShareText(date);
   try{await navigator.clipboard.writeText(txt);}
   catch(e){const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
   // تغيير أيقونة الزر مؤقتاً
