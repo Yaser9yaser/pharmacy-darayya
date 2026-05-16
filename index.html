@@ -146,6 +146,16 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .pwa-close{position:absolute;top:10px;left:12px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
 .offline-bar{display:none;position:fixed;top:var(--emr-h);left:0;right:0;z-index:900;background:#f59e0b;color:#fff;text-align:center;padding:8px;font-size:12px;font-weight:700}
 .offline-bar.show{display:block}
+.srch-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.srch-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:22px;line-height:1;padding:2px 6px;border-radius:8px;transition:color var(--t)}
+.srch-close:hover{color:var(--red)}
+.duty-dates{margin-bottom:10px}
+.duty-lbl{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px;margin-bottom:5px}
+.duty-tags{display:flex;flex-wrap:wrap;gap:5px}
+.duty-tag{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(14,165,233,.1);color:var(--p1);border:1px solid rgba(14,165,233,.2);white-space:nowrap}
+.duty-tag.fri{background:rgba(245,158,11,.1);color:var(--gold);border-color:rgba(245,158,11,.2)}
+.duty-tag.sun{background:rgba(139,92,246,.1);color:var(--a1);border-color:rgba(139,92,246,.2)}
+.duty-tag.more{background:var(--border);color:var(--muted);border-color:transparent}
 @media(max-width:360px){.hdr-card h1{font-size:20px}.emr-btn.wa{display:none}}
 @media(min-width:768px){.wrap{margin:20px auto}.hdr-card{padding:36px 28px 48px}}
 </style>
@@ -223,7 +233,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
       <button class="main-btn btn-search" onclick="toggleSearch()"><i class="fa fa-search"></i> البحث والجدول الشهري</button>
     </div>
     <div class="srch-box" id="srchBox">
-      <div class="srch-lbl"><i class="fa fa-search"></i> ابحث باسم الصيدلية أو العنوان:</div>
+      <div class="srch-header">
+        <div class="srch-lbl" style="margin-bottom:0"><i class="fa fa-search"></i> ابحث باسم الصيدلية أو العنوان:</div>
+        <button class="srch-close" onclick="toggleSearch()" title="إغلاق البحث">×</button>
+      </div>
       <input type="text" class="srch-in" id="nameInput" oninput="searchByName()" placeholder="مثلاً: روضة، الأيوبي، شارع الثورة...">
       <div class="srch-lbl"><i class="fa fa-calendar"></i> اختر يوماً من الجدول:</div>
       <select class="srch-sel" id="dateSelect" onchange="searchByDate()"></select>
@@ -454,7 +467,6 @@ function showBar(msg){
    🚀 التهيئة
 ══════════════════════════════════════════════ */
 async function init() {
-  // فحص ?date= في الرابط أولاً — لو موجود نستخدمه كالتاريخ الرئيسي
   const params = new URLSearchParams(window.location.search);
   const dateParam = params.get('date');
   let eff;
@@ -462,7 +474,10 @@ async function init() {
   if (dateParam) {
     const [dpd, dpm] = dateParam.split('/').map(Number);
     if (dpd && dpm) {
-      eff = new Date(new Date().getFullYear(), dpm - 1, dpd);
+      const candidate = new Date(new Date().getFullYear(), dpm - 1, dpd);
+      const todayMid = new Date(); todayMid.setHours(0,0,0,0);
+      // فقط نستخدم ?date= لو كان اليوم الحالي أو مستقبلي — الروابط القديمة تُتجاهل
+      if (candidate >= todayMid) eff = candidate;
     }
   }
 
@@ -534,24 +549,34 @@ function toggleMoreCards(remaining) {
 function buildSelect(eff) {
   const sel = document.getElementById('dateSelect');
   sel.innerHTML = '<option value="">— اختر يوماً —</option>';
+  const todayMid = new Date(); todayMid.setHours(0,0,0,0);
   const keys = Object.keys(SCHED).sort((a,b)=>{
     const [d1,m1]=a.split('/').map(Number);
     const [d2,m2]=b.split('/').map(Number);
     return (m1*100+d1)-(m2*100+d2);
   });
+  let added = 0;
   keys.forEach(k => {
-    // تجاهل الصفوف الغير صالحة
     if(!k.includes('/')) return;
     const [d,m] = k.split('/').map(Number);
     if(isNaN(d)||isNaN(m)||d<1||d>31||m<1||m>12) return;
     const yr = new Date().getFullYear();
     const dt = new Date(yr, m-1, d);
     if(isNaN(dt.getTime())) return;
+    if(dt < todayMid) return; // تجاهل الأيام الماضية
     const o = document.createElement('option');
     o.value = dt.getTime();
-    o.textContent = `${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}`;
+    const isToday = dt.getTime() === todayMid.getTime();
+    o.textContent = isToday ? `⭐ اليوم — ${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}` : `${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}`;
     sel.appendChild(o);
+    added++;
   });
+  if(added === 0) {
+    const o = document.createElement('option');
+    o.disabled = true;
+    o.textContent = 'لا توجد أيام قادمة في الجدول';
+    sel.appendChild(o);
+  }
 }
 
 /* ══════════════════════════════════════════════
@@ -562,6 +587,46 @@ function buildSelect(eff) {
 /* ══════════════════════════════════════════════
    🔍 البحث
 ══════════════════════════════════════════════ */
+
+// مواعيد مناوبة صيدلية معينة في الجدول القادم
+function getPharmacyDutyDates(name) {
+  const yr = new Date().getFullYear();
+  const todayMid = new Date(); todayMid.setHours(0,0,0,0);
+  const scheduled = [];
+  Object.entries(SCHED).forEach(([key,[p1,p2]]) => {
+    if(p1==='FRIDAY'||p1==='SUNDAY') return;
+    if(p1===name||p2===name) {
+      const [d,m]=key.split('/').map(Number);
+      if(!d||!m) return;
+      const dt=new Date(yr,m-1,d);
+      if(dt>=todayMid) scheduled.push({dt,label:`${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}`});
+    }
+  });
+  scheduled.sort((a,b)=>a.dt-b.dt);
+  return {isFriday:FRIDAY.includes(name),isSunday:SUNDAY.includes(name),dates:scheduled.map(x=>x.label)};
+}
+
+function cardWithDates(name, delay=0) {
+  const p=DB.find(x=>x.name===name);
+  const coords=COORDS[name];
+  const hasMap=coords&&!isNaN(coords.lat);
+  const gMaps=hasMap?`https://www.google.com/maps?q=${coords.lat},${coords.lng}+(${encodeURIComponent('صيدلية '+name)})`:null;
+  const {isFriday,isSunday,dates}=getPharmacyDutyDates(name);
+  let tags='';
+  if(isFriday) tags+=`<span class="duty-tag fri">🕌 كل جمعة</span>`;
+  if(isSunday) tags+=`<span class="duty-tag sun">🌟 كل أحد</span>`;
+  dates.slice(0,3).forEach(d=>tags+=`<span class="duty-tag">${d}</span>`);
+  if(dates.length>3) tags+=`<span class="duty-tag more">+${dates.length-3} أخرى</span>`;
+  const hasSchedule=isFriday||isSunday||dates.length>0;
+  const dutySection=`<div class="duty-dates"><div class="duty-lbl"><i class="fa fa-calendar-check"></i>${hasSchedule?'مواعيد قادمة:':'لا مواعيد قادمة في الجدول'}</div>${hasSchedule?`<div class="duty-tags">${tags}</div>`:''}</div>`;
+  return `<div class="ph-card" style="animation-delay:${delay}ms">
+  <div class="ph-name"><span class="ph-dot"></span> ${name}</div>
+  <div class="ph-addr"><i class="fa fa-map-pin"></i> ${p?p.address:'داريا'}</div>
+  ${dutySection}
+  <div class="ph-actions">${hasMap?`<a href="${gMaps}" target="_blank" class="ph-btn map" rel="noopener noreferrer"><i class="fa fa-map-marker-alt"></i> افتح في الخريطة</a>`:''}</div>
+</div>`;
+}
+
 function searchByName() {
   const q=norm(document.getElementById('nameInput').value);
   const res=document.getElementById('srchResults'),ttl=document.getElementById('srchTitle');
@@ -570,7 +635,7 @@ function searchByName() {
   const found=DB.filter(p=>norm(p.name).includes(q)||norm(p.address).includes(q));
   ttl.style.display='block';
   ttl.textContent=found.length?`نتائج البحث (${found.length}):` :'لا توجد نتائج';
-  res.innerHTML=found.map((p,i)=>card(p.name,i*50)).join('');
+  res.innerHTML=found.map((p,i)=>cardWithDates(p.name,i*50)).join('');
 }
 
 function searchByDate() {
