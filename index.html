@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>صيدليات داريا | نظام المناوبة الذكي</title>
-<meta name="description" content="اعرف الصيدلية المناوبة اليوم in مدينة داريا — خرائط مباشرة وسريع بدون إنترنت 💊">
+<meta name="description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — خرائط مباشرة وسريع بدون إنترنت 💊">
 <meta name="keywords" content="صيدليات داريا, مناوبة, صيدلية مناوبة داريا, داريا">
 <meta name="theme-color" content="#0ea5e9">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,7 +50,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .orb2{width:240px;height:240px;background:var(--a1);bottom:100px;left:-90px;animation-delay:-6s}
 .orb3{width:180px;height:180px;background:var(--g1);bottom:-60px;right:30%;animation-delay:-11s}
 @keyframes drift{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.08)}}
-.emr{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--emr-h);background:linear-gradient(90deg,var(--red),#b91c1c 50%,var(--red2));color:#fff;padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;box-shadow:0 3px 20px rgba(220,38,38,.5)}
+.emr{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--emr-h);background:linear-gradient(90deg,var(--red),#b91c1c 50%,var(--red2));color:#fff;padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;box-shadow:0 3px 20px rgba(220,38,38,.5);transition:top 0.2s ease;}
 .emr-label{display:flex;align-items:center;gap:7px;flex:1;min-width:0;overflow:hidden}
 .emr-label span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pulse{animation:pulse 1.6s ease-in-out infinite}
@@ -160,7 +160,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 <body>
 <div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
 
-<div id="eidBanner" style="display: none; background-color: #fef3c7; color: #92400e; padding: 12px 14px; text-align: center; font-weight: 700; font-size: 13px; border-bottom: 1.5px solid #fde68a; position: relative; z-index: 1001; font-family: 'Cairo', sans-serif;">
+<div id="eidBanner" style="display: none; background-color: #ffcc00; color: #000000; padding: 11px 14px; text-align: center; font-weight: 900; font-size: 13.5px; border-bottom: 2px solid #e6b800; position: fixed; top: 0; left: 0; right: 0; z-index: 1002; font-family: 'Cairo', sans-serif; box-shadow: 0 2px 10px rgba(0,0,0,0.15);">
   ⚠️ تنويه بمناسبة عطلة العيد: دوام ومناوبات الصيدليات في داريا اختياري (كيفي) خلال أيام عيد الأضحى المبارك. يُنصح بالتواصل مع الصيدلية هاتفياً قبل التوجه إليها. كل عام وأنتم بخير.
 </div>
 
@@ -255,7 +255,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
       <h4>🌙 ما هو هذا التطبيق؟</h4>
       <p>نظام ذكي لعرض جدول مناوبة صيدليات مدينة داريا — يعمل على جميع الأجهزة ويمكن إضافته للشاشة الرئيسية كأي تطبيق جوال.</p>
       <h4>📶 العمل بدون إنترنت</h4>
-      <p>بيانات الصيدليات وإحداثياتها مضمّنة في التطبيق — تعمل دائماً بدون إنترنت. أما جدول المناوبة الشهري فيُحمَّل من الشبكة عند أول فتح ويُحفَظ على جهازك، ثم يُحدَّث تلقائياً كلما فتحت التطبيق وكان الإنترنت متاحاً.</p>
+      <p>بيانات الصيدليات وإحداثياتها مضمّنة في التطبيق — يعمل دائماً بدون إنترنت. أما جدول المناوبة الشهري فيُحمَّل من الشبكة عند أول فتح ويُحفَظ على جهازك, ثم يُحدَّث تلقائياً كلما فتحت التطبيق وكان الإنترنت متاحاً.</p>
       <h4>📲 الإضافة للشاشة الرئيسية</h4>
       <p>يمكنك تثبيت التطبيق على هاتفك مباشرةً — ابحث عن زر "إضافة إلى الشاشة الرئيسية" الذي يظهر تلقائياً، أو من قائمة المتصفح ← مشاركة ← إضافة للشاشة الرئيسية.</p>
       <h4>📅 كيف يعمل النظام؟</h4>
@@ -441,19 +441,22 @@ function showBar(msg){
   setTimeout(()=>b.classList.remove('show'),5000);
 }
 
-/* ⚙️ كود التحقق التلقائي لانتهاء شريط العيد */
+/* ⚙️ كود التحقق التلقائي لانتهاء شريط العيد وتحريك شريط الطوارئ */
 function checkEidBanner() {
   var expirationDate = new Date("2026-05-30T23:59:59");
   var currentDate = new Date();
   var banner = document.getElementById("eidBanner");
+  var emrBar = document.querySelector(".emr");
   
   if (banner) {
     if (currentDate <= expirationDate) {
       banner.style.display = "block";
-      // تعديل مساحة الـ padding العلوي للجسم ليناسب وجود الشريط
-      document.body.style.paddingTop = "calc(var(--emr-h) + " + banner.offsetHeight + "px)";
+      var h = banner.offsetHeight || 44;
+      if(emrBar) emrBar.style.top = h + "px";
+      document.body.style.paddingTop = "calc(var(--emr-h) + " + h + "px)";
     } else {
       banner.style.display = "none";
+      if(emrBar) emrBar.style.top = "0";
       document.body.style.paddingTop = "var(--emr-h)";
     }
   }
@@ -488,7 +491,6 @@ async function init() {
   document.getElementById('dayTxt').textContent  = DAYS[eff.getDay()] + ' ';
   document.getElementById('dateTxt').textContent = `${eff.getDate()} ${MONTHS[eff.getMonth()]} ${eff.getFullYear()}`;
 
-  // تفعيل فحص التنبيه
   checkEidBanner();
 
   const cached = loadCache();
