@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>صيدليات داريا | نظام المناوبة الذكي</title>
-<meta name="description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — خرائط مباشرة وسريع بدون إنترنت 💊">
+<meta name="description" content="اعرف الصيدلية المناوبة اليوم in مدينة داريا — خرائط مباشرة وسريع بدون إنترنت 💊">
 <meta name="keywords" content="صيدليات داريا, مناوبة, صيدلية مناوبة داريا, داريا">
 <meta name="theme-color" content="#0ea5e9">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,7 +81,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
 .ph-card{margin:7px 12px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:16px;border-right:4px solid var(--p1);box-shadow:var(--sh);opacity:0;transform:translateY(18px);animation:slideUp .45s forwards}
 @keyframes slideUp{to{opacity:1;transform:translateY(0)}}
-/* دائرة • بدل الصليب */
 .ph-name{font-size:17px;font-weight:900;color:var(--p1);display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .ph-dot{width:10px;height:10px;border-radius:50%;background:var(--p1);flex-shrink:0}
 .ph-addr{font-size:12.5px;color:var(--muted);display:flex;align-items:flex-start;gap:6px;line-height:1.5;margin-bottom:12px}
@@ -117,7 +116,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .srch-in,.srch-sel{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg);color:var(--txt);font-family:'Cairo',sans-serif;font-size:14px;margin-bottom:12px;outline:none;transition:border-color var(--t)}
 .srch-in:focus,.srch-sel:focus{border-color:var(--p1)}
 .srch-results-title{font-size:13px;font-weight:700;color:var(--muted);padding:4px 0 8px;display:none}
-/* صفحة عن التطبيق */
 .about-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--sh);overflow:hidden;margin-bottom:14px;display:none}
 .about-card.open{display:block}
 .about-header{padding:16px;background:linear-gradient(135deg,var(--p1),var(--a1));color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
@@ -161,6 +159,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 </head>
 <body>
 <div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+
+<div id="eidBanner" style="display: none; background-color: #fef3c7; color: #92400e; padding: 12px 14px; text-align: center; font-weight: 700; font-size: 13px; border-bottom: 1.5px solid #fde68a; position: relative; z-index: 1001; font-family: 'Cairo', sans-serif;">
+  ⚠️ تنويه بمناسبة عطلة العيد: دوام ومناوبات الصيدليات في داريا اختياري (كيفي) خلال أيام عيد الأضحى المبارك. يُنصح بالتواصل مع الصيدلية هاتفياً قبل التوجه إليها. كل عام وأنتم بخير.
+</div>
 
 <div class="emr">
   <div class="emr-label"><span class="pulse">🚨</span><span>طوارئ الدفاع المدني — داريا</span></div>
@@ -244,7 +246,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
     </div>
   </div>
 
-  <!-- صفحة عن التطبيق -->
   <div class="about-card" id="aboutCard">
     <div class="about-header">
       <i class="fa fa-info-circle"></i> عن التطبيق
@@ -277,7 +278,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
       <button class="f-btn share" onclick="shareSite()"><i class="fa fa-share-alt"></i> شارك الموقع</button>
       <button class="f-btn about" onclick="toggleAbout()"><i class="fa fa-info-circle"></i> عن التطبيق</button>
     </div>
-
   </div>
 </div>
 
@@ -296,7 +296,7 @@ const COORDS = {
   "علي الأحمر":        {lat:33.458241, lng:36.235505},
   "الرضوان":           {lat:33.459241, lng:36.236655},
   "روضة عبود":         {lat:33.454959, lng:36.237948},
-  "فايز كحلوس":        {lat:33.46302,  lng:36.236445},
+  "fايز كحلوس":        {lat:33.46302,  lng:36.236445},
   "وعد أبو بكر":       {lat:33.454229, lng:36.239603},
   "خلود العزب":        {lat:33.462298, lng:36.232942},
   "محمود الخولاني":    {lat:33.458461, lng:36.238452},
@@ -308,7 +308,7 @@ const COORDS = {
   "خالد أبو حلمي":     {lat:33.461813, lng:36.242323},
   "هند زرقة":          {lat:33.454939, lng:36.236581},
   "عدنان نجيبة":       {lat:33.463521, lng:36.233272},
-  "فراس":              {lat:33.458062, lng:36.236861},
+  "fراس":              {lat:33.458062, lng:36.236861},
   "محمد السعدي":       {lat:33.465051, lng:36.237926},
   "باري أبو زيدان":    {lat:33.460989, lng:36.235138},
   "محمود المنيع":      {lat:33.463605, lng:36.230669},
@@ -319,11 +319,7 @@ const COORDS = {
   "دعاء":              {lat:33.461833, lng:36.233837},
   "يسرى النكاش":       {lat:33.464547, lng:36.227339}
 };
-/* ══════════════════════════════════════════════
-   ⚙️ روابط Google Sheets
-   لتحديث الشهر الجديد: فقط حدّث ورقة schedule
-   ولا تلمس أي شيء آخر بالكود!
-══════════════════════════════════════════════ */
+
 const SHEETS = {
   pharmacies: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9EAjxi3jPTEdHt5wqkfumi3SshJj3bRBjAnNT2F2jU_kEYFny6zbNR1oSaL_G9tnrgKUAgDbFI6Gs/pub?gid=335110835&single=true&output=csv',
   schedule:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9EAjxi3jPTEdHt5wqkfumi3SshJj3bRBjAnNT2F2jU_kEYFny6zbNR1oSaL_G9tnrgKUAgDbFI6Gs/pub?gid=2141998765&single=true&output=csv'
@@ -333,17 +329,13 @@ const SITE = "https://pharmacy-darayya.vercel.app";
 const DAYS   = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const MONTHS = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
 
-// البيانات في الذاكرة
-let DB = [];       // الصيدليات
-let SCHED = {};    // جدول الشهر { "2/5": ["p1","p2"], ... }
-let FRIDAY = [];   // قائمة الجمعة
-let SUNDAY = [];   // قائمة الأحد
-let _eff = null;   // التاريخ الفعّال (يُستخدم بين الدوال)
-let _searchBuilt = false; // هل تم بناء قائمة الأيام مسبقاً؟
+let DB = [];       
+let SCHED = {};    
+let FRIDAY = [];   
+let SUNDAY = [];   
+let _eff = null;   
+let _searchBuilt = false; 
 
-/* ══════════════════════════════════════════════
-   📡 جلب البيانات من Sheets (سريع جداً مع cache)
-══════════════════════════════════════════════ */
 function parseCSV(txt) {
   return txt.trim().split('\n').slice(1)
     .map(r => r.split(',').map(c => c.trim().replace(/^"|"$/g,'')))
@@ -352,7 +344,6 @@ function parseCSV(txt) {
 
 async function fetchSheets() {
   try {
-    // جلب الورقتين بالتوازي — أسرع بكثير من الواحدة تلو الأخرى
     const [r1, r2] = await Promise.all([
       fetch(SHEETS.pharmacies, {cache:'no-cache'}),
       fetch(SHEETS.schedule,   {cache:'no-cache'})
@@ -361,14 +352,12 @@ async function fetchSheets() {
 
     const [csv1, csv2] = await Promise.all([r1.text(), r2.text()]);
 
-    // parse pharmacies
     const parsed = parseCSV(csv1).map(c => ({
       name:    c[0], address: c[1],
       lat:     parseFloat(c[2]), lng: parseFloat(c[3]),
       groups:  c[4] ? c[4].split('|') : ['night']
     })).filter(p => p.name && !isNaN(p.lat));
 
-    // parse schedule
     const sched = {};
     parseCSV(csv2).forEach(c => {
       if(c[0]) sched[c[0].trim()] = [c[1]||'', c[2]||''];
@@ -378,13 +367,11 @@ async function fetchSheets() {
       DB     = parsed;
       SCHED  = sched;
       FRIDAY = DB.filter(p => p.groups.includes('friday') && !p.groups.includes('night')).map(p=>p.name);
-      // أضف أيضاً من night|friday
       DB.filter(p => p.groups.includes('friday') && p.groups.includes('night')).forEach(p => {
         if(!FRIDAY.includes(p.name)) FRIDAY.push(p.name);
       });
       SUNDAY = DB.filter(p => !FRIDAY.includes(p.name)).map(p => p.name);
 
-      // حفظ بالكاش
       localStorage.setItem('ph_db',   JSON.stringify({data:DB, ts:Date.now()}));
       localStorage.setItem('ph_sched',JSON.stringify({data:SCHED, ts:Date.now()}));
       showBar('✅ تم تحديث البيانات');
@@ -415,14 +402,10 @@ function loadCache() {
   return false;
 }
 
-/* ══════════════════════════════════════════════
-   📅 جلب المناوبة من الجدول
-══════════════════════════════════════════════ */
 function getDuty(d) {
   const dow = d.getDay();
   const key = `${d.getDate()}/${d.getMonth()+1}`;
 
-  // تحقق من الجدول أولاً
   if (SCHED[key]) {
     const [p1, p2] = SCHED[key];
     if (p1 === 'FRIDAY') return {type:'friday', names: FRIDAY};
@@ -430,20 +413,16 @@ function getDuty(d) {
     return {type:'normal', names: [p1, p2].filter(Boolean)};
   }
 
-  // fallback حسب اليوم
   if (dow === 5) return {type:'friday', names: FRIDAY};
   if (dow === 0) return {type:'sunday', names: SUNDAY};
   return {type:'normal', names: []};
 }
 
-/* ══════════════════════════════════════════════
-   🃏 بناء بطاقة الصيدلية — دائرة • بدل الصليب
-══════════════════════════════════════════════ */
 function card(name, delay=0) {
   const p = DB.find(x => x.name === name);
   const coords = COORDS[name];
   const hasMap = coords && !isNaN(coords.lat);
-  const gMaps = hasMap ? `https://www.google.com/maps?q=${coords.lat},${coords.lng}+(${encodeURIComponent('صيدلية ' + name)})` : null;
+  const gMaps = hasMap ? `http://maps.google.com/?q=${coords.lat},${coords.lng}(${encodeURIComponent('صيدلية ' + name)})` : null;
   return `<div class="ph-card" style="animation-delay:${delay}ms">
   <div class="ph-name"><span class="ph-dot"></span> ${name}</div>
   <div class="ph-addr"><i class="fa fa-map-pin"></i> ${p ? p.address : 'داريا'}</div>
@@ -462,9 +441,24 @@ function showBar(msg){
   setTimeout(()=>b.classList.remove('show'),5000);
 }
 
-/* ══════════════════════════════════════════════
-   🚀 التهيئة
-══════════════════════════════════════════════ */
+/* ⚙️ كود التحقق التلقائي لانتهاء شريط العيد */
+function checkEidBanner() {
+  var expirationDate = new Date("2026-05-30T23:59:59");
+  var currentDate = new Date();
+  var banner = document.getElementById("eidBanner");
+  
+  if (banner) {
+    if (currentDate <= expirationDate) {
+      banner.style.display = "block";
+      // تعديل مساحة الـ padding العلوي للجسم ليناسب وجود الشريط
+      document.body.style.paddingTop = "calc(var(--emr-h) + " + banner.offsetHeight + "px)";
+    } else {
+      banner.style.display = "none";
+      document.body.style.paddingTop = "var(--emr-h)";
+    }
+  }
+}
+
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const dateParam = params.get('date');
@@ -475,7 +469,6 @@ async function init() {
     if (dpd && dpm) {
       const candidate = new Date(new Date().getFullYear(), dpm - 1, dpd);
       const todayMid = new Date(); todayMid.setHours(0,0,0,0);
-      // فقط نستخدم ?date= لو كان اليوم الحالي أو مستقبلي — الروابط القديمة تُتجاهل
       if (candidate >= todayMid) eff = candidate;
     }
   }
@@ -495,11 +488,12 @@ async function init() {
   document.getElementById('dayTxt').textContent  = DAYS[eff.getDay()] + ' ';
   document.getElementById('dateTxt').textContent = `${eff.getDate()} ${MONTHS[eff.getMonth()]} ${eff.getFullYear()}`;
 
-  // الكاش أولاً — فوري بدون أي تأخير
+  // تفعيل فحص التنبيه
+  checkEidBanner();
+
   const cached = loadCache();
   if (cached) renderToday(eff);
 
-  // تحديث من Sheets بالخلفية — ما يوقف تحميل الصفحة
   if (navigator.onLine) {
     fetchSheets().then(updated => {
       if (updated) {
@@ -516,7 +510,7 @@ async function init() {
   applyTheme();
 }
 
-const SHOW_INIT = 4; // عدد البطاقات الظاهرة ابتداءً في الجمعة/الأحد
+const SHOW_INIT = 4; 
 
 function renderToday(eff) {
   const {type, names} = getDuty(eff);
@@ -562,7 +556,7 @@ function buildSelect(eff) {
     const yr = new Date().getFullYear();
     const dt = new Date(yr, m-1, d);
     if(isNaN(dt.getTime())) return;
-    if(dt < todayMid) return; // تجاهل الأيام الماضية
+    if(dt < todayMid) return; 
     const o = document.createElement('option');
     o.value = dt.getTime();
     const isToday = dt.getTime() === todayMid.getTime();
@@ -578,16 +572,6 @@ function buildSelect(eff) {
   }
 }
 
-/* ══════════════════════════════════════════════
-   🔗 رابط يوم محدد (Deep Link) — محذوف
-   الآن يُعالَج مباشرة في init() لتجنب تكرار عرض الصيدليات
-══════════════════════════════════════════════ */
-
-/* ══════════════════════════════════════════════
-   🔍 البحث
-══════════════════════════════════════════════ */
-
-// مواعيد مناوبة صيدلية معينة في الجدول القادم
 function getPharmacyDutyDates(name) {
   const yr = new Date().getFullYear();
   const todayMid = new Date(); todayMid.setHours(0,0,0,0);
@@ -609,7 +593,7 @@ function cardWithDates(name, delay=0) {
   const p=DB.find(x=>x.name===name);
   const coords=COORDS[name];
   const hasMap=coords&&!isNaN(coords.lat);
-  const gMaps=hasMap?`https://www.google.com/maps?q=${coords.lat},${coords.lng}+(${encodeURIComponent('صيدلية '+name)})`:null;
+  const gMaps=hasMap?`http://maps.google.com/?q=${coords.lat},${coords.lng}(${encodeURIComponent('صيدلية '+name)})`:null;
   const {isFriday,isSunday,dates}=getPharmacyDutyDates(name);
   let tags='';
   if(isFriday) tags+=`<span class="duty-tag fri">🕌 كل جمعة</span>`;
@@ -650,13 +634,11 @@ function searchByDate() {
   ttl.style.display='block';
   ttl.textContent=`مناوبة ${DAYS[dt.getDay()]} ${dt.getDate()} ${MONTHS[dt.getMonth()]}:`;
   res.innerHTML=badge+names.map((n,i)=>card(n,i*50)).join('');
-  // لا نعدّل الرابط — منع إعادة تحميل يوم خاطئ
 }
 
 function toggleSearch(){
   const box = document.getElementById('srchBox');
   box.classList.toggle('open');
-  // بناء قائمة الأيام عند أول فتح فقط (lazy)
   if (box.classList.contains('open') && !_searchBuilt && _eff) {
     buildSelect(_eff);
     _searchBuilt = true;
@@ -664,9 +646,6 @@ function toggleSearch(){
 }
 function toggleAbout(){document.getElementById('aboutCard').classList.toggle('open');document.getElementById('aboutCard').scrollIntoView({behavior:'smooth',block:'nearest'})}
 
-/* ══════════════════════════════════════════════
-   🌙 الثيم
-══════════════════════════════════════════════ */
 function toggleTheme(){
   const d=document.documentElement.classList.toggle('dark');
   localStorage.setItem('theme',d?'dark':'light');
@@ -679,9 +658,6 @@ function applyTheme(){
   document.getElementById('themeBtn').querySelector('i').className=dark?'fa fa-sun':'fa fa-moon';
 }
 
-/* ══════════════════════════════════════════════
-   📤 المشاركة
-══════════════════════════════════════════════ */
 function buildShareText(date) {
   const {type,names} = getDuty(date);
   let txt = `🌙 *صيدليات داريا المناوبة*\n`;
@@ -711,7 +687,6 @@ async function copyToday(){
   const txt=buildShareText(date);
   try{await navigator.clipboard.writeText(txt);}
   catch(e){const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
-  // تغيير أيقونة الزر مؤقتاً
   const btn = document.querySelector('.btn-copy');
   btn.innerHTML = '<i class="fa fa-check"></i>';
   btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
@@ -752,8 +727,7 @@ if('serviceWorker' in navigator)
 
 init();
 updateOnline();
-
-// حقوق النشر — ©2026 Yaser Jamal Al-Deen — جميع الحقوق محفوظة
+window.addEventListener('resize', checkEidBanner);
 </script>
 </body>
 </html>
