@@ -4,27 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>صيدليات داريا | نظام المناوبة الذكي</title>
-<meta name="description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — خرائط مباشرة وسريع بدون إنترنت 💊">
+<meta name="description" content="اعرف الصيدلية المناوبة اليوم في مدينة داريا — يعمل على جميع الأجهزة بدون إنترنت">
 <meta name="keywords" content="صيدليات داريا, مناوبة, صيدلية مناوبة داريا, داريا">
 <meta name="theme-color" content="#0ea5e9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="صيدليات داريا">
 <meta name="mobile-web-app-capable" content="yes">
+<meta property="og:title" content="صيدليات داريا | نظام المناوبة الذكي">
+<meta property="og:description" content="اعرف الصيدلية المناوبة اليوم في داريا — سريع، دقيق، يعمل بدون إنترنت 💊">
+<meta property="og:url" content="https://pharmacy-darayya.vercel.app">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://pharmacy-darayya.vercel.app/">
-<meta property="og:title" content="صيدليات داريا المناوبة">
-<meta property="og:description" content="دليلك لمعرفة الصيدليات المناوبة بمدينة داريا يومياً بكل سهولة">
-<meta property="og:image" content="https://raw.githubusercontent.com/Yaser9yaser/pharmacy-darayya/main/og-image.png">
-<meta property="og:image:secure_url" content="https://raw.githubusercontent.com/Yaser9yaser/pharmacy-darayya/main/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:type" content="image/png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://pharmacy-darayya.vercel.app/">
-<meta name="twitter:title" content="صيدليات داريا المناوبة">
-<meta name="twitter:description" content="دليلك لمعرفة الصيدليات المناوبة بمدينة داريا يومياً بكل سهولة">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Yaser9yaser/pharmacy-darayya/main/og-image.png">
+<meta property="og:image" content="https://pharmacy-darayya.vercel.app/icon.svg">
+<meta name="twitter:card" content="summary">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"صيدليات داريا المناوبة","description":"نظام ذكي لعرض جدول مناوبة الصيدليات في مدينة داريا","url":"https://pharmacy-darayya.vercel.app","applicationCategory":"HealthApplication","operatingSystem":"Any","inLanguage":"ar","author":{"@type":"Person","name":"Yaser Jamal Al-Deen"}}
 </script>
@@ -50,7 +42,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .orb2{width:240px;height:240px;background:var(--a1);bottom:100px;left:-90px;animation-delay:-6s}
 .orb3{width:180px;height:180px;background:var(--g1);bottom:-60px;right:30%;animation-delay:-11s}
 @keyframes drift{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.08)}}
-.emr{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--emr-h);background:linear-gradient(90deg,var(--red),#b91c1c 50%,var(--red2));color:#fff;padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;box-shadow:0 3px 20px rgba(220,38,38,.5);transition:top 0.2s ease;}
+.emr{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--emr-h);background:linear-gradient(90deg,var(--red),#b91c1c 50%,var(--red2));color:#fff;padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;box-shadow:0 3px 20px rgba(220,38,38,.5)}
 .emr-label{display:flex;align-items:center;gap:7px;flex:1;min-width:0;overflow:hidden}
 .emr-label span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pulse{animation:pulse 1.6s ease-in-out infinite}
@@ -81,6 +73,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
 .ph-card{margin:7px 12px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:16px;border-right:4px solid var(--p1);box-shadow:var(--sh);opacity:0;transform:translateY(18px);animation:slideUp .45s forwards}
 @keyframes slideUp{to{opacity:1;transform:translateY(0)}}
+/* دائرة • بدل الصليب */
 .ph-name{font-size:17px;font-weight:900;color:var(--p1);display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .ph-dot{width:10px;height:10px;border-radius:50%;background:var(--p1);flex-shrink:0}
 .ph-addr{font-size:12.5px;color:var(--muted);display:flex;align-items:flex-start;gap:6px;line-height:1.5;margin-bottom:12px}
@@ -116,6 +109,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .srch-in,.srch-sel{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg);color:var(--txt);font-family:'Cairo',sans-serif;font-size:14px;margin-bottom:12px;outline:none;transition:border-color var(--t)}
 .srch-in:focus,.srch-sel:focus{border-color:var(--p1)}
 .srch-results-title{font-size:13px;font-weight:700;color:var(--muted);padding:4px 0 8px;display:none}
+/* صفحة عن التطبيق */
 .about-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--sh);overflow:hidden;margin-bottom:14px;display:none}
 .about-card.open{display:block}
 .about-header{padding:16px;background:linear-gradient(135deg,var(--p1),var(--a1));color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
@@ -143,26 +137,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .pwa-close{position:absolute;top:10px;left:12px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
 .offline-bar{display:none;position:fixed;top:var(--emr-h);left:0;right:0;z-index:900;background:#f59e0b;color:#fff;text-align:center;padding:8px;font-size:12px;font-weight:700}
 .offline-bar.show{display:block}
-.srch-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.srch-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:22px;line-height:1;padding:2px 6px;border-radius:8px;transition:color var(--t)}
-.srch-close:hover{color:var(--red)}
-.duty-dates{margin-bottom:10px}
-.duty-lbl{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px;margin-bottom:5px}
-.duty-tags{display:flex;flex-wrap:wrap;gap:5px}
-.duty-tag{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(14,165,233,.1);color:var(--p1);border:1px solid rgba(14,165,233,.2);white-space:nowrap}
-.duty-tag.fri{background:rgba(245,158,11,.1);color:var(--gold);border-color:rgba(245,158,11,.2)}
-.duty-tag.sun{background:rgba(139,92,246,.1);color:var(--a1);border-color:rgba(139,92,246,.2)}
-.duty-tag.more{background:var(--border);color:var(--muted);border-color:transparent}
 @media(max-width:360px){.hdr-card h1{font-size:20px}.emr-btn.wa{display:none}}
 @media(min-width:768px){.wrap{margin:20px auto}.hdr-card{padding:36px 28px 48px}}
 </style>
 </head>
 <body>
 <div class="orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
-
-<div id="eidBanner" style="display: none; background-color: #ffcc00; color: #000000; padding: 11px 14px; text-align: center; font-weight: 900; font-size: 13.5px; border-bottom: 2px solid #e6b800; position: fixed; top: 0; left: 0; right: 0; z-index: 1002; font-family: 'Cairo', sans-serif; box-shadow: 0 2px 10px rgba(0,0,0,0.15);">
-  ⚠️ تنويه بمناسبة عطلة العيد: دوام ومناوبات الصيدليات في داريا اختياري (كيفي) خلال أيام عيد الأضحى المبارك. يُنصح بالتواصل مع الصيدلية هاتفياً قبل التوجه إليها. كل عام وأنتم بخير.
-</div>
 
 <div class="emr">
   <div class="emr-label"><span class="pulse">🚨</span><span>طوارئ الدفاع المدني — داريا</span></div>
@@ -234,10 +214,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
       <button class="main-btn btn-search" onclick="toggleSearch()"><i class="fa fa-search"></i> البحث والجدول الشهري</button>
     </div>
     <div class="srch-box" id="srchBox">
-      <div class="srch-header">
-        <div class="srch-lbl" style="margin-bottom:0"><i class="fa fa-search"></i> ابحث باسم الصيدلية أو العنوان:</div>
-        <button class="srch-close" onclick="toggleSearch()" title="إغلاق البحث">×</button>
-      </div>
+      <div class="srch-lbl"><i class="fa fa-search"></i> ابحث باسم الصيدلية أو العنوان:</div>
       <input type="text" class="srch-in" id="nameInput" oninput="searchByName()" placeholder="مثلاً: روضة، الأيوبي، شارع الثورة...">
       <div class="srch-lbl"><i class="fa fa-calendar"></i> اختر يوماً من الجدول:</div>
       <select class="srch-sel" id="dateSelect" onchange="searchByDate()"></select>
@@ -246,6 +223,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
     </div>
   </div>
 
+  <!-- صفحة عن التطبيق -->
   <div class="about-card" id="aboutCard">
     <div class="about-header">
       <i class="fa fa-info-circle"></i> عن التطبيق
@@ -253,11 +231,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
     </div>
     <div class="about-body">
       <h4>🌙 ما هو هذا التطبيق؟</h4>
-      <p>نظام ذكي لعرض جدول مناوبة صيدليات مدينة داريا — يعمل على جميع الأجهزة ويمكن إضافته للشاشة الرئيسية كأي تطبيق جوال.</p>
-      <h4>📶 العمل بدون إنترنت</h4>
-      <p>بيانات الصيدليات وإحداثياتها مضمّنة في التطبيق — يعمل دائماً بدون إنترنت. أما جدول المناوبة الشهري فيُحمَّل من الشبكة عند أول فتح ويُحفَظ على جهازك, ثم يُحدَّث تلقائياً كلما فتحت التطبيق وكان الإنترنت متاحاً.</p>
-      <h4>📲 الإضافة للشاشة الرئيسية</h4>
-      <p>يمكنك تثبيت التطبيق على هاتفك مباشرةً — ابحث عن زر "إضافة إلى الشاشة الرئيسية" الذي يظهر تلقائياً، أو من قائمة المتصفح ← مشاركة ← إضافة للشاشة الرئيسية.</p>
+      <p>نظام ذكي لعرض جدول مناوبة صيدليات مدينة داريا — يعمل على جميع الأجهزة بدون إنترنت.</p>
       <h4>📅 كيف يعمل النظام؟</h4>
       <p>• أيام الأسبوع العادية: صيدليتان مناوبتان يومياً</p>
       <p>• يوم الجمعة: 10 صيدليات</p>
@@ -278,6 +252,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
       <button class="f-btn share" onclick="shareSite()"><i class="fa fa-share-alt"></i> شارك الموقع</button>
       <button class="f-btn about" onclick="toggleAbout()"><i class="fa fa-info-circle"></i> عن التطبيق</button>
     </div>
+
   </div>
 </div>
 
@@ -292,34 +267,39 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 
 /* إحداثيات الصيدليات — ثابتة بالكود لضمان الدقة */
 const COORDS = {
-  "داريا النموذجية":   {lat:33.460736, lng:36.236628},
-  "علي الأحمر":        {lat:33.458241, lng:36.235505},
-  "الرضوان":           {lat:33.459241, lng:36.236655},
-  "روضة عبود":         {lat:33.454959, lng:36.237948},
-  "fايز كحلوس":        {lat:33.46302,  lng:36.236445},
-  "وعد أبو بكر":       {lat:33.454229, lng:36.239603},
-  "خلود العزب":        {lat:33.462298, lng:36.232942},
-  "محمود الخولاني":    {lat:33.458461, lng:36.238452},
-  "محمد تيسير معاني":  {lat:33.456138, lng:36.238878},
-  "سيف الدين الحافظ":  {lat:33.462761, lng:36.241001},
-  "الأيوبي":           {lat:33.459424, lng:36.23534},
-  "غسان عزيزية":       {lat:33.461643, lng:36.234563},
-  "هنادي محمد":        {lat:33.460355, lng:36.232881},
-  "خالد أبو حلمي":     {lat:33.461813, lng:36.242323},
-  "هند زرقة":          {lat:33.454939, lng:36.236581},
-  "عدنان نجيبة":       {lat:33.463521, lng:36.233272},
-  "fراس":              {lat:33.458062, lng:36.236861},
-  "محمد السعدي":       {lat:33.465051, lng:36.237926},
-  "باري أبو زيدان":    {lat:33.460989, lng:36.235138},
-  "محمود المنيع":      {lat:33.463605, lng:36.230669},
-  "الشربجي":           {lat:33.458812, lng:36.230822},
-  "سهام كساح":         {lat:33.46437,  lng:36.241065},
-  "هلا الحوراني":      {lat:33.456531, lng:36.23963},
-  "إسراء سيلة":        {lat:33.452681, lng:36.241531},
-  "دعاء":              {lat:33.461833, lng:36.233837},
-  "يسرى النكاش":       {lat:33.464547, lng:36.227339}
+  "علي الأحمر":        {lat:33.454984, lng:36.241215},
+  "فراس":              {lat:33.458694, lng:36.239107},
+  "الرضوان":           {lat:33.462313, lng:36.238473},
+  "محمد السعدي":       {lat:33.465078, lng:36.237927},
+  "باري أبو زيدان":    {lat:33.457199, lng:36.232810},
+  "محمود المنيع":      {lat:33.458620, lng:36.233400},
+  "روضة عبود":         {lat:33.455431, lng:36.234388},
+  "فايز كحلوس":        {lat:33.456641, lng:36.236841},
+  "وعد أبو بكر":       {lat:33.454226, lng:36.242200},
+  "خلود العزب":        {lat:33.461621, lng:36.233640},
+  "محمود الخولاني":    {lat:33.460144, lng:36.237242},
+  "محمد تيسير معاني":  {lat:33.454460, lng:36.239454},
+  "سيف الدين الحافظ":  {lat:33.462941, lng:36.241493},
+  "الأيوبي":           {lat:33.456428, lng:36.241386},
+  "غسان عزيزية":       {lat:33.458022, lng:36.243552},
+  "هنادي محمد":        {lat:33.456740, lng:36.240373},
+  "خالد أبو حلمي":     {lat:33.461836, lng:36.242303},
+  "هند زرقة":          {lat:33.454743, lng:36.236094},
+  "عدنان نجيبة":       {lat:33.464100, lng:36.232493},
+  "داريا النموذجية":   {lat:33.461141, lng:36.237492},
+  "الشربجي":           {lat:33.457850, lng:36.238541},
+  "سهام كساح":         {lat:33.458265, lng:36.236894},
+  "هلا الحوراني":      {lat:33.458428, lng:36.234473},
+  "إسراء سيلة":        {lat:33.456573, lng:36.232371},
+  "دعاء":              {lat:33.461863, lng:36.233809},
+  "يسرى النكاش":       {lat:33.464477, lng:36.227486},
+  "إياد خشفة":         {lat:33.463265, lng:36.241286}
 };
-
+/* ══════════════════════════════════════════════
+   ⚙️ روابط Google Sheets
+   لتحديث الشهر الجديد: فقط حدّث ورقة schedule
+   ولا تلمس أي شيء آخر بالكود!
+══════════════════════════════════════════════ */
 const SHEETS = {
   pharmacies: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9EAjxi3jPTEdHt5wqkfumi3SshJj3bRBjAnNT2F2jU_kEYFny6zbNR1oSaL_G9tnrgKUAgDbFI6Gs/pub?gid=335110835&single=true&output=csv',
   schedule:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9EAjxi3jPTEdHt5wqkfumi3SshJj3bRBjAnNT2F2jU_kEYFny6zbNR1oSaL_G9tnrgKUAgDbFI6Gs/pub?gid=2141998765&single=true&output=csv'
@@ -329,13 +309,15 @@ const SITE = "https://pharmacy-darayya.vercel.app";
 const DAYS   = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const MONTHS = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
 
-let DB = [];       
-let SCHED = {};    
-let FRIDAY = [];   
-let SUNDAY = [];   
-let _eff = null;   
-let _searchBuilt = false; 
+// البيانات في الذاكرة
+let DB = [];       // الصيدليات
+let SCHED = {};    // جدول الشهر { "2/5": ["p1","p2"], ... }
+let FRIDAY = [];   // قائمة الجمعة
+let SUNDAY = [];   // قائمة الأحد
 
+/* ══════════════════════════════════════════════
+   📡 جلب البيانات من Sheets (سريع جداً مع cache)
+══════════════════════════════════════════════ */
 function parseCSV(txt) {
   return txt.trim().split('\n').slice(1)
     .map(r => r.split(',').map(c => c.trim().replace(/^"|"$/g,'')))
@@ -344,6 +326,7 @@ function parseCSV(txt) {
 
 async function fetchSheets() {
   try {
+    // جلب الورقتين بالتوازي — أسرع بكثير من الواحدة تلو الأخرى
     const [r1, r2] = await Promise.all([
       fetch(SHEETS.pharmacies, {cache:'no-cache'}),
       fetch(SHEETS.schedule,   {cache:'no-cache'})
@@ -352,12 +335,14 @@ async function fetchSheets() {
 
     const [csv1, csv2] = await Promise.all([r1.text(), r2.text()]);
 
+    // parse pharmacies
     const parsed = parseCSV(csv1).map(c => ({
       name:    c[0], address: c[1],
       lat:     parseFloat(c[2]), lng: parseFloat(c[3]),
       groups:  c[4] ? c[4].split('|') : ['night']
     })).filter(p => p.name && !isNaN(p.lat));
 
+    // parse schedule
     const sched = {};
     parseCSV(csv2).forEach(c => {
       if(c[0]) sched[c[0].trim()] = [c[1]||'', c[2]||''];
@@ -367,11 +352,13 @@ async function fetchSheets() {
       DB     = parsed;
       SCHED  = sched;
       FRIDAY = DB.filter(p => p.groups.includes('friday') && !p.groups.includes('night')).map(p=>p.name);
+      // أضف أيضاً من night|friday
       DB.filter(p => p.groups.includes('friday') && p.groups.includes('night')).forEach(p => {
         if(!FRIDAY.includes(p.name)) FRIDAY.push(p.name);
       });
       SUNDAY = DB.filter(p => !FRIDAY.includes(p.name)).map(p => p.name);
 
+      // حفظ بالكاش
       localStorage.setItem('ph_db',   JSON.stringify({data:DB, ts:Date.now()}));
       localStorage.setItem('ph_sched',JSON.stringify({data:SCHED, ts:Date.now()}));
       showBar('✅ تم تحديث البيانات');
@@ -402,10 +389,14 @@ function loadCache() {
   return false;
 }
 
+/* ══════════════════════════════════════════════
+   📅 جلب المناوبة من الجدول
+══════════════════════════════════════════════ */
 function getDuty(d) {
   const dow = d.getDay();
   const key = `${d.getDate()}/${d.getMonth()+1}`;
 
+  // تحقق من الجدول أولاً
   if (SCHED[key]) {
     const [p1, p2] = SCHED[key];
     if (p1 === 'FRIDAY') return {type:'friday', names: FRIDAY};
@@ -413,16 +404,20 @@ function getDuty(d) {
     return {type:'normal', names: [p1, p2].filter(Boolean)};
   }
 
+  // fallback حسب اليوم
   if (dow === 5) return {type:'friday', names: FRIDAY};
   if (dow === 0) return {type:'sunday', names: SUNDAY};
   return {type:'normal', names: []};
 }
 
+/* ══════════════════════════════════════════════
+   🃏 بناء بطاقة الصيدلية — دائرة • بدل الصليب
+══════════════════════════════════════════════ */
 function card(name, delay=0) {
   const p = DB.find(x => x.name === name);
   const coords = COORDS[name];
   const hasMap = coords && !isNaN(coords.lat);
-  const gMaps = hasMap ? `http://maps.google.com/?q=${coords.lat},${coords.lng}(${encodeURIComponent('صيدلية ' + name)})` : null;
+  const gMaps = hasMap ? `https://www.google.com/maps?q=${coords.lat},${coords.lng}` : null;
   return `<div class="ph-card" style="animation-delay:${delay}ms">
   <div class="ph-name"><span class="ph-dot"></span> ${name}</div>
   <div class="ph-addr"><i class="fa fa-map-pin"></i> ${p ? p.address : 'داريا'}</div>
@@ -441,66 +436,28 @@ function showBar(msg){
   setTimeout(()=>b.classList.remove('show'),5000);
 }
 
-/* ⚙️ كود التحقق التلقائي لانتهاء شريط العيد وتحريك شريط الطوارئ */
-function checkEidBanner() {
-  var expirationDate = new Date("2026-05-30T23:59:59");
-  var currentDate = new Date();
-  var banner = document.getElementById("eidBanner");
-  var emrBar = document.querySelector(".emr");
-  
-  if (banner) {
-    if (currentDate <= expirationDate) {
-      banner.style.display = "block";
-      var h = banner.offsetHeight || 44;
-      if(emrBar) emrBar.style.top = h + "px";
-      document.body.style.paddingTop = "calc(var(--emr-h) + " + h + "px)";
-    } else {
-      banner.style.display = "none";
-      if(emrBar) emrBar.style.top = "0";
-      document.body.style.paddingTop = "var(--emr-h)";
-    }
-  }
-}
-
+/* ══════════════════════════════════════════════
+   🚀 التهيئة
+══════════════════════════════════════════════ */
 async function init() {
-  const params = new URLSearchParams(window.location.search);
-  const dateParam = params.get('date');
-  let eff;
-
-  if (dateParam) {
-    const [dpd, dpm] = dateParam.split('/').map(Number);
-    if (dpd && dpm) {
-      const candidate = new Date(new Date().getFullYear(), dpm - 1, dpd);
-      const todayMid = new Date(); todayMid.setHours(0,0,0,0);
-      if (candidate >= todayMid) eff = candidate;
-    }
-  }
-
-  if (!eff) {
-    const now = new Date();
-    const isLate = now.getHours() < 2;
-    eff = new Date(now);
-    if (isLate) {
-      eff.setDate(eff.getDate() - 1);
-      document.getElementById('lateNote').style.display = 'block';
-    }
-  }
-
-  _eff = eff;
-  _searchBuilt = false;
-  document.getElementById('dayTxt').textContent  = DAYS[eff.getDay()] + ' ';
+  const now=new Date(), isLate=now.getHours()<2, eff=new Date(now);
+  if(isLate){eff.setDate(eff.getDate()-1);document.getElementById('lateNote').style.display='block';}
+  document.getElementById('dayTxt').textContent  = DAYS[eff.getDay()]+' ';
   document.getElementById('dateTxt').textContent = `${eff.getDate()} ${MONTHS[eff.getMonth()]} ${eff.getFullYear()}`;
 
-  checkEidBanner();
-
+  // الكاش أولاً — فوري بدون أي تأخير
   const cached = loadCache();
-  if (cached) renderToday(eff);
+  if (cached) {
+    renderToday(eff);
+    buildSelect(eff);
+  }
 
+  // تحديث من Sheets بالخلفية — ما يوقف تحميل الصفحة
   if (navigator.onLine) {
     fetchSheets().then(updated => {
       if (updated) {
         renderToday(eff);
-        if (_searchBuilt) buildSelect(eff);
+        buildSelect(eff);
       }
     });
   }
@@ -510,108 +467,67 @@ async function init() {
   }
 
   applyTheme();
+  handleDeepLink(eff);
 }
-
-const SHOW_INIT = 4; 
 
 function renderToday(eff) {
   const {type, names} = getDuty(eff);
   let html = '';
   if (type==='friday') html = `<div class="fri-badge">🕌 يوم الجمعة — تعمل ${names.length} صيدلية</div>`;
   if (type==='sunday') html = `<div class="sun-badge">🌟 يوم الأحد المفتوح — تعمل ${names.length} صيدلية</div>`;
-
-  const isLong = (type==='friday'||type==='sunday') && names.length > SHOW_INIT;
-  if (isLong) {
-    html += names.slice(0, SHOW_INIT).map((n,i) => card(n, i*60)).join('');
-    html += `<div id="moreCards" style="display:none">${names.slice(SHOW_INIT).map((n,i)=>card(n,(SHOW_INIT+i)*60)).join('')}</div>`;
-    html += `<div style="padding:4px 12px 8px"><button id="moreBtn" onclick="toggleMoreCards(${names.length - SHOW_INIT})" class="main-btn" style="background:linear-gradient(135deg,var(--p2),var(--p1))"><i id="moreIco" class="fa fa-chevron-down"></i><span id="moreTxt">عرض بقية الصيدليات (${names.length - SHOW_INIT})</span></button></div>`;
-  } else {
-    html += names.map((n,i) => card(n, i*60)).join('');
-  }
+  html += names.map((n,i) => card(n, i*60)).join('');
   document.getElementById('todayList').innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--muted)">لا توجد بيانات لهذا اليوم</div>';
-}
-
-function toggleMoreCards(remaining) {
-  const more = document.getElementById('moreCards');
-  const ico  = document.getElementById('moreIco');
-  const txt  = document.getElementById('moreTxt');
-  const open = more.style.display === 'none';
-  more.style.display = open ? 'block' : 'none';
-  ico.className = open ? 'fa fa-chevron-up' : 'fa fa-chevron-down';
-  txt.textContent = open ? 'إخفاء' : `عرض بقية الصيدليات (${remaining})`;
 }
 
 function buildSelect(eff) {
   const sel = document.getElementById('dateSelect');
   sel.innerHTML = '<option value="">— اختر يوماً —</option>';
-  const todayMid = new Date(); todayMid.setHours(0,0,0,0);
   const keys = Object.keys(SCHED).sort((a,b)=>{
     const [d1,m1]=a.split('/').map(Number);
     const [d2,m2]=b.split('/').map(Number);
     return (m1*100+d1)-(m2*100+d2);
   });
-  let added = 0;
   keys.forEach(k => {
+    // تجاهل الصفوف الغير صالحة
     if(!k.includes('/')) return;
     const [d,m] = k.split('/').map(Number);
     if(isNaN(d)||isNaN(m)||d<1||d>31||m<1||m>12) return;
-    const yr = new Date().getFullYear();
-    const dt = new Date(yr, m-1, d);
+    const dt = new Date(2026, m-1, d);
     if(isNaN(dt.getTime())) return;
-    if(dt < todayMid) return; 
     const o = document.createElement('option');
     o.value = dt.getTime();
-    const isToday = dt.getTime() === todayMid.getTime();
-    o.textContent = isToday ? `⭐ اليوم — ${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}` : `${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}`;
+    o.textContent = `${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}`;
     sel.appendChild(o);
-    added++;
   });
-  if(added === 0) {
-    const o = document.createElement('option');
-    o.disabled = true;
-    o.textContent = 'لا توجد أيام قادمة في الجدول';
-    sel.appendChild(o);
-  }
 }
 
-function getPharmacyDutyDates(name) {
-  const yr = new Date().getFullYear();
-  const todayMid = new Date(); todayMid.setHours(0,0,0,0);
-  const scheduled = [];
-  Object.entries(SCHED).forEach(([key,[p1,p2]]) => {
-    if(p1==='FRIDAY'||p1==='SUNDAY') return;
-    if(p1===name||p2===name) {
-      const [d,m]=key.split('/').map(Number);
-      if(!d||!m) return;
-      const dt=new Date(yr,m-1,d);
-      if(dt>=todayMid) scheduled.push({dt,label:`${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}`});
-    }
-  });
-  scheduled.sort((a,b)=>a.dt-b.dt);
-  return {isFriday:FRIDAY.includes(name),isSunday:SUNDAY.includes(name),dates:scheduled.map(x=>x.label)};
+/* ══════════════════════════════════════════════
+   🔗 رابط يوم محدد (Deep Link)
+   مثال: ?date=7/5
+══════════════════════════════════════════════ */
+function handleDeepLink(eff) {
+  const params = new URLSearchParams(window.location.search);
+  const dateParam = params.get('date');
+  if (!dateParam) return;
+  const [d,m] = dateParam.split('/').map(Number);
+  if (!d||!m) return;
+  const dt = new Date(2026, m-1, d);
+  // افتح البحث واعرض اليوم المطلوب
+  document.getElementById('srchBox').classList.add('open');
+  const ttl = document.getElementById('srchTitle');
+  const res = document.getElementById('srchResults');
+  const {type, names} = getDuty(dt);
+  let badge = '';
+  if(type==='friday') badge=`<div class="fri-badge">🕌 يوم الجمعة — تعمل ${names.length} صيدلية</div>`;
+  if(type==='sunday') badge=`<div class="sun-badge">🌟 يوم الأحد المفتوح — تعمل ${names.length} صيدلية</div>`;
+  ttl.style.display='block';
+  ttl.textContent=`مناوبة ${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}:`;
+  res.innerHTML = badge + names.map((n,i)=>card(n,i*50)).join('');
 }
 
-function cardWithDates(name, delay=0) {
-  const p=DB.find(x=>x.name===name);
-  const coords=COORDS[name];
-  const hasMap=coords&&!isNaN(coords.lat);
-  const gMaps=hasMap?`http://maps.google.com/?q=${coords.lat},${coords.lng}(${encodeURIComponent('صيدلية '+name)})`:null;
-  const {isFriday,isSunday,dates}=getPharmacyDutyDates(name);
-  let tags='';
-  if(isFriday) tags+=`<span class="duty-tag fri">🕌 كل جمعة</span>`;
-  if(isSunday) tags+=`<span class="duty-tag sun">🌟 كل أحد</span>`;
-  dates.slice(0,3).forEach(d=>tags+=`<span class="duty-tag">${d}</span>`);
-  if(dates.length>3) tags+=`<span class="duty-tag more">+${dates.length-3} أخرى</span>`;
-  const hasSchedule=isFriday||isSunday||dates.length>0;
-  const dutySection=`<div class="duty-dates"><div class="duty-lbl"><i class="fa fa-calendar-check"></i>${hasSchedule?'مواعيد قادمة:':'لا مواعيد قادمة في الجدول'}</div>${hasSchedule?`<div class="duty-tags">${tags}</div>`:''}</div>`;
-  return `<div class="ph-card" style="animation-delay:${delay}ms">
-  <div class="ph-name"><span class="ph-dot"></span> ${name}</div>
-  <div class="ph-addr"><i class="fa fa-map-pin"></i> ${p?p.address:'داريا'}</div>
-  ${dutySection}
-  <div class="ph-actions">${hasMap?`<a href="${gMaps}" target="_blank" class="ph-btn map" rel="noopener noreferrer"><i class="fa fa-map-marker-alt"></i> افتح في الخريطة</a>`:''}</div>
-</div>`;
-}
-
+/* ══════════════════════════════════════════════
+   🔍 البحث
+══════════════════════════════════════════════ */
 function searchByName() {
   const q=norm(document.getElementById('nameInput').value);
   const res=document.getElementById('srchResults'),ttl=document.getElementById('srchTitle');
@@ -620,7 +536,7 @@ function searchByName() {
   const found=DB.filter(p=>norm(p.name).includes(q)||norm(p.address).includes(q));
   ttl.style.display='block';
   ttl.textContent=found.length?`نتائج البحث (${found.length}):` :'لا توجد نتائج';
-  res.innerHTML=found.map((p,i)=>cardWithDates(p.name,i*50)).join('');
+  res.innerHTML=found.map((p,i)=>card(p.name,i*50)).join('');
 }
 
 function searchByDate() {
@@ -636,18 +552,18 @@ function searchByDate() {
   ttl.style.display='block';
   ttl.textContent=`مناوبة ${DAYS[dt.getDay()]} ${dt.getDate()} ${MONTHS[dt.getMonth()]}:`;
   res.innerHTML=badge+names.map((n,i)=>card(n,i*50)).join('');
+
+  // تحديث الرابط لمشاركة يوم محدد
+  const newUrl = `${window.location.pathname}?date=${dt.getDate()}/${dt.getMonth()+1}`;
+  window.history.replaceState({}, '', newUrl);
 }
 
-function toggleSearch(){
-  const box = document.getElementById('srchBox');
-  box.classList.toggle('open');
-  if (box.classList.contains('open') && !_searchBuilt && _eff) {
-    buildSelect(_eff);
-    _searchBuilt = true;
-  }
-}
+function toggleSearch(){document.getElementById('srchBox').classList.toggle('open')}
 function toggleAbout(){document.getElementById('aboutCard').classList.toggle('open');document.getElementById('aboutCard').scrollIntoView({behavior:'smooth',block:'nearest'})}
 
+/* ══════════════════════════════════════════════
+   🌙 الثيم
+══════════════════════════════════════════════ */
 function toggleTheme(){
   const d=document.documentElement.classList.toggle('dark');
   localStorage.setItem('theme',d?'dark':'light');
@@ -660,6 +576,9 @@ function applyTheme(){
   document.getElementById('themeBtn').querySelector('i').className=dark?'fa fa-sun':'fa fa-moon';
 }
 
+/* ══════════════════════════════════════════════
+   📤 المشاركة
+══════════════════════════════════════════════ */
 function buildShareText(date) {
   const {type,names} = getDuty(date);
   let txt = `🌙 *صيدليات داريا المناوبة*\n`;
@@ -678,17 +597,18 @@ function buildShareText(date) {
 }
 
 async function shareToday(){
-  const date = _eff || new Date();
-  const txt=buildShareText(date);
+  const now=new Date(); if(now.getHours()<2)now.setDate(now.getDate()-1);
+  const txt=buildShareText(now);
   if(navigator.share){try{await navigator.share({title:'مناوبة اليوم',text:txt});}catch(e){}}
   else window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`);
 }
 
 async function copyToday(){
-  const date = _eff || new Date();
-  const txt=buildShareText(date);
+  const now=new Date(); if(now.getHours()<2)now.setDate(now.getDate()-1);
+  const txt=buildShareText(now);
   try{await navigator.clipboard.writeText(txt);}
   catch(e){const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+  // تغيير أيقونة الزر مؤقتاً
   const btn = document.querySelector('.btn-copy');
   btn.innerHTML = '<i class="fa fa-check"></i>';
   btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
@@ -729,7 +649,21 @@ if('serviceWorker' in navigator)
 
 init();
 updateOnline();
-window.addEventListener('resize', checkEidBanner);
+
+// منع الضغط اليميني
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// منع تحديد النص
+document.addEventListener('selectstart', e => e.preventDefault());
+
+// تحذير عند فتح DevTools
+(function(){
+  const w = new Image();
+  Object.defineProperty(w, 'id', {get: function(){
+    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Cairo,sans-serif;text-align:center;direction:rtl;padding:20px"><div><h2 style="color:#dc2626">⚠️ تحذير</h2><p style="margin-top:10px">هذا النظام محمي بموجب حقوق الملكية الفكرية<br>©Yaser Jamal Al-Deen</p></div></div>';
+  }});
+  console.log('%c', w);
+})();
 </script>
 </body>
 </html>
