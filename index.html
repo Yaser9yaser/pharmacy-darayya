@@ -531,8 +531,26 @@ async function init() {
 }
 
 function renderToday(eff) {
-  const {type, names} = getDuty(eff);
+  const curMonth = eff.getMonth() + 1;
+  const activeSched = Object.keys(SCHED).length > 0 ? SCHED : LOCAL_SCHED;
+  const hasCurrentMonthData = Object.keys(activeSched).some(k => {
+    const [_, m] = k.split('/').map(Number);
+    return m === curMonth;
+  });
+
   let html = '';
+
+  if (!hasCurrentMonthData) {
+    html = `<div style="padding:30px 20px; text-align:center; background:rgba(239, 68, 68, 0.1); border:1px dashed #ef4444; border-radius:16px; margin:20px 0; color:#ef4444;">
+      <i class="fa fa-exclamation-triangle" style="font-size:32px; margin-bottom:12px;"></i>
+      <h3 style="margin-bottom:8px; font-weight:700;">⚠️ جدول شهر ${MONTHS[curMonth-1]} غير متوفر</h3>
+      <p style="font-size:14px; color:var(--text); opacity:0.8; line-height:1.6;">انتهى جدول الشهر الماضي وجاري تحديث جدول الشهر الجديد من قبل الإدارة قريباً. يرجى المراجعة لاحقاً.</p>
+    </div>`;
+    document.getElementById('todayList').innerHTML = html;
+    return;
+  }
+
+  const {type, names} = getDuty(eff);
   if (type==='friday') html = `<div class="fri-badge">🕌 يوم الجمعة — تعمل ${names.length} صيدلية</div>`;
   if (type==='sunday') html = `<div class="sun-badge">🌟 يوم الأحد المفتوح — تعمل ${names.length} صيدلية</div>`;
   html += names.map((n,i) => card(n, i*60)).join('');
