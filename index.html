@@ -15,8 +15,8 @@
 <meta property="og:description" content="اعرف الصيدلية المناوبة اليوم في داريا — سريع، دقيق، يعمل بدون إنترنت 💊">
 <meta property="og:url" content="https://pharmacy-darayya.vercel.app">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://pharmacy-darayya.vercel.app/icon.svg">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://pharmacy-darayya.vercel.app/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"صيدليات داريا المناوبة","description":"نظام ذكي لعرض جدول مناوبة الصيدليات في مدينة داريا","url":"https://pharmacy-darayya.vercel.app","applicationCategory":"HealthApplication","operatingSystem":"Any","inLanguage":"ar","author":{"@type":"Person","name":"Yaser Jamal Al-Deen"}}
 </script>
@@ -309,11 +309,79 @@ const SITE = "https://pharmacy-darayya.vercel.app";
 const DAYS   = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 const MONTHS = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
 
-// البيانات في الذاكرة
-let DB = [];       // الصيدليات
+// الجدول المحلي الاحتياطي لشهر تموز (شهر 7) 2026
+const LOCAL_SCHED = {
+  "1/7": ["باري أبو زيدان", "وعد أبو بكر"],
+  "2/7": ["محمد السعدي", "غسان عزيزية"],
+  "3/7": ["FRIDAY", ""],
+  "4/7": ["محمد تيسير معاني", "محمود المنيع"],
+  "5/7": ["SUNDAY", ""],
+  "6/7": ["فراس", "يسرى النكاش"],
+  "7/7": ["محمود الخولاني", "فايز كحلوس"],
+  "8/7": ["الأيوبي", "إياد خشفة"],
+  "9/7": ["هند زرقة", "عدنان نجيبة"],
+  "10/7": ["FRIDAY", ""],
+  "11/7": ["خلود العزب", "علي الأحمر"],
+  "12/7": ["SUNDAY", ""],
+  "13/7": ["خالد أبو حلمي", "هنادي محمد"],
+  "14/7": ["روضة عبود", "سيف الدين الحافظ"],
+  "15/7": ["الرضوان", "يسرى النكاش"],
+  "16/7": ["باري أبو زيدان", "وعد أبو بكر"],
+  "17/7": ["FRIDAY", ""],
+  "18/7": ["محمد السعدي", "غسان عزيزية"],
+  "19/7": ["SUNDAY", ""],
+  "20/7": ["محمد تيسير معاني", "محمود المنيع"],
+  "21/7": ["فراس", "يسرى النكاش"],
+  "22/7": ["خالد أبو حلمي", "الرضوان"],
+  "23/7": ["هند زرقة", "عدنان نجيبة"],
+  "24/7": ["FRIDAY", ""],
+  "25/7": ["الأيوبي", "إياد خشفة"],
+  "26/7": ["SUNDAY", ""],
+  "27/7": ["خلود العزب", "علي الأحمر"],
+  "28/7": ["خالد أبو حلمي", "هنادي محمد"],
+  "29/7": ["روضة عبود", "سيف الدين الحافظ"],
+  "30/7": ["محمود الخولاني", "فايز كحلوس"],
+  "31/7": ["FRIDAY", ""]
+};
+
+// البيانات المحلية الاحتياطية في الذاكرة
+let DB = [
+  { name: "علي الأحمر", address: "قبل جامع العباس من جهة شارع الثورة", groups: ["night", "sunday"] },
+  { name: "فراس", address: "شارع الثورة مقابل محمصة داريا", groups: ["night", "friday"] },
+  { name: "الرضوان", address: "جانب الباب الخلفي لجامع طه", groups: ["night", "sunday"] },
+  { name: "محمد السعدي", address: "الطريق الرئيسي - موقف النكاشات", groups: ["night", "friday"] },
+  { name: "باري أبو زيدان", address: "مقابل المستوصف تماماً", groups: ["night", "friday"] },
+  { name: "محمود المنيع", address: "مقابل باب المركز الثقافي", groups: ["night", "friday"] },
+  { name: "روضة عبود", address: "مقابل طاحونة حنا", groups: ["night", "sunday"] },
+  { name: "فايز كحلوس", address: "مقابل المخفر", groups: ["night", "sunday"] },
+  { name: "وعد أبو بكر", address: "نهاية شارع الثورة مقابل الكنيسة", groups: ["night", "sunday"] },
+  { name: "خلود العزب", address: "أول شارع المعضمية على اليسار", groups: ["night", "sunday"] },
+  { name: "محمود الخولاني", address: "ساحة الأوقاف", groups: ["night", "sunday"] },
+  { name: "محمد تيسير معاني", address: "تقاطع شارع الوحدة مع شارع الثورة", groups: ["night", "sunday"] },
+  { name: "سيف الدين الحافظ", address: "شارع الشهيد أبو صلاح السمرة خلف مشفى الرضوان", groups: ["night", "sunday"] },
+  { name: "الأيوبي", address: "شارع الثورة مقابل الطابو", groups: ["night", "sunday"] },
+  { name: "غسان عزيزية", address: "دوار العلم جانب ماركت البيان", groups: ["night", "sunday"] },
+  { name: "هنادي محمد", address: "الشارع الرئيسي مقابل محلات الوزير", groups: ["night", "sunday"] },
+  { name: "خالد أبو حلمي", address: "شارع الشهيد أبو صلاح السمرة - زاوية طريق جامع الخولاني", groups: ["night", "sunday"] },
+  { name: "هند زرقة", address: "شارع الوحدة قرب جامع المصطفى", groups: ["night", "sunday"] },
+  { name: "عدنان نجيبة", address: "الشاميات - بناء المغربي", groups: ["night", "sunday"] },
+  { name: "داريا النموذجية", address: "مقابل الثانوية الشرعية", groups: ["friday"] },
+  { name: "الشربجي", address: "مدخل ساحة شريدي", groups: ["friday"] },
+  { name: "سهام كساح", address: "بداية شارع الشهيد أبو صلاح - قبل دخلة مشفى الرضوان", groups: ["friday"] },
+  { name: "هلا الحوراني", address: "شارع الوحدة بناء صيدلية فاروق سابقاً", groups: ["friday"] },
+  { name: "إسراء سيلة", address: "طريق جامع أبو سليمان مقابل المحكمة", groups: ["friday"] },
+  { name: "دعاء", address: "أول طريق المعضمية على اليمين", groups: ["friday"] },
+  { name: "يسرى النكاش", address: "ساحة القابوني خلف جامع الرضا", groups: ["night", "sunday"] },
+  { name: "إياد خشفة", address: "كورنيش الشهيد أبو صلاح جانب مشفى الرضوان", groups: ["night", "sunday"] }
+];
+
 let SCHED = {};    // جدول الشهر { "2/5": ["p1","p2"], ... }
-let FRIDAY = [];   // قائمة الجمعة
-let SUNDAY = [];   // قائمة الأحد
+let FRIDAY = DB.filter(p => p.groups.includes('friday') && !p.groups.includes('night')).map(p=>p.name);
+DB.filter(p => p.groups.includes('friday') && p.groups.includes('night')).forEach(p => {
+  if(!FRIDAY.includes(p.name)) FRIDAY.push(p.name);
+});
+let SUNDAY = DB.filter(p => p.groups.includes('sunday')).map(p => p.name);
+
 
 /* ══════════════════════════════════════════════
    📡 جلب البيانات من Sheets (سريع جداً مع cache)
@@ -340,7 +408,7 @@ async function fetchSheets() {
       name:    c[0], address: c[1],
       lat:     parseFloat(c[2]), lng: parseFloat(c[3]),
       groups:  c[4] ? c[4].split('|') : ['night']
-    })).filter(p => p.name && !isNaN(p.lat));
+    })).filter(p => p.name);
 
     // parse schedule
     const sched = {};
@@ -356,7 +424,7 @@ async function fetchSheets() {
       DB.filter(p => p.groups.includes('friday') && p.groups.includes('night')).forEach(p => {
         if(!FRIDAY.includes(p.name)) FRIDAY.push(p.name);
       });
-      SUNDAY = DB.filter(p => !FRIDAY.includes(p.name)).map(p => p.name);
+      SUNDAY = DB.filter(p => p.groups.includes('sunday')).map(p => p.name);
 
       // حفظ بالكاش
       localStorage.setItem('ph_db',   JSON.stringify({data:DB, ts:Date.now()}));
@@ -381,7 +449,7 @@ function loadCache() {
       DB.filter(p => p.groups.includes('friday') && p.groups.includes('night')).forEach(p => {
         if(!FRIDAY.includes(p.name)) FRIDAY.push(p.name);
       });
-      SUNDAY = DB.filter(p => !FRIDAY.includes(p.name)).map(p => p.name);
+      SUNDAY = DB.filter(p => p.groups.includes('sunday')).map(p => p.name);
       showBar(`📦 بيانات محفوظة (${new Date(t1).toLocaleDateString('ar')})`);
       return true;
     }
@@ -396,12 +464,15 @@ function getDuty(d) {
   const dow = d.getDay();
   const key = `${d.getDate()}/${d.getMonth()+1}`;
 
-  // تحقق من الجدول أولاً
-  if (SCHED[key]) {
-    const [p1, p2] = SCHED[key];
+  // تحقق من الجدول المجلوب أولاً، ثم الجدول المحلي الاحتياطي
+  const activeSched = SCHED[key] ? SCHED : LOCAL_SCHED;
+  if (activeSched[key]) {
+    const [p1, p2] = activeSched[key];
     if (p1 === 'FRIDAY') return {type:'friday', names: FRIDAY};
     if (p1 === 'SUNDAY') return {type:'sunday', names: SUNDAY};
-    return {type:'normal', names: [p1, p2].filter(Boolean)};
+    if (p1 && p1 !== '') {
+      return {type:'normal', names: [p1, p2].filter(Boolean)};
+    }
   }
 
   // fallback حسب اليوم
@@ -415,15 +486,9 @@ function getDuty(d) {
 ══════════════════════════════════════════════ */
 function card(name, delay=0) {
   const p = DB.find(x => x.name === name);
-  const coords = COORDS[name];
-  const hasMap = coords && !isNaN(coords.lat);
-  const gMaps = hasMap ? `https://www.google.com/maps?q=${coords.lat},${coords.lng}` : null;
   return `<div class="ph-card" style="animation-delay:${delay}ms">
   <div class="ph-name"><span class="ph-dot"></span> ${name}</div>
   <div class="ph-addr"><i class="fa fa-map-pin"></i> ${p ? p.address : 'داريا'}</div>
-  <div class="ph-actions">
-    ${hasMap ? `<a href="${gMaps}" target="_blank" class="ph-btn map" rel="noopener noreferrer"><i class="fa fa-map-marker-alt"></i> افتح في الخريطة</a>` : ''}
-  </div>
 </div>`;
 }
 
@@ -481,8 +546,12 @@ function renderToday(eff) {
 
 function buildSelect(eff) {
   const sel = document.getElementById('dateSelect');
+  const savedValue = sel.value;
   sel.innerHTML = '<option value="">— اختر يوماً —</option>';
-  const keys = Object.keys(SCHED).sort((a,b)=>{
+  
+  // إذا كان الجدول المجلوب فارغاً، نعتمد على الجدول المحلي في القائمة المنسدلة
+  const activeSched = Object.keys(SCHED).length > 0 ? SCHED : LOCAL_SCHED;
+  const keys = Object.keys(activeSched).sort((a,b)=>{
     const [d1,m1]=a.split('/').map(Number);
     const [d2,m2]=b.split('/').map(Number);
     return (m1*100+d1)-(m2*100+d2);
@@ -499,6 +568,9 @@ function buildSelect(eff) {
     o.textContent = `${DAYS[dt.getDay()]} ${d} ${MONTHS[m-1]}`;
     sel.appendChild(o);
   });
+  if (savedValue) {
+    sel.value = savedValue;
+  }
 }
 
 /* ══════════════════════════════════════════════

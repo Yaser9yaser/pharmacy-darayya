@@ -8,6 +8,7 @@ const STATIC = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/icon.svg',
   'https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css'
 ];
